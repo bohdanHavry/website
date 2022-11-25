@@ -4,11 +4,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity
+/*@Entity
 @Table(name = "role")
-@Data
-public class Role {
-    @Id
+@Data*/
+public enum Role {
+    USER;
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
@@ -33,5 +34,5 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
-    }
+    }*/
 }

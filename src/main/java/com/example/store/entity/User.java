@@ -29,13 +29,16 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToOne
-    @JoinTable(
-            name = ("role"),
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "name")
-    )
-    private Set<Role> role = new HashSet<>();
+    /* @ManyToOne
+        @JoinTable(
+                name = ("role"),
+                joinColumns = @JoinColumn(name = "id"),
+                inverseJoinColumns = @JoinColumn(name = "name")
+        )*/
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> name;
 
 
     public User() {
@@ -98,7 +101,15 @@ public class User {
         this.phone = phone;
     }
 
-    public Set<Role> getRoles() {
+    public Set<Role> getName() {
+        return name;
+    }
+
+    public void setName(Set<Role> name) {
+        this.name = name;
+    }
+
+    /*public Set<Role> getRoles() {
         return role;
     }
 
@@ -108,6 +119,6 @@ public class User {
 
     public void addRole(Role role){
         this.role.add(role);
-    }
+    }*/
 }
 
