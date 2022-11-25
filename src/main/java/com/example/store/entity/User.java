@@ -8,18 +8,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "user_id")
+    private Integer user_id;
     @Column(name = "login", unique = true)
     private String login;
-    @Column(name = "password", length = 1000)
-    private String password;
+    @Column(name = "password_user", length = 1000)
+    private String password_user;
     @Column(name = "first_name")
     private String first_name;
     @Column(name = "last_name")
@@ -36,7 +36,7 @@ public class User {
                 inverseJoinColumns = @JoinColumn(name = "name")
         )*/
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "role_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> name;
 
@@ -45,12 +45,12 @@ public class User {
 
     }
 
-    public int getId() {
-        return id;
+    public Integer getUser_id() {
+        return user_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
     public String getLogin() {
@@ -61,12 +61,12 @@ public class User {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassword_user() {
+        return password_user;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword_user(String password_user) {
+        this.password_user = password_user;
     }
 
     public String getFirst_name() {
