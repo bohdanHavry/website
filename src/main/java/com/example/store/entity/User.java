@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Integer user_id;
     @Column(name = "login", unique = true)
@@ -36,10 +37,16 @@ public class User {
                 inverseJoinColumns = @JoinColumn(name = "name")
         )*/
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "role_id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> name;
+    private Set<Role> roles;
 
+    /*@ManyToOne
+    @JoinTable(
+            name = ("user_role"),
+            joinColumns = @JoinColumn(name = "role_id")
+    )
+    private Integer id_role;*/
 
     public User() {
 
@@ -101,24 +108,12 @@ public class User {
         this.phone = phone;
     }
 
-    public Set<Role> getName() {
-        return name;
-    }
-
-    public void setName(Set<Role> name) {
-        this.name = name;
-    }
-
-    /*public Set<Role> getRoles() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     public void setRoles(Set<Role> roles) {
-        this.role = roles;
+        this.roles = roles;
     }
-
-    public void addRole(Role role){
-        this.role.add(role);
-    }*/
 }
 
