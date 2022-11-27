@@ -29,6 +29,7 @@ public class RegistrationController {
             model.put("message","User exists!");
             return "registration";
         }
+
         user.setRoles(Collections.singleton(Role.USER));
         userRepo.save(user);
 
