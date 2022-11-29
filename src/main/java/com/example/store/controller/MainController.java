@@ -15,7 +15,6 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(Map<String, Object> model){
-        model.put("some","Hello Store!");
         return "main";
     }
 

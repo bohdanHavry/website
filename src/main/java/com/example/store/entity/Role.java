@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "user_role")
 @Data*/
 public enum Role {
-    USER;
+    USER, ADMIN;
     /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
