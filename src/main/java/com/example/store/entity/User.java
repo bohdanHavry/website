@@ -4,8 +4,6 @@ package com.example.store.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,23 +28,10 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    /* @ManyToOne
-        @JoinTable(
-                name = ("role"),
-                joinColumns = @JoinColumn(name = "id"),
-                inverseJoinColumns = @JoinColumn(name = "name")
-        )*/
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-
-    /*@ManyToOne
-    @JoinTable(
-            name = ("user_role"),
-            joinColumns = @JoinColumn(name = "role_id")
-    )
-    private Integer id_role;*/
 
     public User() {
 

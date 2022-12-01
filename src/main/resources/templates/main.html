@@ -1,15 +1,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>Getting Started: Serving Web Content</title>
 </head>
 <body>
-    <div>
+<div>Hello, user</div>
+    <div th:if="${user.login}">
         <form th:action="@{/logout}" method="post">
             <input type="hidden" name="_csrf" th:value="${_csrf.token}">
             <input type="submit" value="Sign Out"/>
         </form>
     </div>
-    <span><a th:href="@{/user}">User list</a></span>
+    <span th:unless="${user.login}">
+    <a href="/login">Sign in</a></span> <br>
+
+    <span th:if="${user.login}"><a th:href="@{/user}">User list</a></span>
     <span><a th:href="@{/addGood}">Add good</a></span>
     <span><a th:href="@{/shop}">Shop</a></span>
 </body>
