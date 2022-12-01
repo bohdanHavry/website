@@ -6,5 +6,44 @@
 </head>
 <body>
 <div>Product list</div>
+<table class="table">
+       <tr>
+           <th>ID</th>
+           <th>Model</th>
+           <th>Category</th>
+           <th>Name good</th>
+           <th>Number</th>
+           <th>Photo</th>
+           <th>Description</th>
+           <th>Producer</th>
+           <th>Price</th>
+       </tr>
+    <tbody>
+        <tr th:each="good : ${goods}">
+            <td th:text="${good.id_good}"></td>
+            <td th:text="${good.number}"></td>
+            <td th:text="${good.name_good}"></td>
+            <td th:text="${good.id_good}"></td>
+            <td th:text="${good.id_good}"></td>
+            <td th:text="${good.id_good}"></td>
+            <td th:text="${good.id_good}"></td>
+            <td th:text="${good.id_good}"></td>
+            <td th:text="${good.id_good}"></td>
+
+
+         <!---
+        <th scope="row">[[*{good.id_good}]]</th>
+        <td>[[*{good.model_id_model}]]</td>
+        <td>[[*{good.category_id_category}]]</td>
+        <td>[[*{good.name_good}]]</td>
+        <td>[[*{good.number}]]</td>
+        <td>[[*{good.main_photo}]]</td>
+        <td>[[*{good.description}]]</td>
+        <td>[[*{good.producer_id_producer}]]</td>
+        <td>[[*{good.price}]]</td>
+            --->
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>

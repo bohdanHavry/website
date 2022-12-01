@@ -18,7 +18,7 @@ public class Good {
     private Integer id_good;
 
     @Column(name = "number")
-    private String number;
+    private Integer number;
 
     @Column(name = "name_good")
     private String name_good;
@@ -45,6 +45,15 @@ public class Good {
     private Producer producer;
 
     public Good() {
+        this.id_good = id_good;
+        this.number = number;
+        this.name_good = name_good;
+        this.model = model;
+        this.main_photo = main_photo;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.producer = producer;
     }
 
     public Integer getId_good() {
@@ -55,11 +64,11 @@ public class Good {
         this.id_good = id_good;
     }
 
-    public String getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

@@ -5,15 +5,14 @@ import com.example.store.entity.Good;
 import com.example.store.entity.Model;
 import com.example.store.entity.Producer;
 import com.example.store.repository.GoodRepo;
+import com.example.store.services.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
+
 
 
 @Controller
@@ -21,11 +20,14 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class GoodController {
      @Autowired
-    private GoodRepo goodRepo;
+     private GoodRepo repo;
+     private GoodService service;
 
     @GetMapping("/shop")
-    public String showGoodsView(Good good)
+    public String showGoodsView(org.springframework.ui.Model model)
     {
+        List<Good> goods = service.listAll();
+        model.addAttribute("good",goods);
         return "/shop";
     }
 
@@ -37,7 +39,7 @@ public class GoodController {
     }
 
     @PostMapping("/addG")
-    public String saveGood (@RequestParam("number") String number, @RequestParam("name_good") String name_good,
+    public String saveGood (@RequestParam("number") Integer number, @RequestParam("name_good") String name_good,
                             @RequestParam("main_photo") Byte main_photo, @RequestParam("description") String description,
                             @RequestParam("price") Integer price, @RequestParam("category_id_category") Integer category_id_category,
                             @RequestParam("model_id_model") Integer model_id_model, @RequestParam("producer_id_producer") Integer producer_id_producer)
@@ -51,7 +53,7 @@ public class GoodController {
         good.setCategory(new Category());
         good.setModel(new Model());
         good.setProducer(new Producer());
-        goodRepo.save(good);
+        // goodRepo.save(good);
         return "redirect:/shop";
     }
 }
