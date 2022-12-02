@@ -9,11 +9,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "good")
 @Data
-public class Good {
+public class Good{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     @Column(name = "id_good")
     private Integer id_good;
 
@@ -45,15 +44,6 @@ public class Good {
     private Producer producer;
 
     public Good() {
-        this.id_good = id_good;
-        this.number = number;
-        this.name_good = name_good;
-        this.model = model;
-        this.main_photo = main_photo;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.producer = producer;
     }
 
     public Integer getId_good() {

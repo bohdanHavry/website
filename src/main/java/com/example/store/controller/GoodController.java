@@ -1,18 +1,11 @@
 package com.example.store.controller;
 
-import com.example.store.entity.Category;
-import com.example.store.entity.Good;
-import com.example.store.entity.Model;
-import com.example.store.entity.Producer;
 import com.example.store.repository.GoodRepo;
-import com.example.store.services.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 
 @Controller
@@ -20,15 +13,15 @@ import java.util.List;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class GoodController {
      @Autowired
-     private GoodRepo repo;
-     private GoodService service;
+     private GoodRepo goodRepo;
+
+
 
     @GetMapping("/shop")
-    public String showGoodsView(org.springframework.ui.Model model)
+    public String goodList(Model model)
     {
-        List<Good> goods = service.listAll();
-        model.addAttribute("good",goods);
-        return "/shop";
+        model.addAttribute("goods",goodRepo.findAll());
+        return "shop";
     }
 
 
@@ -38,6 +31,7 @@ public class GoodController {
         return "addGood";
     }
 
+    /*
     @PostMapping("/addG")
     public String saveGood (@RequestParam("number") Integer number, @RequestParam("name_good") String name_good,
                             @RequestParam("main_photo") Byte main_photo, @RequestParam("description") String description,
@@ -55,5 +49,5 @@ public class GoodController {
         good.setProducer(new Producer());
         // goodRepo.save(good);
         return "redirect:/shop";
-    }
+    }*/
 }
