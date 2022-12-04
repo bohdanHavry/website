@@ -22,26 +22,27 @@ public class Good{
     @Column(name = "name_good")
     private String name_good;
 
-    @ManyToOne
+   /* @ManyToOne
     @ToString.Exclude
-    private Model model;
+    private Model model;*/
 
     @Column (name = "main_photo")
-    private Byte main_photo;
+    private byte[] main_photo;
 
     @Column(name = "description", length = 5000)
     private String description;
-
     @Column(name = "price")
     private Integer price;
 
+
+/*
     @ManyToOne
     @ToString.Exclude
     private Category category;
 
     @ManyToOne
     @ToString.Exclude
-    private Producer producer;
+    private Producer producer;*/
 
     public Good() {
     }
@@ -70,22 +71,6 @@ public class Good{
         this.name_good = name_good;
     }
 
-    public Model getModel() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public Byte getMain_photo() {
-        return main_photo;
-    }
-
-    public void setMain_photo(Byte main_photo) {
-        this.main_photo = main_photo;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -102,19 +87,11 @@ public class Good{
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public byte[] getMain_photo() {
+        return main_photo;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Producer getProducer() {
-        return producer;
-    }
-
-    public void setProducer(Producer producer) {
-        this.producer = producer;
+    public void setMain_photo(byte[] main_photo) {
+        this.main_photo = main_photo;
     }
 }

@@ -18,7 +18,7 @@ public class Brand {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_brand")
-    private Set<Model> models = new HashSet<>();
+    private Set<Brand> brands = new HashSet<>();
 
     @Column(name = "name_brand",length = 250)
     private String name_brand;
@@ -34,12 +34,12 @@ public class Brand {
         this.id_brand = id_brand;
     }
 
-    public Set<Model> getModels() {
-        return models;
+    public Set<Brand> getBrands() {
+        return brands;
     }
 
-    public void setModels(Set<Model> models) {
-        this.models = models;
+    public void setBrands(Set<Brand> brands) {
+        this.brands = brands;
     }
 
     public String getName_brand() {

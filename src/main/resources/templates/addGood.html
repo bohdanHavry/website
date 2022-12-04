@@ -7,37 +7,19 @@
 <body>
 <div>ADMIN panel</div>
 <a href="/addGood">Add new good</a> <a href="/shop">List of goods</a>
-<form action="/addG" method="post">
-    <div class="add-good">
+<form th:action="@{/addG}" method="post" enctype="multipart/form-data">
         <label for = "name">Good name</label>
         <input type="text" name="name_good" id="name">
         <label for = "number">Number name</label>
-        <input type="text" name="number" id="number">
-
-        <label for = "model">Model name</label>
-        <input type="" name="model" id="model">
-
-        <label for = "category">Category name</label>
-        <input type="" name="category" id="category">
-
-        <label for = "price">Good price</label>
-        <input type="text" name="price" id="price">
+        <input type="number" name="number" id="number">
         <label for = "description">Description</label>
         <input type="text" name="description" id="description">
+        <label for = "price">Price</label>
+        <input type="number" name="price" id="price">
+        <label for="customFile">Choose photo</label>
+        <input type="file" name="file"  id="customFile">
 
-        <label for = "producer">Producer</label>
-        <input type="text" name="producer" id="producer">
-
-        <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
-        <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for = "photo">Add photo</label>
-                <input type="file" name="photo_photo" id="photo" accept="image/*" class="form-control-file">
-            </div>
-        </form>
-        <span th:if="${msg != null}" th:text="${msg}"></span>
-    </div>
+        <input type="submit" value="Save good">
 </form>
-        <button type="submit">Save good</button>
 </body>
 </html>

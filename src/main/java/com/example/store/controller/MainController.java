@@ -23,10 +23,10 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("/shop")
+    /*@GetMapping("/shop")
     public String shop(Map<String, Object> model){
         return "shop";
-    }
+    }*/
 
     @GetMapping("/login")
     public String login() {

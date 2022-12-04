@@ -11,17 +11,22 @@ Product list
     <thead>
     <tr>
         <th>ID</th>
+        <th>Image</th>
         <th>Number</th>
         <th>Name</th>
         <th>Desc</th>
+        <th>Price</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="item : ${goods}">
-        <td th:text="${item.id_model}"/>
+        <td th:text="${item.id_good}"/>
+        <!--<td th:text="${item.main_photo}"/>-->
+        <td><img th:src="@{'data:image/jpeg;base64,'+${item.main_photo}}" style="width: 100px;height: 100px;"></td>
         <td th:text="${item.number}"/>
-        <td th:text="${item.name_model}"/>
+        <td th:text="${item.name_good}"/>
         <td th:text="${item.description}"/>
+        <td th:text="${item.price}"/>
     </tr>
     </tbody>
 </table>

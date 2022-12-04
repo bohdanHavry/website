@@ -20,7 +20,7 @@ public class Model {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_model")
-    private Set<Good> goods = new HashSet<>();
+    private Set<Model> models = new HashSet<>();
 
     @Column(name = "name_model",length = 250)
     private String name_model;
@@ -44,12 +44,12 @@ public class Model {
         this.id_model = id_model;
     }
 
-    public Set<Good> getGoods() {
-        return goods;
+    public Set<Model> getModels() {
+        return models;
     }
 
-    public void setGoods(Set<Good> goods) {
-        this.goods = goods;
+    public void setModels(Set<Model> models) {
+        this.models = models;
     }
 
     public String getName_model() {
