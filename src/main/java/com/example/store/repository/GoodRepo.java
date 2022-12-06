@@ -4,7 +4,11 @@ import com.example.store.entity.Good;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface GoodRepo extends JpaRepository<Good,Integer> {
+import java.util.List;
+
+public interface GoodRepo extends JpaRepository<Good,Long> {
+    List<Good> findByTitle(String title);
+
     //@Query("Insert into good(name_good) values (?1)")
    // void addGood(String modelname);
         // execute custom sql insert query

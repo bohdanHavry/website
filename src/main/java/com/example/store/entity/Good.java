@@ -1,33 +1,47 @@
 package com.example.store.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "good")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Good{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_good")
-    private Integer id_good;
+    private Long id_good;
 
     @Column(name = "number")
     private Integer number;
 
     @Column(name = "name_good")
-    private String name_good;
+    private String title;
 
    /* @ManyToOne
     @ToString.Exclude
     private Model model;*/
 
-    @Column (name = "main_photo")
-    private byte[] main_photo;
+    //@Lob
+    //@Type(type="org.hibernate.type.BinaryType")
+    //@Type(type = "org.hibernate.type.TextType")
+    //@Column (name = "main_photo")
+    //private byte[] main_photo;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+    mappedBy = "good")
+    private List<Image> images = new ArrayList<>();
+    private Integer previewImageId;
 
     @Column(name = "description", length = 5000)
     private String description;
@@ -44,14 +58,14 @@ public class Good{
     @ToString.Exclude
     private Producer producer;*/
 
-    public Good() {
-    }
+    /*public Good() {
+    }*/
 
-    public Integer getId_good() {
+    public Long getId_good() {
         return id_good;
     }
 
-    public void setId_good(Integer id_good) {
+    public void setId_good(Long id_good) {
         this.id_good = id_good;
     }
 
@@ -63,12 +77,28 @@ public class Good{
         this.number = number;
     }
 
-    public String getName_good() {
-        return name_good;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName_good(String name_good) {
-        this.name_good = name_good;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public Integer getPreviewImageId() {
+        return previewImageId;
+    }
+
+    public void setPreviewImageId(Integer previewImageId) {
+        this.previewImageId = previewImageId;
     }
 
     public String getDescription() {
@@ -87,11 +117,8 @@ public class Good{
         this.price = price;
     }
 
-    public byte[] getMain_photo() {
-        return main_photo;
-    }
-
-    public void setMain_photo(byte[] main_photo) {
-        this.main_photo = main_photo;
+    public void addImageToGood(Image image){
+        image.setGood(this);
+        images.add(image);
     }
 }
