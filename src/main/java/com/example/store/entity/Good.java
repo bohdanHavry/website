@@ -29,9 +29,13 @@ public class Good{
     @Column(name = "name_good")
     private String title;
 
-   /* @ManyToOne
+
+    @ManyToOne
     @ToString.Exclude
-    private Model model;*/
+    private Model model;
+
+    // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    //private Model model;
 
     //@Lob
     //@Type(type="org.hibernate.type.BinaryType")
@@ -49,17 +53,22 @@ public class Good{
     private Integer price;
 
 
-/*
     @ManyToOne
     @ToString.Exclude
     private Category category;
 
     @ManyToOne
     @ToString.Exclude
-    private Producer producer;*/
+    private Producer producer;
 
-    /*public Good() {
-    }*/
+
+   // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+   // private Category category;
+
+   // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+   // private Producer producer;
+
+
 
     public Long getId_good() {
         return id_good;

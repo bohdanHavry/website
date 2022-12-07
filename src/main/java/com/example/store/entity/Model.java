@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,6 +19,9 @@ public class Model {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_model")
     private Integer id_model;
+
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "model")
+   // private List<Model> model = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_model")
@@ -32,6 +37,10 @@ public class Model {
     @ManyToOne
     @ToString.Exclude
     private Brand brand;
+
+   // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+    //        mappedBy = "model")
+    //private List<Good> good = new ArrayList<>();
 
     public Model() {
     }
@@ -66,13 +75,5 @@ public class Model {
 
     public void setYear(String year) {
         this.year = year;
-    }
-
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
     }
 }

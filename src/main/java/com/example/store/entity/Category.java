@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,6 +19,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_category")
     private Integer id_category;
+
+   // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+   // private Good good;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_category")

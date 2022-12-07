@@ -7,17 +7,22 @@
 <body>
 <h4>Повна інформація про товар</h4>
 <b>ID товара</b><p th:text="${good.id_good}" />
-<!--<table>
-    <tr th:each="img : ${images}">
+<table>
+    <tr th:each="img : ${images}"> Фото
         <td><img th:src="@{/images/{imageId}(imageId=${img.image_id})}" height="100px"></td>
     </tr>
-</table>-->
-<img src="/images/30" height="100px">
+</table>
 <br>
-<b>Number</b><p th:text="${good.number}" />
-<b>Name</b><p th:text="${good.title}" />
+<b>Артикул</b><p th:text="${good.number}" />
+<b>Назва товару</b><p th:text="${good.title}" />
+
+<b>Категорія</b><p th:text="${good.category}" />
+<b>Модель</b><p th:text="${good.model}" />
+<b>Виробник</b><p th:text="${good.producer}" />
+
 <b>Desc</b><p th:text="${good.description}" />
 <b>Price(грн.)</b><p th:text="${good.price}" />
+
 <hr>
 <form action="@{/main/delete/{idGood}(idGood=${good.id_good})}" method="post">
     <input type="submit" value="Видалити товар">

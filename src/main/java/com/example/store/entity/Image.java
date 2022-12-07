@@ -19,16 +19,16 @@ public class Image {
     private Integer image_id;
     @Column(name = "name_image")
     private String name_image;
-    @Column(name = "originalFileName")
+    @Column(name = "original_file_name")
     private String originalFileName;
     @Column(name = "size")
     private Long size;
-    @Column(name = "contentType")
+    @Column(name = "content_type")
     private String contentType;
-    @Column(name = "isPreviewImage")
+    @Column(name = "is_preview_image")
     private boolean isPreviewImage;
     @Lob
-    @Type(type = "org.hibernate.type.ImageType")
+    @Type(type="org.hibernate.type.BinaryType")
     private byte[] bytes;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)

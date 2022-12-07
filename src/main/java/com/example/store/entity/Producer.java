@@ -3,7 +3,9 @@ package com.example.store.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,6 +16,10 @@ public class Producer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_producer")
     private Integer id_producer;
+
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+    //        mappedBy = "producer")
+    //private List<Producer> producer = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_producer")
