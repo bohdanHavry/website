@@ -29,19 +29,6 @@ public class Good{
     @Column(name = "name_good")
     private String title;
 
-
-    @ManyToOne
-    @ToString.Exclude
-    private Model model;
-
-    // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    //private Model model;
-
-    //@Lob
-    //@Type(type="org.hibernate.type.BinaryType")
-    //@Type(type = "org.hibernate.type.TextType")
-    //@Column (name = "main_photo")
-    //private byte[] main_photo;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
     mappedBy = "good")
     private List<Image> images = new ArrayList<>();
@@ -51,24 +38,6 @@ public class Good{
     private String description;
     @Column(name = "price")
     private Integer price;
-
-
-    @ManyToOne
-    @ToString.Exclude
-    private Category category;
-
-    @ManyToOne
-    @ToString.Exclude
-    private Producer producer;
-
-
-   // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-   // private Category category;
-
-   // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-   // private Producer producer;
-
-
 
     public Long getId_good() {
         return id_good;

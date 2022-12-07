@@ -20,19 +20,14 @@ public class Category {
     @Column(name = "id_category")
     private Integer id_category;
 
-   // @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-   // private Good good;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_category")
-    private Set<Category> categories = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Set<Good> good;
+
 
     @Column(name = "name_category",length = 250)
     private String name_category;
-
-    @ManyToOne
-    @ToString.Exclude
-    private Category_group category_groups;
 
     public Category() {
     }
@@ -45,12 +40,12 @@ public class Category {
         this.id_category = id_category;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
+    public Set<Good> getGood() {
+        return good;
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
+    public void setGood(Set<Good> good) {
+        this.good = good;
     }
 
     public String getName_category() {
@@ -61,11 +56,4 @@ public class Category {
         this.name_category = name_category;
     }
 
-    public Category_group getCategory_groups() {
-        return category_groups;
-    }
-
-    public void setCategory_groups(Category_group category_groups) {
-        this.category_groups = category_groups;
-    }
 }

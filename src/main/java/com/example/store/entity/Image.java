@@ -98,4 +98,6 @@ public class Image {
     public void setGood(Good good) {
         this.good = good;
     }
+
+
 }

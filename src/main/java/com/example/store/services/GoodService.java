@@ -2,7 +2,10 @@ package com.example.store.services;
 
 import com.example.store.entity.Good;
 import com.example.store.entity.Image;
+import com.example.store.repository.CategoryRepo;
 import com.example.store.repository.GoodRepo;
+import com.example.store.repository.ModelRepo;
+import com.example.store.repository.ProducerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -17,6 +20,12 @@ import java.util.List;
 public class GoodService {
     @Autowired
     public GoodRepo goodRepo;
+    @Autowired
+    public ModelRepo modelRepo;
+    @Autowired
+    public CategoryRepo categoryRepo;
+    @Autowired
+    public ProducerRepo producerRepo;
 
     public void saveGoodToDB(MultipartFile file, Good good) throws IOException {
         Image image1;

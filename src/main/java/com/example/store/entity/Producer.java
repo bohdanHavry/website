@@ -17,13 +17,13 @@ public class Producer {
     @Column(name = "id_producer")
     private Integer id_producer;
 
-    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-    //        mappedBy = "producer")
-    //private List<Producer> producer = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "producer_id")
+    private Set<Good> good;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_producer")
-    private Set<Producer> producers = new HashSet<>();
+  // @OneToMany(cascade = CascadeType.ALL)
+  // @JoinColumn(name = "id_producer")
+  // private Set<Producer> producers = new HashSet<>();
 
     @Column(name = "name_producer",length = 250)
     private String name_producer;
@@ -42,12 +42,12 @@ public class Producer {
         this.id_producer = id_producer;
     }
 
-    public Set<Producer> getProducers() {
-        return producers;
+    public Set<Good> getGood() {
+        return good;
     }
 
-    public void setProducers(Set<Producer> producers) {
-        this.producers = producers;
+    public void setGood(Set<Good> good) {
+        this.good = good;
     }
 
     public String getName_producer() {
@@ -65,4 +65,6 @@ public class Producer {
     public void setCountry(String country) {
         this.country = country;
     }
+
+
 }

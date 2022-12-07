@@ -17,9 +17,9 @@ public class Category_group {
     @Column(name = "id_category_group")
     private Integer id_category_group;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_category_group")
-    private Set<Category_group> category_groups = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Set<Category> category;
 
     @Column(name = "name_category_group",length = 250)
     private String name_category_group;
@@ -35,12 +35,12 @@ public class Category_group {
         this.id_category_group = id_category_group;
     }
 
-    public Set<Category_group> getCategory_groups() {
-        return category_groups;
+    public Set<Category> getCategory() {
+        return category;
     }
 
-    public void setCategory_groups(Set<Category_group> category_groups) {
-        this.category_groups = category_groups;
+    public void setCategory(Set<Category> category) {
+        this.category = category;
     }
 
     public String getName_category_group() {

@@ -20,12 +20,9 @@ public class Model {
     @Column(name = "id_model")
     private Integer id_model;
 
-    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "model")
-   // private List<Model> model = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_model")
-    private Set<Model> models = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "model_id")
+    private Set<Good> good;
 
     @Column(name = "name_model",length = 250)
     private String name_model;
@@ -34,13 +31,6 @@ public class Model {
     @Column(name = "year")
     private String year;
 
-    @ManyToOne
-    @ToString.Exclude
-    private Brand brand;
-
-   // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-    //        mappedBy = "model")
-    //private List<Good> good = new ArrayList<>();
 
     public Model() {
     }
@@ -53,12 +43,12 @@ public class Model {
         this.id_model = id_model;
     }
 
-    public Set<Model> getModels() {
-        return models;
+    public Set<Good> getGood() {
+        return good;
     }
 
-    public void setModels(Set<Model> models) {
-        this.models = models;
+    public void setGood(Set<Good> good) {
+        this.good = good;
     }
 
     public String getName_model() {
@@ -76,4 +66,5 @@ public class Model {
     public void setYear(String year) {
         this.year = year;
     }
+
 }

@@ -35,6 +35,7 @@ public class MainController {
     public String goodInfo(@PathVariable Long id_good, Model model){
         Good good = goodService.getGoodById(id_good);
         model.addAttribute("good", good);
+        model.addAttribute("good", good);
         model.addAttribute("images", good.getImages());
         return "shop";
     }

@@ -18,17 +18,10 @@ public class Brand {
     @Column(name = "id_brand")
     private Integer id_brand;
 
-    //@OneToMany(cascade = CascadeType.ALL)
-   // @JoinColumn(name = "id_brand")
-   // private Set<Brand> brands = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "brand_id")
+    private Set<Model> model;
 
-   // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-    //        mappedBy = "brand")
-   // private List<Brand> brand = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_brand")
-    private Set<Brand> brands = new HashSet<>();
 
     @Column(name = "name_brand",length = 250)
     private String name_brand;
@@ -44,7 +37,6 @@ public class Brand {
         this.id_brand = id_brand;
     }
 
-
     public String getName_brand() {
         return name_brand;
     }
@@ -53,11 +45,11 @@ public class Brand {
         this.name_brand = name_brand;
     }
 
-    public Set<Brand> getBrands() {
-        return brands;
+    public Set<Model> getModel() {
+        return model;
     }
 
-    public void setBrands(Set<Brand> brands) {
-        this.brands = brands;
+    public void setModel(Set<Model> model) {
+        this.model = model;
     }
 }
