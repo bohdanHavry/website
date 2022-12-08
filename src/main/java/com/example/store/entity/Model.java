@@ -31,7 +31,6 @@ public class Model {
     @Column(name = "year")
     private String year;
 
-
     public Model() {
     }
 

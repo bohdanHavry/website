@@ -94,7 +94,6 @@ public class Good{
     public void setPrice(Integer price) {
         this.price = price;
     }
-
     public void addImageToGood(Image image){
         image.setGood(this);
         images.add(image);
