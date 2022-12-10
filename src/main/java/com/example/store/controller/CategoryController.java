@@ -43,13 +43,13 @@ public class CategoryController {
     public String saveCategoryGroup (@RequestParam ("name_category_group") String name_category_group, Category_group category_group) {
 
         categoryService.saveCategoryGroupToDB(name_category_group, category_group);
-        return "redirect:/";
+        return "redirect:/addCategory";
     }
 
     @PostMapping("/addC")
     public String saveCategory (@RequestParam ("name_category") String name_category, Category_group category_group, Category category) {
 
         categoryService.saveCategoryToDB(name_category,category_group, category );
-        return "redirect:/";
+        return "redirect:/addGood";
     }
 }

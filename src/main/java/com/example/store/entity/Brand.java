@@ -19,9 +19,7 @@ public class Brand {
     private Integer id_brand;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "brand_id")
     private Set<Model> model;
-
 
     @Column(name = "name_brand",length = 250)
     private String name_brand;
@@ -52,4 +50,5 @@ public class Brand {
     public void setModel(Set<Model> model) {
         this.model = model;
     }
+
 }

@@ -1,15 +1,12 @@
 package com.example.store.services;
 
-import com.example.store.entity.Category;
-import com.example.store.entity.Good;
-import com.example.store.entity.Image;
+import com.example.store.entity.*;
 import com.example.store.repository.CategoryRepo;
 import com.example.store.repository.GoodRepo;
 import com.example.store.repository.ModelRepo;
 import com.example.store.repository.ProducerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +25,9 @@ public class GoodService {
     @Autowired
     public ProducerRepo producerRepo;
 
-    public void saveGoodToDB(MultipartFile file, Good good, Category category) throws IOException {
+
+
+    public void saveGoodToDB(MultipartFile file, Good good, Category category, Model model, Producer producer) throws IOException {
         Image image1;
         if(file.getSize() != 0) {
             image1 = toImageEntity(file);
@@ -38,6 +37,8 @@ public class GoodService {
         Good goodFromDb = goodRepo.save(good);
         goodFromDb.setPreviewImageId(goodFromDb.getImages().get(0).getImage_id());
         good.setCategory(category);
+        good.setModel(model);
+        good.setProducer(producer);
         goodRepo.save(good);
     }
 
@@ -68,4 +69,15 @@ public class GoodService {
     {
         return categoryRepo.findAll();
     }
+
+    public List<Model> getAllModel()
+    {
+        return modelRepo.findAll();
+    }
+
+    public List<Producer> getAllProducer()
+    {
+        return producerRepo.findAll();
+    }
+
 }

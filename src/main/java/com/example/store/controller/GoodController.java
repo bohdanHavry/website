@@ -27,13 +27,16 @@ public class GoodController {
     public String showAddGood(Model model)
     {
         model.addAttribute("category", goodService.getAllCategory());
+        model.addAttribute("model", goodService.getAllModel());
+        model.addAttribute("producer",goodService.getAllProducer());
         return "addGood";
     }
 
 
     @PostMapping("/addG")
-    public String saveGood (@RequestParam("file") MultipartFile file,Good good, Category category) throws IOException{
-        goodService.saveGoodToDB(file, good, category);
+    public String saveGood (@RequestParam("file") MultipartFile file, Good good, Category category,
+                            com.example.store.entity.Model model, Producer producer) throws IOException{
+        goodService.saveGoodToDB(file, good, category, model, producer);
         return "redirect:/";
     }
 }

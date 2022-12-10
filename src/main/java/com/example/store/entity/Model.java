@@ -21,15 +21,17 @@ public class Model {
     private Integer id_model;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "model_id")
     private Set<Good> good;
 
     @Column(name = "name_model",length = 250)
     private String name_model;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     @Column(name = "year")
-    private String year;
+    private Integer year;
+
+    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     public Model() {
     }
@@ -58,12 +60,19 @@ public class Model {
         this.name_model = name_model;
     }
 
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
 }

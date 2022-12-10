@@ -16,11 +16,18 @@
 <b>Артикул</b><p th:text="${good.number}" />
 <b>Назва товару</b><p th:text="${good.title}" />
 
+<b>Назва бренду</b><p th:text="${good.model.brand.name_brand}" />
+<b>Назва моделі</b><p th:text="${good.model.name_model}" />
+<b>Рік моделі</b><p th:text="${good.model.year}" />
+
 <b>Назва категорії</b><p th:text="${good.category.category_group.name_category_group}" />
 <b>Назва підкатегорії</b><p th:text="${good.category.name_category}" />
 
+<b>Назва виробника</b><p th:text="${good.producer.name_producer}" />
+<b>Назва країни виробника</b><p th:text="${good.producer.country}" />
+
 <b>Опис</b><p th:text="${good.description}" />
-<b>Price(грн.)</b><p th:text="${good.price}" />
+<b>Ціна (грн.)</b><p th:text="${good.price}" />
 
 <hr>
 <form action="@{/main/delete/{idGood}(idGood=${good.id_good})}" method="post">

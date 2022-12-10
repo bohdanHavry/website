@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Getting Started: Serving Web Content</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>ADMIN panel</div>
+<a href="/addModel">Add new model and brand</a>
+<form th:action="@{/addBr}" method="post">
+  <label for = "name">Brand</label>
+  <input type="text" name="name_brand" id="name">
+  <input type="submit" value="Save Brand">
+</form>
+
+<form th:action="@{/addMd}" method="post">
+  <label for = "nameModel">Model</label>
+  <input type="text" name="name_model" id="nameModel">
+
+  <label for = "year">Year</label>
+  <input type="number" name="year" id="year">
+
+  <select name="brand"
+          title="select brand .." multiple data-actions-box="true">
+
+    <option th:each="brand : ${brand}" th:value="${brand.id_brand}">[[${brand.name_brand}]]</option>
+  </select>
+
+  <input type="submit" value="Save Model">
+</form>
+
+</body>
+</html>

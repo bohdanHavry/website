@@ -7,7 +7,9 @@
 <body>
 <div>ADMIN panel</div>
 <a href="/addCategory">Add new categories</a>
-<a href="/addGood">Add new good</a> <a href="/shop">List of goods</a>
+<a href="/addModel">Add new brand and model</a>
+<a href="/addProducer">Add new producer</a>
+<a href="/addGood">Add new good</a>
 <form th:action="@{/addG}" method="post" enctype="multipart/form-data">
         <label for = "name">Good name</label>
         <input type="text" name="title" id="name">
@@ -26,6 +28,18 @@
                 <option th:each="category : ${category}" th:value="${category.id_category}">[[${category.name_category}]]</option>
         </select>
 
+
+        <select name="model"
+                title="select model  .." multiple data-actions-box="true">
+
+                <option th:each="model : ${model}" th:value="${model.id_model}">[[${model.name_model}]]</option>
+        </select>
+
+        <select name="producer"
+                title="select producer  .." multiple data-actions-box="true">
+
+                <option th:each="producer : ${producer}" th:value="${producer.id_producer}">[[${producer.name_producer}]]</option>
+        </select>
 
         <input type="submit" value="Save good">
 </form>

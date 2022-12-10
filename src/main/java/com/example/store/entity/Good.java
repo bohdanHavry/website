@@ -43,6 +43,14 @@ public class Good{
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
+    @JoinColumn(name = "model_id")
+    private Model model;
+
+    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
+    @JoinColumn(name = "producer_id")
+    private Producer producer;
+
     public Long getId_good() {
         return id_good;
     }
@@ -105,6 +113,22 @@ public class Good{
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
     }
 
     public void addImageToGood(Image image){
