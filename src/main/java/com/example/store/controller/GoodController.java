@@ -23,25 +23,17 @@ public class GoodController {
      @Autowired
      private GoodService goodService;
 
-
-    /*@GetMapping("/shop")
-    public String goodList(org.springframework.ui.Model model)
-    {
-        model.addAttribute("goods",goodRepo.findAll());
-        return "shop";
-    }*/
-
-
     @GetMapping("/addGood")
-    public String showAddGood()
+    public String showAddGood(Model model)
     {
+        model.addAttribute("category", goodService.getAllCategory());
         return "addGood";
     }
 
 
     @PostMapping("/addG")
-    public String saveGood (@RequestParam("file") MultipartFile file,Good good) throws IOException{
-        goodService.saveGoodToDB(file, good);
+    public String saveGood (@RequestParam("file") MultipartFile file,Good good, Category category) throws IOException{
+        goodService.saveGoodToDB(file, good, category);
         return "redirect:/";
     }
 }

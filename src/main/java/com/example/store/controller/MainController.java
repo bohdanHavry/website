@@ -1,5 +1,6 @@
 package com.example.store.controller;
 
+import com.example.store.entity.Category;
 import com.example.store.entity.Good;
 import com.example.store.entity.User;
 import com.example.store.repository.GoodRepo;
@@ -34,7 +35,6 @@ public class MainController {
     @GetMapping("/main/{id_good}")
     public String goodInfo(@PathVariable Long id_good, Model model){
         Good good = goodService.getGoodById(id_good);
-        model.addAttribute("good", good);
         model.addAttribute("good", good);
         model.addAttribute("images", good.getImages());
         return "shop";

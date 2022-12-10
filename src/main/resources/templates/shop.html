@@ -16,14 +16,10 @@
 <b>Артикул</b><p th:text="${good.number}" />
 <b>Назва товару</b><p th:text="${good.title}" />
 
-<select  name="categories"
-        title="Оберіть модель" multiple data-actions-box="true">
+<b>Назва категорії</b><p th:text="${good.category.category_group.name_category_group}" />
+<b>Назва підкатегорії</b><p th:text="${good.category.name_category}" />
 
-    <option th:each="category : ${categories}" th:value="${category.id}">[[${category.name}]]</option>
-
-</select>
-
-<b>Desc</b><p th:text="${good.description}" />
+<b>Опис</b><p th:text="${good.description}" />
 <b>Price(грн.)</b><p th:text="${good.price}" />
 
 <hr>

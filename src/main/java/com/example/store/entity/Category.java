@@ -20,9 +20,12 @@ public class Category {
     @Column(name = "id_category")
     private Integer id_category;
 
+    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_group_id")
+    private Category_group category_group;
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
     private Set<Good> good;
 
 
@@ -56,4 +59,11 @@ public class Category {
         this.name_category = name_category;
     }
 
+    public Category_group getCategory_group() {
+        return category_group;
+    }
+
+    public void setCategory_group(Category_group category_group) {
+        this.category_group = category_group;
+    }
 }

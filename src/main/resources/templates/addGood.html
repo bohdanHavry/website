@@ -6,6 +6,7 @@
 </head>
 <body>
 <div>ADMIN panel</div>
+<a href="/addCategory">Add new categories</a>
 <a href="/addGood">Add new good</a> <a href="/shop">List of goods</a>
 <form th:action="@{/addG}" method="post" enctype="multipart/form-data">
         <label for = "name">Good name</label>
@@ -19,12 +20,12 @@
         <label for="customFile">Choose photo</label>
         <input type="file" name="file"  id="customFile">
 
-        <label for = "category">Category</label>
-        <input type="text" name="category" id="category">
-        <label for = "model">Model</label>
-        <input type="text" name="model" id="model">
-        <label for = "producer">Producer</label>
-        <input type="text" name="producer" id="producer">
+        <select name="category"
+                title="select category  .." multiple data-actions-box="true">
+
+                <option th:each="category : ${category}" th:value="${category.id_category}">[[${category.name_category}]]</option>
+        </select>
+
 
         <input type="submit" value="Save good">
 </form>

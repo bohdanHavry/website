@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Getting Started: Serving Web Content</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>ADMIN panel</div>
+<a href="/addCategory">Add new category</a>
+<form th:action="@{/addCG}" method="post">
+  <label for = "name">Category group</label>
+  <input type="text" name="name_category_group" id="name">
+  <input type="submit" value="Save category group">
+</form>
+
+<form th:action="@{/addC}" method="post">
+  <label for = "nameCategory">Category</label>
+  <input type="text" name="name_category" id="nameCategory">
+
+  <select name="category_group"
+          title="select categories group .." multiple data-actions-box="true">
+
+    <option th:each="category_group : ${category_group}" th:value="${category_group.id_category_group}">[[${category_group.name_category_group}]]</option>
+  </select>
+
+  <input type="submit" value="Save category group">
+</form>
+
+</body>
+</html>

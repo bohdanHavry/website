@@ -39,6 +39,10 @@ public class Good{
     @Column(name = "price")
     private Integer price;
 
+    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Long getId_good() {
         return id_good;
     }
@@ -94,6 +98,15 @@ public class Good{
     public void setPrice(Integer price) {
         this.price = price;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public void addImageToGood(Image image){
         image.setGood(this);
         images.add(image);

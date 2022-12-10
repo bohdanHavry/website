@@ -1,5 +1,6 @@
 package com.example.store.services;
 
+import com.example.store.entity.Category;
 import com.example.store.entity.Good;
 import com.example.store.entity.Image;
 import com.example.store.repository.CategoryRepo;
@@ -27,7 +28,7 @@ public class GoodService {
     @Autowired
     public ProducerRepo producerRepo;
 
-    public void saveGoodToDB(MultipartFile file, Good good) throws IOException {
+    public void saveGoodToDB(MultipartFile file, Good good, Category category) throws IOException {
         Image image1;
         if(file.getSize() != 0) {
             image1 = toImageEntity(file);
@@ -36,6 +37,7 @@ public class GoodService {
         }
         Good goodFromDb = goodRepo.save(good);
         goodFromDb.setPreviewImageId(goodFromDb.getImages().get(0).getImage_id());
+        good.setCategory(category);
         goodRepo.save(good);
     }
 
@@ -60,5 +62,10 @@ public class GoodService {
 
     public Good getGoodById(Long id_good){
         return goodRepo.findById(id_good).orElse(null);
+    }
+
+    public List<Category> getAllCategory()
+    {
+        return categoryRepo.findAll();
     }
 }

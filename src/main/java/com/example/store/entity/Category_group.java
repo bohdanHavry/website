@@ -17,8 +17,8 @@ public class Category_group {
     @Column(name = "id_category_group")
     private Integer id_category_group;
 
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
     private Set<Category> category;
 
     @Column(name = "name_category_group",length = 250)
