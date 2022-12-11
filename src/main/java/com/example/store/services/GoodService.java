@@ -52,13 +52,9 @@ public class GoodService {
         return image;
     }
 
-    public List<Good> listGood(String title){
+    public List<Good> listAll(String title){
         if (title != null) return goodRepo.findByTitle(title);
         return goodRepo.findAll();
-    }
-
-    public void deleteGood(Long id_good){
-        goodRepo.deleteById(id_good);
     }
 
     public Good getGoodById(Long id_good){

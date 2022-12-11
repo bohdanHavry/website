@@ -39,4 +39,6 @@ public class GoodController {
         goodService.saveGoodToDB(file, good, category, model, producer);
         return "redirect:/";
     }
+
+
 }

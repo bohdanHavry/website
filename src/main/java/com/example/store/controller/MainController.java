@@ -7,9 +7,11 @@ import com.example.store.repository.GoodRepo;
 import com.example.store.services.GoodService;
 import com.example.store.services.MainService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.ui.Model;
@@ -23,11 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
     private final MainService mainService;
     private final GoodService goodService;
-    //private final GoodRepo goodRepo;
+    private final GoodRepo goodRepo;
 
     @GetMapping("/")
     public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
-        model.addAttribute("goods", goodService.listGood(title));
+        model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "main";
     }
@@ -40,9 +42,9 @@ public class MainController {
         return "shop";
     }
 
-    @PostMapping("/main/delete/{id_good}")
-    public String deleteGood(@PathVariable Long id_good){
-        goodService.deleteGood(id_good);
+    @GetMapping("/deleteGood/{id_good}")
+    public String deleteGood(@PathVariable("id_good") Long id_good){
+        goodRepo.deleteById(id_good);
         return "redirect:/";
     }
 

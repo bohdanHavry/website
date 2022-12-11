@@ -30,8 +30,7 @@
 <b>Ціна (грн.)</b><p th:text="${good.price}" />
 
 <hr>
-<form action="@{/main/delete/{idGood}(idGood=${good.id_good})}" method="post">
-    <input type="submit" value="Видалити товар">
+<a th:href="@{/deleteGood/{id}(id=${good.id_good})}">Видалення товару</a>
 </form>
 
 

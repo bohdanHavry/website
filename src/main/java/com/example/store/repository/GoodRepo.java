@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface GoodRepo extends JpaRepository<Good,Long> {
-    List<Good> findByTitle(String title);
+    //List<Good> findByTitle(String title);
 
-    //@Query("Insert into good(name_good) values (?1)")
-   // void addGood(String modelname);
-        // execute custom sql insert query
-//        insert into good(par1 , par2, model_id) values (par1, par2, (select id from model where name = {modelname}))
+    @Query("SELECT p FROM Good p WHERE p.title LIKE %?1%")
+    public List<Good> findByTitle(String title);
 
 }

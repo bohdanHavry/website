@@ -13,10 +13,12 @@
     </div>
     <span th:unless="${user.login}">
     <a href="/login">Sign in</a></span> <br>
+
     <div>
-        <form th:action="@{/}" method="get">
-            Пошук по назві товару:<input type="text" name="name"><br>
+        <form th:action="@{/}">
+            Пошук по назві товару:<input type="text" name="title" th:value="${title}" ><br>
             <input type="submit" value="Пошук">
+            <input type="button" value="Очищення" onclick="clearFilter()">
         </form>
     </div>
 
@@ -29,6 +31,7 @@
         </tr>
     </table>
 </div>
+
 <div th:if="${#lists.isEmpty(goods)}">
     Товарів немає
 </div>
@@ -37,5 +40,11 @@
     <span th:if="${user.login}"><a th:href="@{/user}">User list</a></span>
     <span><a th:href="@{/addGood}">Add good</a></span>
    <!-- <span><a th:href="@{/shop}">Shop</a></span>-->
+
+<script type="text/javascript">
+    function clearFilter(){
+    window.location = '/';
+    }
+</script>
 </body>
 </html>
