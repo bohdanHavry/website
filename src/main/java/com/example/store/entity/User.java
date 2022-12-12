@@ -37,6 +37,8 @@ public class User {
 
     }
 
+    public boolean isAdmin(){return roles.contains(Role.ADMIN);}
+
     public Integer getUser_id() {
         return user_id;
     }

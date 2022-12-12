@@ -30,7 +30,9 @@
 <b>Ціна (грн.)</b><p th:text="${good.price}" />
 
 <hr>
-<a th:href="@{/deleteGood/{id}(id=${good.id_good})}">Видалення товару</a>
+<p th:if="${user.login}">
+<a th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення товару</a>
+</p>
 </form>
 
 

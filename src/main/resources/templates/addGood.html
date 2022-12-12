@@ -41,6 +41,7 @@
                 <option th:each="producer : ${producer}" th:value="${producer.id_producer}">[[${producer.name_producer}]]</option>
         </select>
 
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
         <input type="submit" value="Save good">
 </form>
 </body>

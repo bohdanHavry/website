@@ -8,6 +8,7 @@ import com.example.store.services.GoodService;
 import com.example.store.services.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
@@ -35,13 +36,15 @@ public class MainController {
     }
 
     @GetMapping("/main/{id_good}")
-    public String goodInfo(@PathVariable Long id_good, Model model){
+    public String goodInfo(@PathVariable Long id_good, Model model, Principal principal){
         Good good = goodService.getGoodById(id_good);
         model.addAttribute("good", good);
         model.addAttribute("images", good.getImages());
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "shop";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deleteGood/{id_good}")
     public String deleteGood(@PathVariable("id_good") Long id_good){
         goodRepo.deleteById(id_good);

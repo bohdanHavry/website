@@ -4,15 +4,17 @@
     <title>Getting Started: Serving Web Content</title>
 </head>
 <body>
-<div>Hello, user</div>
+<h1>AVTO SENAT</h1><hr>
     <div th:if="${user.login}">
+       <p><b>Ім'я користувача: <i th:text="${user.login}" /></b><br>
+           <b>Рівень доступу: <i th:text="${user.roles}" /></b></p>
         <form th:action="@{/logout}" method="post">
             <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-            <input type="submit" value="Sign Out"/>
+            <input type="submit" value="Вийти"/>
         </form>
     </div>
     <span th:unless="${user.login}">
-    <a href="/login">Sign in</a></span> <br>
+    <a href="/login">Увійти</a></span> <br>
 
     <div>
         <form th:action="@{/}">
@@ -36,10 +38,12 @@
     Товарів немає
 </div>
 
-
+<div th:if="${user.login}">
+<div th:if="${user.isAdmin()}">
     <span th:if="${user.login}"><a th:href="@{/user}">User list</a></span>
-    <span><a th:href="@{/addGood}">Add good</a></span>
-   <!-- <span><a th:href="@{/shop}">Shop</a></span>-->
+    <span th:if="${user.login}"><a th:href="@{/addGood}">Add good</a></span>
+</div>
+</div>
 
 <script type="text/javascript">
     function clearFilter(){
