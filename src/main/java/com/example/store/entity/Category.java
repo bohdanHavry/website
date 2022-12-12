@@ -25,7 +25,7 @@ public class Category {
     private Category_group category_group;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "category")
     private Set<Good> good;
 
 

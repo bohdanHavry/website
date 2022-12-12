@@ -20,7 +20,7 @@ public class Model {
     @Column(name = "id_model")
     private Integer id_model;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "model")
     private Set<Good> good;
 
     @Column(name = "name_model",length = 250)

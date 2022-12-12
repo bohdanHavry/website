@@ -32,6 +32,7 @@ public class MainController {
     public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
         model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
+
         return "main";
     }
 

@@ -18,7 +18,7 @@ public class Brand {
     @Column(name = "id_brand")
     private Integer id_brand;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "brand")
     private Set<Model> model;
 
     @Column(name = "name_brand",length = 250)
