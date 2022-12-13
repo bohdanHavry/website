@@ -1,40 +1,85 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+          crossorigin="anonymous">
+    <title>AVTO SENAT</title>
 </head>
 <body>
-<h4>Повна інформація про товар</h4>
-<b>ID товара</b><p th:text="${good.id_good}" />
-<table>
-    <tr th:each="img : ${images}"> Фото
-        <td><img th:src="@{/images/{imageId}(imageId=${img.image_id})}" height="100px"></td>
-    </tr>
-</table>
-<br>
-<b>Артикул</b><p th:text="${good.number}" />
-<b>Назва товару</b><p th:text="${good.title}" />
 
-<b>Назва бренду</b><p th:text="${good.model.brand.name_brand}" />
-<b>Назва моделі</b><p th:text="${good.model.name_model}" />
-<b>Рік моделі</b><p th:text="${good.model.year}" />
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/">
+            <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+        </a>
+        <div th:if="${user.login}">
+            <div class="dropdown text-end">
+                <a href="/profile">
+                    <img src="/static/images/1.png" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </div>
+        </div>
+        <span th:unless="${user.login}">
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Увійти
+        </button>
+        </span>
+    </div>
+</nav>
 
-<b>Назва категорії</b><p th:text="${good.category.category_group.name_category_group}" />
-<b>Назва підкатегорії</b><p th:text="${good.category.name_category}" />
+<div class="container mt-4">
+    <div style="text-align: center">
+        <h1>Повна інформація про товар</h1>
+        <hr>
+        <b>ID товара</b><p th:text="${good.id_good}" />
+        <table style="margin: 0px auto 0px auto;">
+            <tr th:each="img : ${images}"> <b>Фото</b>
+                <td><img th:src="@{/images/{imageId}(imageId=${img.image_id})}" height="100px"></td>
+            </tr>
+        </table>
+        <br>
+        <b>Артикул</b><p th:text="${good.number}" />
+        <b>Назва товару</b><p th:text="${good.title}" />
 
-<b>Назва виробника</b><p th:text="${good.producer.name_producer}" />
-<b>Назва країни виробника</b><p th:text="${good.producer.country}" />
+        <b>Назва бренду</b><p th:text="${good.model.brand.name_brand}" />
+        <b>Назва моделі</b><p th:text="${good.model.name_model}" />
+        <b>Рік моделі</b><p th:text="${good.model.year}" />
 
-<b>Опис</b><p th:text="${good.description}" />
-<b>Ціна (грн.)</b><p th:text="${good.price}" />
+        <b>Назва категорії</b><p th:text="${good.category.category_group.name_category_group}" />
+        <b>Назва підкатегорії</b><p th:text="${good.category.name_category}" />
 
-<hr>
-<p th:if="${user.login}">
-<a th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення товару</a>
-</p>
-</form>
+        <b>Назва виробника</b><p th:text="${good.producer.name_producer}" />
+        <b>Назва країни виробника</b><p th:text="${good.producer.country}" />
 
+        <b>Опис</b><p th:text="${good.description}" />
+        <b>Ціна (грн.)</b><p th:text="${good.price}" />
+
+        <hr>
+        <p th:if="${user.login}">
+        <a th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення товару</a>
+        </p>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

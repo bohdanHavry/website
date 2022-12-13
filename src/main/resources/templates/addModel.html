@@ -1,33 +1,84 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Getting Started: Serving Web Content</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+        crossorigin="anonymous">
+
+  <title>AVTO SENAT</title>
 </head>
 <body>
-<div>ADMIN panel</div>
-<a href="/addModel">Add new model and brand</a>
-<form th:action="@{/addBr}" method="post">
-  <label for = "name">Brand</label>
-  <input type="text" name="name_brand" id="name">
-  <input type="submit" value="Save Brand">
-</form>
 
-<form th:action="@{/addMd}" method="post">
-  <label for = "nameModel">Model</label>
-  <input type="text" name="name_model" id="nameModel">
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a href="/">
+      <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+    </a>
+    <div th:if="${user.login}">
+      <div class="dropdown text-end">
+        <a href="/profile">
+          <img src="/static/images/1.png" alt="mdo"
+               width="32" height="32" class="rounded-circle">
+        </a>
+      </div>
+    </div>
+    <span th:unless="${user.login}">
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Увійти
+        </button>
+        </span>
+  </div>
+</nav>
 
-  <label for = "year">Year</label>
-  <input type="number" name="year" id="year">
+<div class="container mt-4">
+  <h1 style="text-align: center">Панель адміністратора: додавання бренда і моделі</h1>
+  <hr>
+  <a href="/addModel">Додавання нового бренда і моделі</a>
+  <form th:action="@{/addBr}" method="post">
+    <div class="form-group">
+      <label for = "name">Бренд</label>
+      <input type="text" name="name_brand" id="name">
+    </div>
+    <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти бренд</button>
+  </form>
 
-  <select name="brand"
-          title="select brand .." multiple data-actions-box="true">
+  <form th:action="@{/addMd}" method="post">
+    <div class="form-group">
+      <label for = "nameModel">Модель</label>
+      <input type="text" name="name_model" id="nameModel">
+    </div>
+    <div class="form-group">
+      <label for = "year">Рік випуску</label>
+      <input type="number" name="year" id="year">
+    </div>
+    <div class="form-group">
+      <label for="searchBrand">Бренд</label>
+      <select name="brand" id="searchBrand" class="form-control"
+              title="select brand .." multiple data-actions-box="true">
 
-    <option th:each="brand : ${brand}" th:value="${brand.id_brand}">[[${brand.name_brand}]]</option>
-  </select>
+        <option th:each="brand : ${brand}" th:value="${brand.id_brand}">[[${brand.name_brand}]]</option>
+      </select>
+    </div>
+    <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти модель</button>
+  </form>
+</div>
 
-  <input type="submit" value="Save Model">
-</form>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

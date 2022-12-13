@@ -18,7 +18,7 @@ public class Category_group {
     private Integer id_category_group;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "category_group")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Category> category;
 
     @Column(name = "name_category_group",length = 250)

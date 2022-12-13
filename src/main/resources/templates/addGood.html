@@ -1,48 +1,132 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/static/css/style.css">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+              integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+              crossorigin="anonymous">
+
+        <title>AVTO SENAT</title>
 </head>
 <body>
-<div>ADMIN panel</div>
-<a href="/addCategory">Add new categories</a>
-<a href="/addModel">Add new brand and model</a>
-<a href="/addProducer">Add new producer</a>
-<a href="/addGood">Add new good</a>
-<form th:action="@{/addG}" method="post" enctype="multipart/form-data">
-        <label for = "name">Good name</label>
-        <input type="text" name="title" id="name">
-        <label for = "number">Number name</label>
-        <input type="number" name="number" id="number">
-        <label for = "description">Description</label>
-        <input type="text" name="description" id="description">
-        <label for = "price">Price</label>
-        <input type="number" name="price" id="price">
-        <label for="customFile">Choose photo</label>
-        <input type="file" name="file"  id="customFile">
 
-        <select name="category"
-                title="select category  .." multiple data-actions-box="true">
+<nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+                <a href="/">
+                        <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+                </a>
+                <div th:if="${user.login}">
+                        <div class="dropdown text-end">
+                                <a href="/profile">
+                                        <img src="/static/images/1.png" alt="mdo"
+                                             width="32" height="32" class="rounded-circle">
+                                </a>
+                        </div>
+                </div>
+                <span th:unless="${user.login}">
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Увійти
+        </button>
+        </span>
+        </div>
+</nav>
 
-                <option th:each="category : ${category}" th:value="${category.id_category}">[[${category.name_category}]]</option>
-        </select>
+<div class="container mt-4">
+        <h1 style="text-align: center">Панель адміністратора: додавання товарів</h1>
+        <hr>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 25%" href="/addCategory">
+                Додати нові категорії
+        </a>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 50%" href="/addModel">
+                Додати нові бренди і моделі
+        </a>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 25%" href="/addProducer">
+                Додати нового виробника
+        </a>
+        <br>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+           data-toggle="collapse" href="#collapseExample" role="button"
+           aria-expanded="true" aria-controls="collapseExample">
+                Додати новий товар
+        </a>
+        <div class="collapse mb-3" id="collapseExample" style="">
+                <form th:action="@{/addG}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                                <label for = "name">Назва товару</label>
+                                <input type="text" name="title" id="name">
+                        </div>
+                        <div class="form-group">
+                                <label for = "number">Серійний номер товару</label>
+                                <input type="number" name="number" id="number">
+                        </div>
+                        <div class="form-group">
+                                <label for = "description">Опис товару</label>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                        </div>
+                        <div class="form-group">
+                                <label for="price">Ціна товару</label>
+                                <div class="input-group mb-3">
+                                        <input type="number" class="form-control" id="price" name="price">
+                                        <div class="input-group-append">
+                                                <span class="input-group-text">грн.</span>
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                                <div class="custom-file">
+                                        <input type="file" name="file" id="file">
+                                        <label class="custom-file-label" for="file">Виберіть фото для товару</label>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                                <label for="searchCat">Категорія</label>
+                                <select name="category" id="searchCat" class="form-control"
+                                        title="select category  .." multiple data-actions-box="true">
 
+                                        <option th:each="category : ${category}" th:value="${category.id_category}">[[${category.name_category}]]</option>
+                                </select>
+                        </div>
 
-        <select name="model"
-                title="select model  .." multiple data-actions-box="true">
+                        <div class="form-group">
+                                <label for="searchModel">Модель</label>
+                                <select name="model" id="searchModel" class="form-control"
+                                        title="select model  .." multiple data-actions-box="true">
 
-                <option th:each="model : ${model}" th:value="${model.id_model}">[[${model.name_model}]]</option>
-        </select>
+                                        <option th:each="model : ${model}" th:value="${model.id_model}">[[${model.name_model}]]</option>
+                                </select>
+                        </div>
 
-        <select name="producer"
-                title="select producer  .." multiple data-actions-box="true">
+                        <div class="form-group">
+                                <label for="searchProducer">Виробник</label>
+                                <select name="producer" id="searchProducer" class="form-control"
+                                        title="select producer  .." multiple data-actions-box="true">
 
-                <option th:each="producer : ${producer}" th:value="${producer.id_producer}">[[${producer.name_producer}]]</option>
-        </select>
+                                        <option th:each="producer : ${producer}" th:value="${producer.id_producer}">[[${producer.name_producer}]]</option>
+                                </select>
+                        </div>
 
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-        <input type="submit" value="Save good">
-</form>
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                        <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти товар</button>
+                </form>
+        </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

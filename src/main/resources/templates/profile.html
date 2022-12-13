@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
-
     <title>AVTO SENAT</title>
 </head>
 <body>
@@ -38,26 +37,39 @@
 </nav>
 
 <div class="container mt-4">
-    <h1 style="text-align: center">Панель адміністратора: список користувачів</h1>
-    <hr>
-    <table class="table table-hover table-dark">
-        <thead>
-        <tr>
-            <th scope="col">Логін користувача</th>
-            <th scope="col">Рівень доступу в системі</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${users}">
-            <td th:text="${item.login}" />
-            <td th:text="${item.roles}"/>
-            <td><a th:href="@{/user/{userId}(userId=${item.user_id})}">Редагувати</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <h1 style="text-align: center">Особистий кабінет</h1> <hr> <br>
+    <div style="text-align: center">
+        <img src="/static/images/1.png"
+             style="border:2px solid black; border-radius: 20px" height="120">
+        <br>
+        <br>
+        <h2 th:text="${user.login}"></h2>
+        <br>
+        Рівень доступу: <b th:text="${user.roles}" />
+        Ім'я користувача: <b th:text="${user.first_name}" />
+        Номер телефону: <b th:text="${user.phone}" />
+        <br>
+        <br>
+
+        <div th:if="${user.login}">
+            <div th:if="${user.isAdmin()}">
+                <span><a th:href="@{/user}" class="btn btn-dark mb-3" style="text-align: center; width: 100%">Перегляд і редагування користувачів</a></span>
+                <span><a th:href="@{/addGood}" class="btn btn-dark mb-3" style="text-align: center; width: 100%">Додавання товару</a></span>
+            </div>
+        </div>
+
+
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+            <button type="submit" style="text-align: center; width: 100%" class="btn btn-danger mb-2">
+                Вийти з акаунту
+            </button>
+        </form>
+
+    </div>
 
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -9,6 +9,7 @@ import com.example.store.repository.CategoryRepo;
 import com.example.store.repository.GoodRepo;
 import com.example.store.services.CategoryService;
 import com.example.store.services.GoodService;
+import com.example.store.services.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -31,11 +33,14 @@ public class CategoryController {
     private CategoryRepo categoryRepo;
     @Autowired
     private CatGroupRepo catGroupRepo;
+    @Autowired
+    private MainService mainService;
 
     @GetMapping("/addCategory")
-    public String showAddCategory(Model model)
+    public String showAddCategory(Model model, Principal principal)
     {
         model.addAttribute("category_group", categoryService.getAllCategoryGroup());
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "addCategory";
     }
 

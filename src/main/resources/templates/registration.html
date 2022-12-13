@@ -1,20 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+          crossorigin="anonymous">
+
+    <title>AVTO SENAT</title>
 </head>
 <body>
-Add new user
-<p th:text= "${message}"/>
-<form th:action="@{/registration}" method="post">
-    <div><label> Login : <input type="text" name="login"/> </label></div>
-    <div><label> Password: <input type="password" name="password_user"/> </label></div>
-    <div><label> first_name: <input type="text" name="first_name"/> </label></div>
-    <div><label> last_name: <input type="text" name="last_name"/> </label></div>
-    <div><label> middle_name: <input type="text" name="middle_name"/> </label></div>
-    <div><label> phone : <input type="text" name="phone"/> </label></div>
-    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/">
+            <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+        </a>
+        <div th:if="${user.login}">
+            <div class="dropdown text-end">
+                <a href="/profile">
+                    <img src="/static/images/1.png" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </div>
+        </div>
+        <span th:unless="${user.login}">
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Увійти
+        </button>
+        </span>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 style="text-align: center">Реєстрація</h1>
+    <hr>
+    <p th:text= "${message}" style="color: red"/>
+    <form th:action="@{/registration}" method="post">
+        <div class="form-group">
+            <label> Логін : <input type="text" name="login"/> </label>
+        </div>
+        <div class="form-group">
+            <label> Пароль: <input type="password" name="password_user"/> </label>
+        </div>
+        <div class="form-group">
+            <label> Ім'я: <input type="text" name="first_name"/> </label>
+        </div>
+        <div class="form-group">
+            <label> Призвіще: <input type="text" name="last_name"/> </label>
+        </div>
+        <div class="form-group">
+            <label> По батькові: <input type="text" name="middle_name"/> </label>
+        </div>
+        <div class="form-group">
+            <label> Номер телефону : <input type="text" name="phone"/> </label>
+        </div>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <button type="submit" style="width: 100%" class="btn btn-dark">Зареєструватися</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

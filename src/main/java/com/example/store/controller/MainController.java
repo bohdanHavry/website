@@ -53,8 +53,16 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Principal principal, Model model) {
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "login";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model) {
+        User user = mainService.getUserByPrincipal(principal);
+        model.addAttribute("user", user);
+        return "profile";
     }
 
 }

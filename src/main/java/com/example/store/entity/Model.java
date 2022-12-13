@@ -20,7 +20,7 @@ public class Model {
     @Column(name = "id_model")
     private Integer id_model;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "model")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Good> good;
 
     @Column(name = "name_model",length = 250)
@@ -29,7 +29,7 @@ public class Model {
     @Column(name = "year")
     private Integer year;
 
-    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
+    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 

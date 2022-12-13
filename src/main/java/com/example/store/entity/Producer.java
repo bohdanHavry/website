@@ -17,7 +17,7 @@ public class Producer {
     @Column(name = "id_producer")
     private Integer id_producer;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "producer")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Good> good;
 
     @Column(name = "name_producer",length = 250)

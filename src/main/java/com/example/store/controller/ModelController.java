@@ -9,6 +9,7 @@ import com.example.store.repository.CatGroupRepo;
 import com.example.store.repository.CategoryRepo;
 import com.example.store.repository.ModelRepo;
 import com.example.store.services.CategoryService;
+import com.example.store.services.MainService;
 import com.example.store.services.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,22 +19,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
 public class ModelController {
 
     @Autowired
     private ModelService modelService;
-
+    @Autowired
+    private MainService mainService;
     @Autowired
     private ModelRepo modelRepo;
     @Autowired
     private BrandRepo brandRepo;
 
     @GetMapping("/addModel")
-    public String showAddModel(Model model)
+    public String showAddModel(Model model, Principal principal)
     {
         model.addAttribute("brand", modelService.getAllBrand());
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "addModel";
     }
 

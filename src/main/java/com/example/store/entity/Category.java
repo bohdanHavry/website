@@ -20,12 +20,12 @@ public class Category {
     @Column(name = "id_category")
     private Integer id_category;
 
-    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
+    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
     @JoinColumn(name = "category_group_id")
     private Category_group category_group;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "category")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Good> good;
 
 
