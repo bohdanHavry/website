@@ -21,6 +21,11 @@
         </a>
         <div th:if="${user.login}">
             <div class="dropdown text-end">
+                <a href="/cart">
+                    <img src="/static/images/1.png" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+
                 <a href="/profile">
                     <img src="/static/images/1.png" alt="mdo"
                          width="32" height="32" class="rounded-circle">
@@ -63,13 +68,21 @@
         <b>Опис</b><p th:text="${good.description}" />
         <b>Ціна (грн.)</b><p th:text="${good.price}" />
 
+        <form th:action="@{/add-to-cart}" method="post" >
+            <input type="hidden" th:value="${good.id_good}">
+        <div> <button class="btn btn-primary" id="buttonAddToCart">Додати до корзини</button>
+        </div>
+        </form>
+
         <hr>
         <p th:if="${user.login}">
         <a th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення товару</a>
         </p>
-        </form>
+
     </div>
 </div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
