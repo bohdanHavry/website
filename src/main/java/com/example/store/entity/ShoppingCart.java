@@ -3,6 +3,10 @@ package com.example.store.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "cart")
@@ -13,19 +17,22 @@ public class ShoppingCart {
     @Column(name = "id_cart")
     private Integer id_cart;
 
-    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date")
+    private Date date;
 
-    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_good")
-    private Good good;
+    @Transient
+    @Column(name = "totalPrice")
+    private Double totalPrice;
 
-    @Column(name = "count")
-    private int count;
+    @Transient
+    @Column(name = "itemsNumber")
+    private int itemsNumber;
 
-    @Column(name = "price")
-    private int price;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER )
+    private Set<CartItem> items = new HashSet<CartItem>();
+
+    private String sessionToken;
 
 
     public Integer getId_cart() {
@@ -36,35 +43,77 @@ public class ShoppingCart {
         this.id_cart = id_cart;
     }
 
-    public int getPrice() {
-        return price;
+    public Date getDate() {
+        return date;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public User getUser() {
-        return user;
+    public Double getTotalPrice() {
+        Double sum = 0.0;
+        for(CartItem item : this.items) {
+            sum = sum + item.getGood().getPrice()*item.getCount();
+        }
+        return sum;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public int getItemsNumber() {
+        return this.items.size();
     }
 
-    public Good getGood() {
-        return good;
+    public String getSessionToken() {
+        return sessionToken;
     }
 
-    public void setGood(Good good) {
-        this.good = good;
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
     }
 
-    public int getCount() {
-        return count;
+    public Set<CartItem> getItems() {
+        return items;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setItems(Set<CartItem> items) {
+        this.items = items;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id_cart == null) ? 0 : id_cart.hashCode());
+        result = prime * result + ((items == null) ? 0 : items.hashCode());
+        result = prime * result + ((sessionToken == null) ? 0 : sessionToken.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ShoppingCart other = (ShoppingCart) obj;
+        if (id_cart == null) {
+            if (other.id_cart != null)
+                return false;
+        } else if (!id_cart.equals(other.id_cart))
+            return false;
+        if (items == null) {
+            if (other.items != null)
+                return false;
+        } else if (!items.equals(other.items))
+            return false;
+        if (sessionToken == null) {
+            if (other.sessionToken != null)
+                return false;
+        } else if (!sessionToken.equals(other.sessionToken))
+            return false;
+        return true;
+    }
+
 }

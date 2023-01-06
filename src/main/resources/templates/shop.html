@@ -45,7 +45,7 @@
     <div style="text-align: center">
         <h1>Повна інформація про товар</h1>
         <hr>
-        <b>ID товара</b><p th:text="${good.id_good}" />
+        <!--<b>ID товара</b><p th:text="${good.id_good}" />-->
         <table style="margin: 0px auto 0px auto;">
             <tr th:each="img : ${images}"> <b>Фото</b>
                 <td><img th:src="@{/images/{imageId}(imageId=${img.image_id})}" height="100px"></td>
@@ -68,10 +68,12 @@
         <b>Опис</b><p th:text="${good.description}" />
         <b>Ціна (грн.)</b><p th:text="${good.price}" />
 
-        <form th:action="@{/add-to-cart}" method="post" >
-            <input type="hidden" th:value="${good.id_good}">
-        <div> <button class="btn btn-primary" id="buttonAddToCart">Додати до корзини</button>
-        </div>
+        <form th:action="@{/addToCart}" method="post" >
+            <input type="hidden"  name="id_good" th:value="${good.id_good}">
+            <input type="number" name="count" class="form-control" min="1" value="1">
+            <button type="submit" class="btn btn-primary" >Додати до корзини</button>
+        <!--<div> <button class="btn btn-primary" id="buttonAddToCart">Додати до корзини</button>
+        </div>-->
         </form>
 
         <hr>
