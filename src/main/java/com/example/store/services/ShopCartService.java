@@ -4,6 +4,7 @@ import com.example.store.entity.CartItem;
 import com.example.store.entity.Good;
 import com.example.store.entity.ShoppingCart;
 import com.example.store.entity.User;
+import com.example.store.repository.CartItemRepo;
 import com.example.store.repository.GoodRepo;
 import com.example.store.repository.ShopCartRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.util.Set;
 public class ShopCartService {
     @Autowired
     private ShopCartRepo shopCartRepo;
+    @Autowired
+    private CartItemRepo cartItemRepo;
 
     @Autowired
     private GoodRepo goodRepo;
@@ -77,6 +80,26 @@ public class ShopCartService {
         return shopCartRepo.findBySessionToken(sessionToken);
     }
 
+    public void updateShoppingCartItem(Integer id, Integer count) {
+        CartItem cartItem = cartItemRepo.findById(id).get();
+        cartItem.setCount(count);
+        cartItemRepo.saveAndFlush(cartItem);
+    }
+
+    public ShoppingCart removeCartIemFromShoppingCart(Integer id, String sessionToken) {
+        ShoppingCart shoppingCart = shopCartRepo.findBySessionToken(sessionToken);
+        Set<CartItem> items = shoppingCart.getItems();
+        CartItem cartItem = null;
+        for(CartItem item : items) {
+            if(item.getId().equals(id)) {
+                cartItem = item;
+            }
+        }
+        items.remove(cartItem);
+        //cartItemRepo.delete(cartItem);
+        shoppingCart.setItems(items);
+        return shopCartRepo.save(shoppingCart);
+    }
 
     /*public List<ShoppingCart> listCartItem (User user){
         return shopCartRepo.findByUser(user);

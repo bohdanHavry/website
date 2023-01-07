@@ -21,6 +21,12 @@
     </a>
     <div th:if="${user.login}">
       <div class="dropdown text-end">
+          <a href="/cart" class="link1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="25" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+              </svg>
+          </a>
+
         <a href="/profile">
           <img src="/static/images/1.png" alt="mdo"
                width="32" height="32" class="rounded-circle">
@@ -37,7 +43,12 @@
 </nav>
 
 <div class="container mt-4">
-  <h1 style="text-align: center">Корзина товарів</h1> <hr> <br>
+  <h1 style="text-align: center">Корзина товарів</h1> <hr>
+
+    <div th:if="${shoppingCart.totalPrice == 0.0}">
+        <h2 class="text-center">Ви ще нічого не добавили до особистої корзини!</h2>
+        <a th:href="@{/}"><h3 class="text-center">Перейти до магазину</h3></a>
+    </div>
 
     <div class="container px-3 my-5 clearfix">
         <!-- Shopping cart table -->
@@ -48,9 +59,9 @@
                         <thead>
                         <tr>
                             <!-- Set columns width -->
-                            <th class="text-center py-3 px-4" style="min-width: 300px;">Назва товару</th>
+                            <th class="text-center py-3 px-4" style="min-width: 270px;">Назва товару</th>
                             <th class="text-center py-3 px-4" style="width: 100px;">Ціна</th>
-                            <th class="text-center py-3 px-4" style="width: 120px;">Кількість</th>
+                            <th class="text-center py-3 px-4" style="width: 150px;">Кількість</th>
                             <th class="text-center py-3 px-4" style="width: 150px;">Загальна ціна</th>
                             <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#" class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th>
                         </tr>
@@ -66,7 +77,7 @@
                                         </tr>
                                     </table>
                                     <div class="media-body" style="padding-left:10px;">
-                                        <b><a href="#" class="d-block text-dark" th:text="${item.good.title}" style="font-size:18px;"/></b><br>
+                                        <b><a th:href="@{/main/{idGood}(idGood=${item.good.id_good})}" class="d-block text-dark" th:text="${item.good.title}" style="font-size:18px;"/></b><br>
                                         <small>
                                             Серійний номер: <span class="text-muted" th:text="${item.good.number}"/> <br>
                                             Опис: <span class="text-muted" th:text="${item.good.description}"/>
@@ -75,9 +86,19 @@
                                 </div>
                             </td>
                             <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.price}"/>
-                            <td class="align-middle p-4"><input type="number" name="count" class="form-control text-center" th:value="${item.count}"></td>
+                            <td class="align-middle p-4">
+                                <form action="/updateShoppingCart" method="post">
+                                    <input type="hidden" th:value="${item.id}" name="item_id">
+                                    <div class="input-group">
+                                        <input type="number" name="count" th:value="${item.count}"
+                                               class="form-control round-input form-control-sm">
+                                        <button class="btn btn-success btn-sm btn-custom" type="submit"><i class="fa fa-check">Ок</i></button>
+                                    </div>
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                                </form>
+                            </td>
                             <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.price}*${item.count}"/>
-                            <td class="text-center align-middle px-0"><a href="#" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">×</a></td>
+                            <td class="text-center align-middle px-0"><a th:href="@{/removeItem/{id}(id=${item.id})}" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">×</a></td>
                         </tr>
 
                         </tbody>
@@ -85,18 +106,16 @@
                 </div>
                 <!-- / Shopping cart table -->
 
-                <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
-                    <div class="d-flex">
+                    <div style="text-align:right; margin: 0px">
                         <div class="text-right mt-4">
-                            <label class="text-muted font-weight-normal m-0">Total price</label>
-                            <div class="text-large"><strong>$1164.65</strong></div>
+                            <label class="text-muted font-weight-normal m-0" style="font-size:18px;">Загальна сума</label>
+                            <div class="text-large"><strong th:text="${shoppingCart.totalPrice}"/></div>
                         </div>
-                    </div>
-                </div>
+                    </div> <br>
 
                 <div class="float-right">
-                    <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">Back to shopping</button>
-                    <button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button>
+                    <a href="/"><button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">Назад до покупок</button></a>
+                    <button type="button" class="btn btn-lg btn-primary mt-2">Оформити замовлення</button>
                 </div>
 
             </div>
@@ -118,12 +137,7 @@
             <button class="btn btn-danger p-3 mt-2">Оформити замовлення</button>
         </div>
     </div>
-  </div>
-
-    <div th:if="${#lists.isEmpty(shopCart)}">
-        <h2 class="text-center">Ви ще нічого не добавили до особистої корзини!</h2>
-        <a th:href="@{/}"><h3 class="text-center">Перейти до магазину</h3></a>
-    </div>-->
+  </div>-->
 
 </div>
 

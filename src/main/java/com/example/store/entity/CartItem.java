@@ -12,7 +12,7 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_cartItem")
-    private Integer id_cartItem;
+    private Integer id;
 
     @Column(name = "count")
     private Integer count;
@@ -37,12 +37,12 @@ public class CartItem {
         this.date = date;
     }
 
-    public Integer getId_cartItem() {
-        return id_cartItem;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId_cartItem(Integer id_cartItem) {
-        this.id_cartItem = id_cartItem;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getCount() {
@@ -74,7 +74,7 @@ public class CartItem {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + ((id_cartItem == null) ? 0 : id_cartItem.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((good == null) ? 0 : good.hashCode());
         result = prime * result + count;
         return result;
@@ -94,10 +94,10 @@ public class CartItem {
                 return false;
         } else if (!date.equals(other.date))
             return false;
-        if (id_cartItem == null) {
-            if (other.id_cartItem != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!id_cartItem.equals(other.id_cartItem))
+        } else if (!id.equals(other.id))
             return false;
         if (good == null) {
             if (other.good != null)
@@ -111,6 +111,6 @@ public class CartItem {
 
     @Override
     public String toString() {
-        return "CartItem [id_cartItem=" + id_cartItem + ", good=" + good + "]";
+        return "CartItem [id_cartItem=" + id + ", good=" + good + "]";
     }
 }

@@ -12,3 +12,14 @@
     width:100px;
     height:100px;
 }
+
+
+.link1 {
+  text-decoration: none;
+  color: #666;
+  padding-right: 10px;
+}
+
+.link1:hover {
+text-decoration: none;
+}
