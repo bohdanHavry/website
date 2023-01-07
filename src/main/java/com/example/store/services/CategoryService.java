@@ -36,6 +36,15 @@ public class CategoryService {
         return catGroupRepo.findAll();
     }
 
+    public List<Category> listAll(Integer id_category){
+        if (id_category != null) return categoryRepo.findByCategory(id_category);
+        return categoryRepo.findAll();
+    }
+
+    public Category getCategoryById(Integer id_category){
+        return categoryRepo.findById(id_category).orElse(null);
+    }
+
     public List<Category> getAllCategory()
     {
         return categoryRepo.findAll();

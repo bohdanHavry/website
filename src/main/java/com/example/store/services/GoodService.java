@@ -57,8 +57,13 @@ public class GoodService {
         return goodRepo.findAll();
     }
 
+
     public Good getGoodById(Long id_good){
         return goodRepo.findById(id_good).orElse(null);
+    }
+
+    public Good getGoodByCategory(Integer category_id){
+        return (Good) goodRepo.findByCategory(category_id);
     }
 
     public List<Category> getAllCategory()

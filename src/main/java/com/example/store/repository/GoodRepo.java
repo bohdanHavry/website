@@ -13,4 +13,6 @@ public interface GoodRepo extends JpaRepository<Good,Long> {
     @Query("SELECT p FROM Good p WHERE p.title LIKE %?1%")
     public List<Good> findByTitle(String title);
 
+    @Query("SELECT c.id_category FROM Category c INNER JOIN Good g ON g.category_id = c.id_category")
+    public List<Good> findByCategory(Integer category_id);
 }
