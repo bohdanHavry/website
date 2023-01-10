@@ -57,7 +57,6 @@ public class GoodService {
         return goodRepo.findAll();
     }
 
-
     public Good getGoodById(Long id_good){
         return goodRepo.findById(id_good).orElse(null);
     }

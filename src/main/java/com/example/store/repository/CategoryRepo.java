@@ -11,4 +11,5 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
     @Query("SELECT c FROM Category c WHERE c.id_category LIKE ?1")
     public List<Category> findByCategory(Integer id_category);
+
 }

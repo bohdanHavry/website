@@ -15,12 +15,10 @@ import org.springframework.stereotype.Controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,19 +29,22 @@ public class MainController {
     private final CategoryService categoryService;
 
     @GetMapping("/")
-    public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title, Category category){
+    public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title, Category category, Integer category_id){
         model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("category", categoryService.listAll(category.getId_category()));
+
         return "main";
     }
 
     @GetMapping("/good-in-category/{id_category}")
-    public String getProductsInCategory(@PathVariable("id_category") Integer id_category ,Integer category_id, Model model, Good good, Principal principal){
+    public String getProductsInCategory(@PathVariable("id_category") Integer id_category, Integer category_id, Model model, Good good, Principal principal){
         Category category = categoryService.getCategoryById(id_category);
         model.addAttribute("category", category);
+        /// присвоїти значення id_category для findByCategory(category_id) ///
         model.addAttribute("good", goodService.getGoodByCategory(category_id));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        model.addAttribute("category", categoryService.listAll(category.getId_category()));
         return "good-in-category";
     }
 

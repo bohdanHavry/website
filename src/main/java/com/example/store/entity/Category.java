@@ -2,12 +2,8 @@ package com.example.store.entity;
 
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,10 +29,6 @@ public class Category {
     private String name_category;
 
     public Category() {
-    }
-
-    public Integer getId_category() {
-        return id_category;
     }
 
     public void setId_category(Integer id_category) {
