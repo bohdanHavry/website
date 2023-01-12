@@ -1,5 +1,6 @@
 package com.example.store.controller;
 
+import com.example.store.dto.CategoryDto;
 import com.example.store.entity.Category;
 import com.example.store.entity.Good;
 import com.example.store.entity.User;
@@ -30,21 +31,24 @@ public class MainController {
 
     @GetMapping("/")
     public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title, Category category, Integer category_id){
+        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
         model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
-        model.addAttribute("category", categoryService.listAll(category.getId_category()));
+        model.addAttribute("category", categoryDtoList);
 
         return "main";
     }
 
-    @GetMapping("/good-in-category/{id_category}")
-    public String getProductsInCategory(@PathVariable("id_category") Integer id_category, Integer category_id, Model model, Good good, Principal principal){
+    @GetMapping("/good-in-category/{id}")
+    public String getProductsInCategory(@PathVariable("id") Integer id_category, Model model, Principal principal){
         Category category = categoryService.getCategoryById(id_category);
-        model.addAttribute("category", category);
-        /// присвоїти значення id_category для findByCategory(category_id) ///
-        model.addAttribute("good", goodService.getGoodByCategory(category_id));
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
+        List<Good> goodList = goodService.getGoodByCategory(id_category);
+        model.addAttribute("category",category);
+        model.addAttribute("categories", categories);
+        model.addAttribute("good", goodList);
+
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
-        model.addAttribute("category", categoryService.listAll(category.getId_category()));
         return "good-in-category";
     }
 

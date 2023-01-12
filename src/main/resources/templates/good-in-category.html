@@ -21,9 +21,10 @@
         </a>
         <div th:if="${user.login}">
             <div class="dropdown text-end">
-                <a href="/cart">
-                    <img src="/static/images/1.png" alt="mdo"
-                         width="32" height="32" class="rounded-circle">
+                <a href="/cart" class="link1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="25" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                    </svg>
                 </a>
                 <a href="/profile">
                     <img src="/static/images/1.png" alt="mdo"
@@ -69,11 +70,13 @@
 
     <div class="filter-sidebar-left">
         <div class="title-left">
-            <h3>Categories</h3>
+            <h3>Категорії</h3>
+            <a th:href="@{/}" class="link1"><h6>Усі категорії</h6></a>
         </div>
         <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men"
-             data-children=".sub-men" th:each="category : ${category}">
-            <a th:href = "@{/good-in-category/{id_category}(id_category = ${category.id_category})}" class="list-group-item list-group-item-action">[[${category.name_category}]]</a>
+             data-children=".sub-men" th:each="category : ${categories}">
+            <a th:href = "@{/good-in-category/{id}(id = ${category.id})}" class="list-group-item list-group-item-action">[[${category.name}]]
+                <small class="text-muted">([[${category.numberOfProduct}]])</small></a>
         </div>
     </div>
 

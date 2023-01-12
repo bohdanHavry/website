@@ -1,6 +1,7 @@
 package com.example.store.services;
 
 
+import com.example.store.dto.CategoryDto;
 import com.example.store.entity.Category;
 import com.example.store.entity.Category_group;
 import com.example.store.entity.Good;
@@ -49,4 +50,9 @@ public class CategoryService {
     {
         return categoryRepo.findAll();
     }
+
+    public List<CategoryDto> getCategoryAndProduct() {
+        return categoryRepo.getCategoryAndProduct();
+    }
+
 }
