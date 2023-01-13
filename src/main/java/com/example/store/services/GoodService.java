@@ -65,6 +65,18 @@ public class GoodService {
         return goodRepo.findByCategory(category_id);
     }
 
+    public List<Good> getGoodByCategoryGroup(Integer category_group_id){
+        return goodRepo.findByCategoryGroup(category_group_id);
+    }
+
+    public List<Good> getGoodByProducer(Integer producer_id){
+        return goodRepo.findByProducer(producer_id);
+    }
+
+    public List<Good> getGoodByBrand(Integer brand_id){
+        return goodRepo.findByBrand(brand_id);
+    }
+
     public List<Category> getAllCategory()
     {
         return categoryRepo.findAll();

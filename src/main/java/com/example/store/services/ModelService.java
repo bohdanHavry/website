@@ -1,5 +1,6 @@
 package com.example.store.services;
 
+import com.example.store.dto.CategoryDto;
 import com.example.store.entity.*;
 import com.example.store.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
