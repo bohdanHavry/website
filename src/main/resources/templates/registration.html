@@ -43,11 +43,18 @@
     <p th:text= "${message}" style="color: red"/>
     <form th:action="@{/registration}" method="post">
         <div class="form-group">
-            <label> Логін : <input type="text" name="login"/> </label>
+            <label> Логін: <input type="text" name="login"/> </label>
+        </div>
+        <div class="form-group">
+            <label> Поштова скринька: <input type="email" name="mail"/> </label>
         </div>
         <div class="form-group">
             <label> Пароль: <input type="password" name="password_user"/> </label>
         </div>
+        <div class="form-group">
+            <label> Підтвердження паролю: <input type="password" name="confirm_password_user" /> </label>
+        </div>
+
         <div class="form-group">
             <label> Ім'я: <input type="text" name="first_name"/> </label>
         </div>
@@ -58,12 +65,16 @@
             <label> По батькові: <input type="text" name="middle_name"/> </label>
         </div>
         <div class="form-group">
-            <label> Номер телефону : <input type="text" name="phone"/> </label>
+            <label> Номер телефону: <input type="text" name="phone"/> </label>
         </div>
+        <div class="error"></div>
         <input type="hidden" name="_csrf" th:value="${_csrf.token}">
         <button type="submit" style="width: 100%" class="btn btn-dark">Зареєструватися</button>
     </form>
 </div>
+
+
+<!--<script src="/static/js/confirm_password.js"></script>-->
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

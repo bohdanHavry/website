@@ -19,6 +19,9 @@ public class User {
     private String login;
     @Column(name = "password_user", length = 1000)
     private String password_user;
+
+    @Column(name = "confirm_password_user", length = 1000)
+    private String confirm_password_user;
     @Column(name = "first_name")
     private String first_name;
     @Column(name = "last_name")
@@ -27,6 +30,12 @@ public class User {
     private String middle_name;
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "mail")
+    private String mail;
+
+    @Column(name = "activationCode")
+    private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -101,6 +110,30 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getConfirm_password_user() {
+        return confirm_password_user;
+    }
+
+    public void setConfirm_password_user(String confirm_password_user) {
+        this.confirm_password_user = confirm_password_user;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }
 
