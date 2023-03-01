@@ -7,13 +7,16 @@ import com.example.store.services.MailService;
 import com.example.store.services.MainService;
 import com.example.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.thymeleaf.util.StringUtils;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
@@ -27,9 +30,10 @@ public class RegistrationController {
     private MainService mainService;
     @Autowired
     private UserService userService;
-
     @Autowired
     private MailService mailService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
     public String registration(Principal principal , Model model){
@@ -38,23 +42,36 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Map<String,Object> model) {
-        User userFromDB = userRepo.findByLogin(user.getLogin());
+    public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+        if(user.getPassword_user() != null && !user.getPassword_user().equals(user.getConfirm_password_user())){
+            model.addAttribute("passwordError", "Паролі різні!");
+            return "registration";
+        }
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
 
+            model.mergeAttributes(errors);
+            //model.addAttribute("errors", errors); виводить весь Map
+
+            return "registration";
+        }
+
+        User userFromDB = userRepo.findByLogin(user.getLogin());
         if(userFromDB != null){
-            model.put("message","Такий логін вже існує!");
+            model.addAttribute("loginError","Такий логін вже існує!");
             return "registration";
         }
 
         User userFromDB2 = userRepo.findByMail(user.getMail());
-
         if(userFromDB2 != null){
-            model.put("message","Така поштова скринька вже існує!");
+            model.addAttribute("mailError","Така поштова скринька вже існує!");
             return "registration";
         }
 
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setPassword_user(passwordEncoder.encode(user.getPassword_user()));
+        user.setConfirm_password_user(passwordEncoder.encode(user.getConfirm_password_user()));
         userRepo.save(user);
 
         if(!StringUtils.isEmpty(user.getMail())){

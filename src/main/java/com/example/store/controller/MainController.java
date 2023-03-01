@@ -150,6 +150,13 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping("/login-error")
+    public String loginError(Principal principal, Model model) {
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        model.addAttribute("loginError", true);
+        return "login";
+    }
+
     @GetMapping("/profile")
     public String profile(Principal principal, Model model) {
         User user = mainService.getUserByPrincipal(principal);

@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Set;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -15,27 +17,38 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Integer user_id;
+    @NotBlank(message = "Логін не може бути пустим")
     @Column(name = "login", unique = true)
     private String login;
+    @NotBlank(message = "Пароль не може бути пустим")
     @Column(name = "password_user", length = 1000)
     private String password_user;
-
+    @NotBlank(message = "Пароль підтвердження не може бути пустим")
     @Column(name = "confirm_password_user", length = 1000)
     private String confirm_password_user;
+    @NotBlank(message = "Ім'я не може бути пусте")
     @Column(name = "first_name")
     private String first_name;
+    @NotBlank(message = "Прізвище не може бути пустим")
     @Column(name = "last_name")
     private String last_name;
+    @NotBlank(message = "По бітькові не може бути пустим")
     @Column(name = "middle_name")
     private String middle_name;
+    @NotBlank(message = "№ телефону не може бути пустим")
     @Column(name = "phone")
     private String phone;
 
+    @Email(message = "Поштова скринька не правильна")
+    @NotBlank(message = "Назва поштової скриньки не може бути пустою")
     @Column(name = "mail")
     private String mail;
 
     @Column(name = "activationCode")
     private String activationCode;
+
+    @Column(name = "resetToken")
+    private String resetToken;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -134,6 +147,14 @@ public class User {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
 }
 
