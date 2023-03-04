@@ -3,6 +3,7 @@ package com.example.store.services;
 import com.example.store.entity.User;
 import com.example.store.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +12,8 @@ public class UserService {
     private UserRepo userRepo;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public boolean activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
@@ -34,6 +37,12 @@ public class UserService {
         }
 
         return false;
+    }
+
+    public void changeUserPassword(User user, String newPassword, String confirmPassword) {
+        user.setPassword_user(passwordEncoder.encode(newPassword));
+        user.setConfirm_password_user(passwordEncoder.encode(confirmPassword));
+        userRepo.save(user);
     }
 
 }

@@ -41,7 +41,7 @@ public class ForgotPasswordController {
             return "forgotPassword";
         }
         String token = UUID.randomUUID().toString();
-        user.setActivationCode(token);
+        user.setResetToken(token);
         userRepo.save(user);
         // Create a link to the password reset form
         String resetUrl = getResetUrl(request, token);
