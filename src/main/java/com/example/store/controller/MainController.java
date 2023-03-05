@@ -17,6 +17,9 @@ import java.util.List;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 public class MainController {
@@ -27,6 +30,7 @@ public class MainController {
     private final CatGroupService catGroupService;
     private final ProducerService producerService;
     private final BrandService brandService;
+    private final HttpServletRequest request;
 
     @GetMapping("/")
     public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
@@ -154,6 +158,8 @@ public class MainController {
     public String loginError(Principal principal, Model model) {
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("loginError", true);
+        String errorMessage = (String) request.getSession().getValue("errorMessage");
+        model.addAttribute("errorMessage", errorMessage);
         return "login";
     }
 

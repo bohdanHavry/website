@@ -85,9 +85,7 @@ public class RegistrationController {
             mailService.send(user.getMail(),"Код активації", message);
         }
 
-        String s1 = user.getActivationCode();
-
-        return "redirect:/activate2/"+s1;
+        return "redirect:/login";
     }
 
     @GetMapping("/activate/{code}")
@@ -97,22 +95,6 @@ public class RegistrationController {
 
         if (isActivated) {
             model.addAttribute("message", "Користувач успішно активований!");
-        } else {
-            model.addAttribute("message", "Код активації не знайдений!");
-        }
-
-        return "login";
-    }
-
-    @GetMapping("/activate2/{code2}")
-    public String activate2(Model model, @PathVariable String code2, Principal principal) {
-        model.addAttribute("user", mainService.getUserByPrincipal(principal));
-        boolean isActivated = userService.activateUser2(code2);
-
-        if (isActivated) {
-            model.addAttribute("message", "Користувач не активований," +
-                    " перейдіть будь-ласка до поштової скриньки та натисніть по посиланню, щоб " +
-                    "активувати користувача та увійти на сайт!");
         } else {
             model.addAttribute("message", "Код активації не знайдений!");
         }

@@ -1,13 +1,14 @@
 package com.example.store.entity;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
 /*@Entity
 @Table(name = "user_role")
 @Data*/
-public enum Role {
+public enum Role implements GrantedAuthority {
     USER, ADMIN;
     /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +37,9 @@ public enum Role {
     public void setName(String name) {
         this.name = name;
     }*/
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

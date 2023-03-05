@@ -39,8 +39,13 @@
 <div class="container mt-4">
     <h1 style="text-align: center">Авторизація</h1>
     <hr>
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <div th:unless="${errorMessage}">
+        <p th:if="${loginError}" class="error" style="color: red" >Неправильний логін або пароль</p>
+    </div>
     <p th:text= "${message}" style="color: red"/>
-    <p th:if="${loginError}" class="error" style="color: red" >Неправильний логін та пароль</p>
     <form th:action="@{/login}" method="post">
         <div class="form-group">
             <label> Логін: <input type="text" name="username" required/> </label>
