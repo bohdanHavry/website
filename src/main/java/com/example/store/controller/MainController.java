@@ -16,8 +16,11 @@ import java.util.List;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -152,6 +155,31 @@ public class MainController {
     public String login(Principal principal, Model model) {
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam(name = "rememberMe", required = false) String rememberMe,
+                        HttpServletResponse response, RedirectAttributes redirectAttributes) {
+
+        // Якщо користувач вибрав опцію "Запам'ятати пароль"
+        if (rememberMe != null && rememberMe.equals("true")) {
+            // Створення cookie з іменем "rememberMe" і значенням "true", з терміном життя 30 днів
+            Cookie rememberMeCookie = new Cookie("rememberMe", "true");
+            rememberMeCookie.setMaxAge(30 * 24 * 60 * 60); // 30 днів
+            response.addCookie(rememberMeCookie);
+        } else {
+            // Видалення cookie з іменем "rememberMe", якщо такий існує
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("rememberMe")) {
+                        cookie.setMaxAge(0);
+                        response.addCookie(cookie);
+                    }
+                }
+            }
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/login-error")

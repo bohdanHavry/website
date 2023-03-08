@@ -40,6 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .failureUrl("/login-error")
                         .permitAll()
                 )
+                .rememberMe() // додаємо опцію запам'ятати пароль
+                .key("uniqueAndSecret") // ключ для шифрування cookies
+                .and()
                 .logout((logout) -> logout.permitAll());
     }
 
