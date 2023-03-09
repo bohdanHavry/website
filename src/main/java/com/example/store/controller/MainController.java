@@ -192,9 +192,10 @@ public class MainController {
     }
 
     @GetMapping("/profile")
-    public String profile(Principal principal, Model model) {
+    public String profile(Principal principal, Model model, @ModelAttribute("changeInfoMessage") String changeInfoMessage) {
         User user = mainService.getUserByPrincipal(principal);
         model.addAttribute("user", user);
+        model.addAttribute("changeInfoMessage", changeInfoMessage);
         return "profile";
     }
 

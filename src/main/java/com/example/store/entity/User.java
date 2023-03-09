@@ -35,10 +35,10 @@ public class User implements UserDetails {
     @NotBlank(message = "Прізвище не може бути пустим")
     @Column(name = "last_name")
     private String last_name;
-    @NotBlank(message = "По бітькові не може бути пустим")
+    @NotBlank(message = "По батькові не може бути пустим")
     @Column(name = "middle_name")
     private String middle_name;
-    @NotBlank(message = "№ телефону не може бути пустим")
+    @NotBlank(message = "Номер телефону не може бути пустим")
     @Column(name = "phone")
     private String phone;
 

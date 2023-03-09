@@ -68,7 +68,7 @@
         </div>
         <div class="form-group">
             <p th:text= "${last_nameError}" style="color: red"/>
-            <label> Призвіще: <input type="text" name="last_name"/> </label>
+            <label> Прізвище: <input type="text" name="last_name"/> </label>
         </div>
         <div class="form-group">
             <p th:text= "${middle_nameError}" style="color: red"/>
@@ -76,7 +76,7 @@
         </div>
         <div class="form-group">
             <p th:text= "${phoneError}" style="color: red"/>
-            <label> Номер телефону: <input type="text" name="phone"/> </label>
+            <label> Номер телефону: <input type="tel" pattern="[+]380[0-9]{9}" title="Формат телефона +380ХХХХХХХХХ" name="phone"/> </label>
         </div>
         <div class="error"></div>
         <input type="hidden" name="_csrf" th:value="${_csrf.token}">

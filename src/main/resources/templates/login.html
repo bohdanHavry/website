@@ -45,6 +45,9 @@
     <div th:unless="${errorMessage}">
         <p th:if="${loginError}" class="error" style="color: red" >Неправильний логін або пароль</p>
     </div>
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <p th:text="${successMessage}"></p>
+    </div>
     <p th:text= "${message}" style="color: red"/>
     <form th:action="@{/login}" method="post">
         <div class="form-group">
@@ -54,7 +57,7 @@
             <label> Пароль: <input type="password" name="password" id="password" required/> </label>
             <button type="button" id="showPasswordBtn" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
         </div>
-        <label for="rememberMe">Запам'ятати пароль</label>
+        <label for="rememberMe">Запам'ятати мене?</label>
         <input type="checkbox" id="rememberMe" name="rememberMe">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}">
         <button type="submit" style="width: 100%" class="btn btn-dark">Увійти</button>

@@ -43,6 +43,12 @@
 
 <div class="container mt-4">
     <h1 style="text-align: center">Особистий кабінет</h1> <hr> <br>
+
+    <div th:if="${changeInfoMessage != null}">
+        <p th:text="${changeInfoMessage}" style="color: green;"></p>
+    </div>
+
+
     <div style="text-align: center">
         <img src="/static/images/1.png"
              style="border:2px solid black; border-radius: 20px" height="120">
@@ -50,10 +56,16 @@
         <h2 th:text="${user.login}"></h2>
         <br>
         Рівень доступу: <b th:text="${user.roles}" /> <br>
-        Ім'я користувача: <b th:text="${user.first_name}" /> <br>
-        Номер телефону: <b th:text="${user.phone}" />
+        Ім'я користувача: <b th:text="${user.login}" /> <br>
+        Поштова скринька: <b th:text="${user.mail}" /> <br>
+        Номер телефону: <b th:text="${user.phone}" /> <br>
+        Ім'я: <b th:text="${user.first_name}" /> <br>
+        Прізвище: <b th:text="${user.last_name}" /> <br>
+        По батькові: <b th:text="${user.middle_name}" /> <br>
         <br>
         <br>
+
+        <span><a th:href="@{/changeInfo}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити персональну інформацію</a></span>
 
         <div th:if="${user.login}">
             <div th:if="${user.isAdmin()}">
