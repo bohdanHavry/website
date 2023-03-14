@@ -3,12 +3,14 @@ package com.example.store.controller;
 
 import com.example.store.entity.User;
 import com.example.store.repository.UserRepo;
+import com.example.store.services.MailService;
 import com.example.store.services.MainService;
 import com.example.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.thymeleaf.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.UUID;
 
 
 @Controller
@@ -27,6 +30,8 @@ public class ChangeInfoController {
     UserRepo userRepo;
     @Autowired
     MainService mainService;
+    @Autowired
+    MailService mailService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -94,6 +99,62 @@ public class ChangeInfoController {
         redirectAttributes.addFlashAttribute("changeInfoMessage", "Пароль було успішно змінено!");
         //model.addAttribute("changeInfoMessage", "Персональну інформацію було успішно змінено!");
         return "redirect:/profile";
+    }
+
+    @GetMapping("/changeMail")
+    public String changeMail(Principal principal , Model model){
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "changeMail";
+    }
+
+    @PostMapping("/changeMail")
+    public String changeMailPost(User user, Model model, RedirectAttributes redirectAttributes, @RequestParam String first_name, @RequestParam String last_name,
+                                     @RequestParam String middle_name, @RequestParam String phone, @RequestParam String password_user,
+                                     @RequestParam String confirm_password_user, @RequestParam String login, @RequestParam String mail) {
+        User userFromDB = userRepo.findByLogin(user.getLogin());
+
+        if (!passwordEncoder.matches(password_user, userFromDB.getPassword_user()))
+        {
+            model.addAttribute("message", "Неправильно введено поточний пароль");
+            return "changeMail";
+        }
+
+        String userMail = userFromDB.getMail();
+
+        boolean isEmailChanged = (mail != null && !mail.equals(userMail)) ||
+                (userMail != null && !userMail.equals(mail));
+
+        if (isEmailChanged) {
+            userFromDB.setMail(mail);
+
+            if (!StringUtils.isEmpty(mail)) {
+                userFromDB.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+
+        if(!org.thymeleaf.util.StringUtils.isEmpty(userFromDB.getMail())){
+            String message = String.format(
+                    "Привіт, %s! \n" +
+                            "Поштова скринька була успішно змінена. Будь-ласка перейдіть по посиланню: http://localhost:8090/activate/%s",
+                    userFromDB.getLogin(),
+                    userFromDB.getActivationCode()
+            );
+
+            mailService.send(userFromDB.getMail(),"Код активації", message);
+        }
+
+        userFromDB.setPassword_user(passwordEncoder.encode(password_user));
+        userFromDB.setConfirm_password_user(confirm_password_user);
+        userFromDB.setLogin(login);
+        userFromDB.setFirst_name(first_name);
+        userFromDB.setLast_name(last_name);
+        userFromDB.setMiddle_name(middle_name);
+        userFromDB.setPhone(phone);
+
+        userRepo.save(userFromDB);
+        redirectAttributes.addFlashAttribute("changeInfoMessage", "Поштова скринька змінена, для того щоб увійти підтвердьте її! Для цього перейдіть по посиланню, що було надіслено на вказану поштову скриньку!");
+        //model.addAttribute("changeInfoMessage", "Персональну інформацію було успішно змінено!");
+        return "redirect:/login";
     }
 
 }

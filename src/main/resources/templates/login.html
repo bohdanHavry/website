@@ -49,6 +49,11 @@
         <p th:text="${successMessage}"></p>
     </div>
     <p th:text= "${message}" style="color: red"/>
+
+    <div th:if="${changeInfoMessage != null}">
+        <p th:text="${changeInfoMessage}" style="color: green;"></p>
+    </div>
+
     <form th:action="@{/login}" method="post">
         <div class="form-group">
             <label> Логін: <input type="text" name="username" required/> </label>

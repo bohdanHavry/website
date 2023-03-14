@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <title>AVTO SENAT</title>
 </head>
 <body>
@@ -42,52 +44,54 @@
 </nav>
 
 <div class="container mt-4">
-    <h1 style="text-align: center">Особистий кабінет</h1> <hr> <br>
+    <h1 style="text-align: center">Зміна поштової скриньки користувача</h1>
+    <hr>
+    <p th:text= "${message}" style="color: red"/>
 
-    <div th:if="${changeInfoMessage != null}">
-        <p th:text="${changeInfoMessage}" style="color: green;"></p>
-    </div>
-
-
-    <div style="text-align: center">
-        <img src="/static/images/1.png"
-             style="border:2px solid black; border-radius: 20px" height="120">
-        <br>
-        <h2 th:text="${user.login}"></h2>
-        <br>
-        Рівень доступу: <b th:text="${user.roles}" /> <br>
-        Ім'я користувача: <b th:text="${user.login}" /> <br>
-        Поштова скринька: <b th:text="${user.mail}" /> <br>
-        Номер телефону: <b th:text="${user.phone}" /> <br>
-        Ім'я: <b th:text="${user.first_name}" /> <br>
-        Прізвище: <b th:text="${user.last_name}" /> <br>
-        По батькові: <b th:text="${user.middle_name}" /> <br>
-        <br>
-        <br>
-
-        <span><a th:href="@{/changeInfo}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити персональну інформацію</a></span>
-        <span><a th:href="@{/changeMail}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити поштову скриньку</a></span>
-        <span><a th:href="@{/changePassword}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити пароль</a></span>
-
-        <div th:if="${user.login}">
-            <div th:if="${user.isAdmin()}">
-                <span><a th:href="@{/user}" class="btn btn-dark mb-3" style="text-align: center; width: 100%">Перегляд і редагування користувачів</a></span>
-                <span><a th:href="@{/addGood}" class="btn btn-dark mb-3" style="text-align: center; width: 100%">Додавання товару</a></span>
-            </div>
+    <form th:action="@{/changeMail}" method="post">
+        <div class="form-group">
+            <label> Логін: <p th:text="${user.login}"></p> </label>
         </div>
 
+        <input type="hidden" th:value="${user.login}" name="login" />
+        <input type="hidden" th:value="${user.first_name}" name="first_name" />
+        <input type="hidden" th:value="${user.last_name}" name="last_name" />
+        <input type="hidden" th:value="${user.confirm_password_user}" name="confirm_password_user" />
+        <input type="hidden" th:value="${user.middle_name}" name="middle_name" />
+        <input type="hidden" th:value="${user.phone}" name="phone" />
 
-        <form th:action="@{/logout}" method="post">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-            <button type="submit" style="text-align: center; width: 100%" class="btn btn-danger mb-2">
-                Вийти з акаунту
-            </button>
-        </form>
 
-    </div>
+        <div class="form-group">
+            <p th:text= "${password_userError}" style="color: red"/>
+            <label> Поточний пароль: <input type="password" name="password_user" minlength="8" maxlength="20" id="password" required/> </label>
+            <button type="button" id="showPasswordBtn" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
+        </div>
 
+        <div class="form-group">
+            <p th:text= "${mailError}" style="color: red"/>
+            <label> Нова поштова скринька: <input type="email" name="mail" required/> </label>
+        </div>
+
+        <div class="error"></div>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <button type="submit" style="width: 100%" class="btn btn-dark">Змінити</button>
+    </form>
 </div>
 
+<script>
+  const passwordField = document.getElementById("password");
+  const showPasswordBtn = document.getElementById("showPasswordBtn");
+
+  showPasswordBtn.addEventListener("click", function() {
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      showPasswordBtn.innerHTML = '<i class="fa fa-eye-slash"></i>';
+    } else {
+      passwordField.type = "password";
+      showPasswordBtn.innerHTML = '<i class="fa fa-eye"></i>';
+    }
+  });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
