@@ -66,6 +66,7 @@
         <br>
 
         <span><a th:href="@{/changeInfo}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити персональну інформацію</a></span>
+        <span><a th:href="@{/changePassword}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити пароль</a></span>
 
         <div th:if="${user.login}">
             <div th:if="${user.isAdmin()}">

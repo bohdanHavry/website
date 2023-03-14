@@ -6,6 +6,7 @@ import com.example.store.repository.UserRepo;
 import com.example.store.services.MainService;
 import com.example.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,8 @@ public class ChangeInfoController {
     UserRepo userRepo;
     @Autowired
     MainService mainService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/changeInfo")
     public String changeInfo(Principal principal , Model model){
@@ -48,6 +51,47 @@ public class ChangeInfoController {
         userFromDB.setPhone(phone);
         userRepo.save(userFromDB);
         redirectAttributes.addFlashAttribute("changeInfoMessage", "Персональну інформацію було успішно змінено!");
+        //model.addAttribute("changeInfoMessage", "Персональну інформацію було успішно змінено!");
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/changePassword")
+    public String changePassword(Principal principal , Model model){
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "changePassword";
+    }
+
+    @PostMapping("/changePassword")
+    public String changePasswordPost(User user, Model model, RedirectAttributes redirectAttributes, @RequestParam String first_name, @RequestParam String last_name,
+                                 @RequestParam String middle_name, @RequestParam String phone, @RequestParam String password_user,
+                                 @RequestParam String confirm_password_user, @RequestParam String login, @RequestParam String mail, @RequestParam String old_password_user) {
+        User userFromDB = userRepo.findByLogin(user.getLogin());
+
+        if (!passwordEncoder.matches(old_password_user, userFromDB.getPassword_user()))
+        {
+            model.addAttribute("message", "Неправильно введено поточний пароль");
+            return "changePassword";
+        }
+        if(passwordEncoder.matches(password_user, userFromDB.getPassword_user()))
+        {
+            model.addAttribute("message", "Старий і новий паролі співпадають!");
+            return "changePassword";
+        }
+        if(password_user != null && !password_user.equals(confirm_password_user)){
+            model.addAttribute("message", "Нові паролі не співпадають!");
+            return "changePassword";
+        }
+
+        userFromDB.setPassword_user(passwordEncoder.encode(password_user));
+        userFromDB.setConfirm_password_user(passwordEncoder.encode(confirm_password_user));
+        userFromDB.setLogin(login);
+        userFromDB.setMail(mail);
+        userFromDB.setFirst_name(first_name);
+        userFromDB.setLast_name(last_name);
+        userFromDB.setMiddle_name(middle_name);
+        userFromDB.setPhone(phone);
+        userRepo.save(userFromDB);
+        redirectAttributes.addFlashAttribute("changeInfoMessage", "Пароль було успішно змінено!");
         //model.addAttribute("changeInfoMessage", "Персональну інформацію було успішно змінено!");
         return "redirect:/profile";
     }
