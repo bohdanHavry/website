@@ -1,6 +1,8 @@
 package com.example.store.services;
 
+import com.example.store.entity.Good;
 import com.example.store.entity.User;
+import com.example.store.repository.CartItemRepo;
 import com.example.store.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,11 +12,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private CartItemRepo cartItemRepo;
     @Autowired
     private MailService mailService;
     @Autowired
@@ -58,5 +64,16 @@ public class UserService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    @Transactional
+    public void deleteUserById(Integer userId) {
+        //cartItemRepo.deleteByUserId(userId);
+        userRepo.deleteById(userId);
+    }
+
+    public List<User> listAll(String login){
+        if (login != null) return userRepo.findByUserLogin(login);
+        return userRepo.findAll();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.store.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,11 +23,11 @@ public class CartItem {
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @ManyToOne (cascade = CascadeType.PERSIST ,fetch = FetchType.EAGER)
     @JoinColumn(name = "id_good")
     private Good good;
 
-    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @ManyToOne (cascade = CascadeType.PERSIST ,fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 

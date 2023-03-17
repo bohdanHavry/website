@@ -4,6 +4,7 @@ import com.example.store.entity.Role;
 import com.example.store.entity.User;
 import com.example.store.repository.UserRepo;
 import com.example.store.services.MainService;
+import com.example.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,12 @@ public class UserController {
     private UserRepo userRepo;
     @Autowired
     private MainService mainService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
-    public String userList(Model model, Principal principal) {
-        model.addAttribute("users", userRepo.findAll());
+    public String userList(Model model, Principal principal, @RequestParam(name = "login", required = false) String login) {
+        model.addAttribute("users", userService.listAll(login));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "userList";
     }
@@ -38,6 +41,13 @@ public class UserController {
         model.addAttribute("roles", Role.values());
         model.addAttribute("userP", mainService.getUserByPrincipal(principal));
         return "userEdit";
+    }
+
+    @GetMapping("/delete/{userId}")
+    public String userDelete(@PathVariable("userId") Integer userId, Model model, Principal principal) {
+        userService.deleteUserById(userId);
+        model.addAttribute("userP", mainService.getUserByPrincipal(principal));
+        return "redirect:/user";
     }
 
     @PostMapping
