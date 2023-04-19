@@ -29,7 +29,7 @@ public class ShoppingCart {
     @Column(name = "itemsNumber")
     private int itemsNumber;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER )
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Set<CartItem> items = new HashSet<CartItem>();
 
     private String sessionToken;

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/static/css/style.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
@@ -45,14 +47,48 @@
 
 <div style="text-align: center">
     <h1>Повна інформація про товар</h1>
-
-    <p th:if="${user.login}">
-        <a th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення товару</a>
-    </p>
 </div>
 
-<div class="container">
+<div class="admin">
+    <div class="left">
+    <p th:if="${user.login}">
+        <a class="btn btn-primary" role="button" th:href="@{/editGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Редагування товару</a>
+    </p>
 
+    <p th:if="${user.login}">
+        <a class="btn btn-danger" role="button" th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення товару</a>
+    </p>
+    </div>
+
+    <div class="right">
+    <p th:if="${user.login}">
+        <a class="btn btn-success" role="button" th:href="@{/hotDeal/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Встановлення "Гарячої пропозиції"</a>
+    </p>
+
+    <p th:if="${user.login}">
+        <a class="btn btn-danger" role="button" th:href="@{/deleteHotDeal/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення "Гарячої пропозиції"</a>
+    </p>
+
+    <p th:if="${user.login}">
+        <a class="btn btn-success" role="button" th:href="@{/discount/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Встановлення "Знижки"</a>
+    </p>
+
+    <p th:if="${user.login}">
+        <a class="btn btn-danger" role="button" th:href="@{/deleteDiscount/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення "Знижки"</a>
+    </p>
+    </div>
+</div>
+
+<style>
+    .admin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    }
+
+</style>
+<div class="container">
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <th:block th:each="image, i : ${images}">
@@ -88,14 +124,23 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-
-            <div class="info">
+    <div class="info">
+        <span th:if="${good.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
+        <span th:if="${good.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
             <p style="font-size: 30px; font-style: bold; margin-bottom: 0px;" th:text="${good.title}" />
             <i>Артикул: </i>
             <b th:text="${good.number}" /> <br> <br>
              <!--<i style="font-size: 24px; font-style: normal">Ціна: </i>-->
-             <b th:text="${good.price}" style="font-size: 30px;"/>
-             <b style="font-size: 30px;"> (грн.)</b>  <br> <br>
+        <div class="price" style="font-size: 30px; padding-bottom:25px;">
+        <div th:if="${good.discount}">
+            <s style=" color: #dc3545;"><i th:text="${good.price}"></i><i> грн.</i></s>
+            <b style="color: #28a745; padding-left: 10px;" th:text="${good.discount}"></b> <b style="color: #28a745;"> грн.</b>
+        </div>
+
+        <div th:unless="${good.discount}">
+            <b th:text="${good.price}"></b> грн.
+        </div>
+        </div>
              <form th:action="@{/addToCart}" method="post">
                  <div class="input-group mb-3">
                      <input type="number" name="count" class="form-control" min="1" value="1" style="max-width: 70px;">

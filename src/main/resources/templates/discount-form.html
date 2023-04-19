@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+        crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <title>AVTO SENAT</title>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a href="/">
+      <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+    </a>
+    <div th:if="${user.login}">
+      <div class="dropdown text-end">
+        <a href="/cart" class="link1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="25" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+          </svg>
+        </a>
+        <a href="/profile">
+          <img src="/static/images/1.png" alt="mdo"
+               width="32" height="32" class="rounded-circle">
+        </a>
+      </div>
+    </div>
+    <span th:unless="${user.login}">
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Увійти
+        </button>
+        </span>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h1 style="text-align: center">Встановлення знижки</h1>
+  <hr>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <h2 style="color: red;" th:text="${good.title}"></h2>
+        <h4>Aртикул: <span th:text="${good.number}"></span></h4>
+        <h5>Поточна ціна: <span th:text="${good.price}"></span></h5>
+        <hr/>
+        <form th:action="@{/discount/{id_good}(id_good=${good.id_good})}" method="post">
+          <div class="form-group">
+            <label for="discount">Нова ціна з урахуванням знижки: </label>
+            <input type="number" class="form-control" id="discount" name="discount"
+                   th:value="${discount}"/>
+          </div>
+          <button type="submit" class="btn btn-success">Зберегти</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

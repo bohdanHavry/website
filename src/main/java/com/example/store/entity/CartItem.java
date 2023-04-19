@@ -23,12 +23,12 @@ public class CartItem {
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne (cascade = CascadeType.PERSIST ,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_good")
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH }, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_good", nullable = false)
     private Good good;
 
-    @ManyToOne (cascade = CascadeType.PERSIST ,fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH }, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Date getDate() {

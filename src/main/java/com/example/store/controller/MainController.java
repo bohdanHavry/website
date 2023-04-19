@@ -151,6 +151,67 @@ public class MainController {
         return "redirect:/";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/editGood/{id_good}")
+    public String editGood(@PathVariable("id_good") Long id_good){
+        //goodRepo.deleteById(id_good);
+        return "redirect:/";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/hotDeal/{id_good}")
+    public String hotDeal(@PathVariable("id_good") Long id_good) {
+        goodService.setHotDeal(id_good, true);
+        return "redirect:/";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/deleteHotDeal/{id_good}")
+    public String deleteHotDeal(@PathVariable("id_good") Long id_good) {
+        goodService.deleteHotDeal(id_good, false);
+        return "redirect:/";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/discount/{id_good}")
+    public String showDiscountForm(@PathVariable("id_good") Long id_good, Model model, Principal principal) {
+        Good good = goodService.getGoodById(id_good);
+        model.addAttribute("good", good);
+        model.addAttribute("discount", good.getDiscount());
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "discount-form";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/discount/{id_good}")
+    public String setDiscount(@PathVariable("id_good") Long id_good,
+                              @RequestParam("discount") Integer discount,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            Good good = goodService.getGoodById(id_good);
+            if (good == null) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Товар не знайдено");
+                return "redirect:/";
+            }
+            good.setDiscount(discount);
+            goodRepo.save(good);
+            redirectAttributes.addFlashAttribute("successMessage", "Знижка на товар \"" + good.getTitle() + "\" успішно встановлена");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Сталася помилка: " + e.getMessage());
+        }
+        return "redirect:/";
+    }
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/deleteDiscount/{id_good}")
+    public String deleteDiscount(@PathVariable("id_good") Long id_good){
+        Good good = goodService.getGoodById(id_good);
+        good.setDiscount(null);
+        goodRepo.save(good);
+        return "redirect:/";
+    }
+
+
     @GetMapping("/login")
     public String login(Principal principal, Model model) {
         model.addAttribute("user", mainService.getUserByPrincipal(principal));

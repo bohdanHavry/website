@@ -96,7 +96,7 @@ public class ShopCartService {
             }
         }
         items.remove(cartItem);
-        //cartItemRepo.delete(cartItem);
+        cartItemRepo.delete(cartItem);
         shoppingCart.setItems(items);
         return shopCartRepo.save(shoppingCart);
     }

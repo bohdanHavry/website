@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GoodService {
@@ -83,6 +84,24 @@ public class GoodService {
         return goodRepo.findByCategoryGroup(category_group_id);
     }
 
+    public void setHotDeal(Long id_good, Boolean isHotDeal) {
+        Optional<Good> productOptional = goodRepo.findById(id_good);
+        if (productOptional.isPresent()) {
+            Good good = productOptional.get();
+            good.setIsHotDeal(isHotDeal);
+            goodRepo.save(good);
+        }
+    }
+
+    public void deleteHotDeal(Long id_good, Boolean isHotDeal) {
+        Optional<Good> productOptional = goodRepo.findById(id_good);
+        if (productOptional.isPresent()) {
+            Good good = productOptional.get();
+            good.setIsHotDeal(isHotDeal);
+            goodRepo.save(good);
+        }
+    }
+
     public List<Good> getGoodByProducer(Integer producer_id){
         return goodRepo.findByProducer(producer_id);
     }
@@ -106,4 +125,7 @@ public class GoodService {
         return producerRepo.findAll();
     }
 
+    public void saveGood(Good good) {
+
+    }
 }

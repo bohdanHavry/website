@@ -39,6 +39,12 @@ public class Good{
     @Column(name = "price")
     private Integer price;
 
+    @Column(name = "isHotDeal")
+    private Boolean isHotDeal;
+
+    @Column(name = "discount")
+    private Integer discount;
+
     @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -129,6 +135,22 @@ public class Good{
 
     public void setProducer(Producer producer) {
         this.producer = producer;
+    }
+
+    public Boolean getHotDeal() {
+        return isHotDeal;
+    }
+
+    public void setHotDeal(Boolean hotDeal) {
+        isHotDeal = hotDeal;
+    }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
     }
 
     public void addImageToGood(Image image){

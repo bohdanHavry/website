@@ -9,7 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartItemRepo extends JpaRepository<CartItem, Integer> {
-    /*@Modifying
-    @Query("DELETE FROM CartItem c WHERE c.user.id = :userId")
-    void deleteByUserId(@Param("userId") Integer userId);*/
 }
