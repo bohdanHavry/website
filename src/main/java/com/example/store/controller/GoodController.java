@@ -39,9 +39,11 @@ public class GoodController {
 
 
     @PostMapping("/addG")
-    public String saveGood (@RequestParam("file") MultipartFile file, Good good, Category category,
+    public String saveGood (@RequestParam("file") MultipartFile file, @RequestParam("file2") MultipartFile file2,
+                            @RequestParam("file3") MultipartFile file3,
+                            Good good, Category category,
                             com.example.store.entity.Model model, Producer producer) throws IOException{
-        goodService.saveGoodToDB(file, good, category, model, producer);
+        goodService.saveGoodToDB(file, file2, file3, good, category, model, producer);
         return "redirect:/";
     }
 

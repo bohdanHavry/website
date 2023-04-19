@@ -27,13 +27,27 @@ public class GoodService {
 
 
 
-    public void saveGoodToDB(MultipartFile file, Good good, Category category, Model model, Producer producer) throws IOException {
+    public void saveGoodToDB(MultipartFile file, MultipartFile file2, MultipartFile file3,
+                             Good good, Category category, Model model, Producer producer) throws IOException {
         Image image1;
+        Image image2;
+        Image image3;
         if(file.getSize() != 0) {
             image1 = toImageEntity(file);
             image1.setPreviewImage(true);
             good.addImageToGood(image1);
         }
+
+        if(file2.getSize() != 0) {
+            image2 = toImageEntity(file2);
+            good.addImageToGood(image2);
+        }
+
+        if(file3.getSize() != 0) {
+            image3 = toImageEntity(file3);
+            good.addImageToGood(image3);
+        }
+
         Good goodFromDb = goodRepo.save(good);
         goodFromDb.setPreviewImageId(goodFromDb.getImages().get(0).getImage_id());
         good.setCategory(category);
