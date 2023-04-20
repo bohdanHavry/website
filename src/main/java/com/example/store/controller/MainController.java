@@ -28,6 +28,8 @@ import javax.servlet.http.HttpSession;
 public class MainController {
     private final MainService mainService;
     private final GoodService goodService;
+    private final ReviewService reviewService;
+    private final UserService userService;
     private final GoodRepo goodRepo;
     private final CategoryService categoryService;
     private final CatGroupService catGroupService;
@@ -138,11 +140,29 @@ public class MainController {
     @GetMapping("/main/{id_good}")
     public String goodInfo(@PathVariable Long id_good, Model model, Principal principal){
         Good good = goodService.getGoodById(id_good);
+
+        List<Review> review = reviewService.getAllReviewsByGoodId(id_good);
+
+        User users = mainService.getUserByPrincipal(principal);
+        model.addAttribute("users", users);
+
+        if (review.isEmpty()) {
+            model.addAttribute("noReviews", true);
+        } else             model.addAttribute("review", review);
+
         model.addAttribute("good", good);
         model.addAttribute("images", good.getImages());
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "shop";
     }
+
+    @PostMapping("/main/{id_good}/reviews")
+    public String addReview(@PathVariable Long id_good, @ModelAttribute Review review, @RequestParam("rating") int rating, Principal principal) {
+        User users = mainService.getUserByPrincipal(principal);
+        reviewService.addReview(id_good, users.getUser_id(), rating, review);
+        return "redirect:/main/" + id_good;
+    }
+
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deleteGood/{id_good}")

@@ -170,9 +170,103 @@
             <b>Опис: </b>
             <p th:text="${good.description}" />
         </div>
-
-
 </div>
+
+
+<div class="container py-5" style="display: flex; justify-content:center; flex-direction: column; align-items: center; ">
+    <h2 class="mb-4">Відгуки</h2>
+    <div th:if="${noReviews == true}">
+        <p>Відгуки відсутні, добавте перший відгук!</p>
+    </div>
+    <hr>
+    <div th:unless="${noReviews == false}" class="row" style="padding-bottom: 50px;">
+        <div style="display: flex; justify-content:center; flex-direction: row; align-items: center; gap: 25px;" >
+            <div th:each="rev : ${review}" class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><span th:text="${rev.user.first_name}"></span>
+                        <span th:text="${rev.user.last_name}"></span></h5>
+                    <p class="card-text" th:text="${rev.text}"></p>
+                    <div class="rating">
+                    <span th:each="i : ${#numbers.sequence(1, rev.rating)}">
+                        <i style="color: yellow" class="fas fa-star"></i>
+                    </span>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted" th:text="${rev.reviewDate}"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div style="height: 400px; width: 800px;">
+        <div>
+            <h2 style="text-align: center;">Залиште відгук про товар</h2>
+            <form method="post" th:action="@{/main/{id_good}/reviews(id_good=${good.id_good})}">
+
+                <div class="form-group" style="padding-top: 25px;">
+                    <label style="padding-left: 25px;" for="text">Оцініть товар:</label>
+                    <input type="hidden" id="rating" name="rating" value="0">
+                    <i style="color: grey;" class=" rating-stars far fa-star" data-rating="1"></i>
+                    <i style="color: grey;" class=" rating-stars far fa-star" data-rating="2"></i>
+                    <i style="color: grey;" class=" rating-stars far fa-star" data-rating="3"></i>
+                    <i style="color: grey;" class=" rating-stars far fa-star" data-rating="4"></i>
+                    <i style="color: grey;" class=" rating-stars far fa-star" data-rating="5"></i>
+                </div>
+
+                <script>
+ const stars = document.querySelectorAll('.rating-stars');
+
+function setRating(rating) {
+  const ratingInput = document.querySelector('#rating');
+  ratingInput.value = rating;
+  for (let i = 0; i < stars.length; i++) {
+    if (i < rating) {
+      stars[i].classList.toggle('far', false);
+      stars[i].classList.toggle('fas', true);
+      stars[i].classList.toggle('checked', true);
+      stars[i].style.color = 'yellow';
+    } else {
+      stars[i].classList.toggle('fas', false);
+      stars[i].classList.toggle('far', true);
+      stars[i].classList.toggle('checked', false);
+      stars[i].style.color = 'grey';
+    }
+  }
+}
+
+
+stars.forEach(function(star) {
+  star.addEventListener('click', function() {
+    const rating = parseInt(star.getAttribute('data-rating'));
+    setRating(rating);
+  });
+
+  star.addEventListener('mouseleave', function() {
+    const ratingInput = document.querySelector('#rating');
+    const rating = parseInt(ratingInput.value);
+    setRating(rating);
+  });
+});
+
+</script>
+
+
+
+
+                <div class="form-group" style="padding-top: 25px;">
+                    <label style="padding-left: 25px;" for="text">Відгук:</label>
+                    <textarea rows="5" cols="20" class="form-control" id="text" name="text"></textarea>
+                </div>
+                <div style=" display: flex; justify-content:center;"><button type="submit" style=" font-size: large; width:100px; height:50px;" class="btn btn-success">Готово</button></div>
+                </form>
+        </div>
+    </div>
+</div>
+
+
 
 <style>
     #myCarousel {

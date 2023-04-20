@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -64,6 +65,10 @@ public class UserService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    public User findById(Integer user_id) {
+        return userRepo.findById(user_id).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
     @Transactional

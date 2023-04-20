@@ -57,6 +57,9 @@ public class Good{
     @JoinColumn(name = "producer_id")
     private Producer producer;
 
+    @OneToMany(mappedBy = "good", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
     public Long getId_good() {
         return id_good;
     }
@@ -156,5 +159,13 @@ public class Good{
     public void addImageToGood(Image image){
         image.setGood(this);
         images.add(image);
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
