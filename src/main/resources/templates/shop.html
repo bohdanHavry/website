@@ -52,6 +52,7 @@
 <div class="admin">
     <div class="left">
 
+        <div th:if="${user.login}">
     <div th:if="${user.isAdmin()}">
         <div th:if="${changeInfoGood != null}">
             <div class="alert alert-success" role="alert" th:if="${user.login}">
@@ -59,6 +60,7 @@
             </div>
         </div>
     </div>
+        </div>
 
     <p th:if="${user.login}">
         <a class="btn btn-primary" role="button" th:href="@{/editGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Редагування товару</a>
@@ -200,17 +202,32 @@
                         <span th:text="${rev.user.last_name}"></span></h5>
                     <p class="card-text" th:text="${rev.text}"></p>
                     <div class="rating">
-                    <span th:each="i : ${#numbers.sequence(1, rev.rating)}">
-                        <i style="color: yellow" class="fas fa-star"></i>
-                    </span>
-
+                <span th:each="i : ${#numbers.sequence(1, rev.rating)}">
+                    <i style="color: yellow" class="fas fa-star"></i>
+                </span>
                     </div>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted" th:text="${rev.reviewDate}"></small>
+
+                    <div th:if="${user.login}">
+                    <th:block th:if="${user.isAdmin()}">
+                        <a th:href="@{/main/{id_good}/deleteReview/{id_review}(id_good=${good.id_good}, id_review=${rev.id_review})}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </th:block>
+                    <th:block th:if="${user.login}">
+                        <th:block th:if="${rev.user.user_id == user.user_id}">
+                            <a th:href="@{/main/{id_good}/deleteReview/{id_review}(id_good=${good.id_good}, id_review=${rev.id_review})}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </th:block>
+                    </th:block>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
 
@@ -273,7 +290,9 @@ stars.forEach(function(star) {
                     <label style="padding-left: 25px;" for="text">Відгук:</label>
                     <textarea rows="5" cols="20" class="form-control" id="text" name="text"></textarea>
                 </div>
-                <div style=" display: flex; justify-content:center;"><button type="submit" style=" font-size: large; width:100px; height:50px;" class="btn btn-success">Готово</button></div>
+                <div th:if="${user != null}" style=" display: flex; justify-content:center;"><button type="submit" style=" font-size: large; width:100px; height:50px;" class="btn btn-success">Готово</button></div>
+
+                <p th:unless="${user != null}" >Для того щоб залишити відгук, <a href="/login">авторизуйтесь!</a> </p>
                 </form>
         </div>
     </div>

@@ -166,6 +166,11 @@ public class MainController {
         return "redirect:/main/" + id_good;
     }
 
+    @GetMapping("/main/{id_good}/deleteReview/{id_review}")
+    public String deleteReview(@PathVariable Long id_good, @PathVariable Long id_review,Principal principal) {
+    mainService.deleteReview(id_review, principal);
+    return "redirect:/main/" + id_good;
+    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deleteGood/{id_good}")
