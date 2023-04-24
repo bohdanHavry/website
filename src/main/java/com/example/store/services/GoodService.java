@@ -8,6 +8,7 @@ import com.example.store.repository.ProducerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -127,5 +128,50 @@ public class GoodService {
 
     public void saveGood(Good good) {
 
+    }
+
+    public void editGoodImage(Long id_good, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException{
+        Good existingGood = getGoodById(id_good);
+
+        if (file1 != null && !file1.isEmpty()) {
+            Image newPreviewImage = existingGood.getImages().get(0);
+            newPreviewImage.setName_image(file1.getName());
+            newPreviewImage.setOriginalFileName(file1.getOriginalFilename());
+            newPreviewImage.setContentType(file1.getContentType());
+            newPreviewImage.setSize(file1.getSize());
+            newPreviewImage.setBytes(file1.getBytes());
+            newPreviewImage.setPreviewImage(true);
+            existingGood.setPreviewImageId(newPreviewImage.getImage_id());
+        }
+
+        if (file2 != null && !file2.isEmpty()) {
+            if (existingGood.getImages().size() > 1) {
+                Image secondImage = existingGood.getImages().get(1);
+                secondImage.setName_image(file2.getName());
+                secondImage.setOriginalFileName(file2.getOriginalFilename());
+                secondImage.setContentType(file2.getContentType());
+                secondImage.setSize(file2.getSize());
+                secondImage.setBytes(file2.getBytes());
+            } else {
+                Image newSecondImage = toImageEntity(file2);
+                existingGood.addImageToGood(newSecondImage);
+            }
+        }
+
+        if (file3 != null && !file3.isEmpty()) {
+            if (existingGood.getImages().size() > 2) {
+                Image thirdImage = existingGood.getImages().get(2);
+                thirdImage.setName_image(file3.getName());
+                thirdImage.setOriginalFileName(file3.getOriginalFilename());
+                thirdImage.setContentType(file3.getContentType());
+                thirdImage.setSize(file3.getSize());
+                thirdImage.setBytes(file3.getBytes());
+            } else {
+                Image newThirdImage = toImageEntity(file3);
+                existingGood.addImageToGood(newThirdImage);
+            }
+        }
+
+        goodRepo.save(existingGood);
     }
 }

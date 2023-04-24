@@ -11,11 +11,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -173,9 +176,50 @@ public class MainController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/editGood/{id_good}")
-    public String editGood(@PathVariable("id_good") Long id_good){
-        //goodRepo.deleteById(id_good);
-        return "redirect:/";
+    public String editGood(@PathVariable("id_good") Long id_good, Principal principal , Model model){
+        Good good = goodService.getGoodById(id_good);
+        model.addAttribute("good", good);
+        model.addAttribute("category", goodService.getAllCategory());
+        model.addAttribute("model", goodService.getAllModel());
+        model.addAttribute("producer",goodService.getAllProducer());
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "changeInfoGood";
+    }
+
+    @PostMapping("/changeInfoGood/{id_good}")
+    public String changeInfoGood(@PathVariable("id_good") Long id_good, RedirectAttributes redirectAttributes, @RequestParam Integer number, @RequestParam String title,
+                                 @RequestParam String description, @RequestParam Integer price, @RequestParam Category category,
+                                 @RequestParam com.example.store.entity.Model model, @RequestParam Producer producer){
+        Good good = goodService.getGoodById(id_good);
+        good.setNumber(number);
+        good.setTitle(title);
+        good.setDescription(description);
+        good.setPrice(price);
+        good.setCategory(category);
+        good.setModel(model);
+        good.setProducer(producer);
+        goodRepo.save(good);
+        redirectAttributes.addFlashAttribute("changeInfoGood", "Інформацію про товар було успішно змінено!");
+        return "redirect:/main/" + id_good;
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/editImageGood/{id_good}")
+    public String editImageGood(@PathVariable("id_good") Long id_good, Principal principal , Model model){
+        Good good = goodService.getGoodById(id_good);
+        model.addAttribute("good", good);
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "changeGoodImage";
+    }
+
+    @PostMapping("/editImageGood/{id_good}")
+    public String editGoodImage(@PathVariable("id_good") Long id_good, RedirectAttributes redirectAttributes,
+                                @RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
+                                @RequestParam("file3") MultipartFile file3) throws IOException {
+       goodService.editGoodImage(id_good, file1, file2, file3);
+
+        redirectAttributes.addFlashAttribute("changeInfoGood", "Зображення товара було успішно змінено!");
+        return "redirect:/main/" + id_good;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -273,10 +317,9 @@ public class MainController {
     }
 
     @GetMapping("/profile")
-    public String profile(Principal principal, Model model, @ModelAttribute("changeInfoMessage") String changeInfoMessage) {
+    public String profile(Principal principal, Model model) {
         User user = mainService.getUserByPrincipal(principal);
         model.addAttribute("user", user);
-        model.addAttribute("changeInfoMessage", changeInfoMessage);
         return "profile";
     }
 

@@ -51,8 +51,21 @@
 
 <div class="admin">
     <div class="left">
+
+    <div th:if="${user.isAdmin()}">
+        <div th:if="${changeInfoGood != null}">
+            <div class="alert alert-success" role="alert" th:if="${user.login}">
+                <p th:text="${changeInfoGood}" ></p>
+            </div>
+        </div>
+    </div>
+
     <p th:if="${user.login}">
         <a class="btn btn-primary" role="button" th:href="@{/editGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Редагування товару</a>
+    </p>
+
+    <p th:if="${user.login}">
+        <a class="btn btn-dark" role="button" th:href="@{/editImageGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Зміна зображення товару</a>
     </p>
 
     <p th:if="${user.login}">

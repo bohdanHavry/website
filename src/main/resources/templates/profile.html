@@ -45,7 +45,9 @@
     <h1 style="text-align: center">Особистий кабінет</h1> <hr> <br>
 
     <div th:if="${changeInfoMessage != null}">
-        <p th:text="${changeInfoMessage}" style="color: green;"></p>
+        <div class="alert alert-success" role="alert">
+            <p th:text="${changeInfoMessage}"></p>
+        </div>
     </div>
 
 
