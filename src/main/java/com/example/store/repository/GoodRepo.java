@@ -25,6 +25,7 @@ public interface GoodRepo extends JpaRepository<Good,Long> {
     @Query("SELECT p FROM Good p INNER JOIN Brand c ON c.id_brand = p.model.brand.id_brand WHERE c.id_brand = ?1")
     public List<Good> findByBrand(Integer brand_id);
 
+
     //@Query("SELECT id_good FROM Good INNER JOIN Category ON Good.category_id = Category.id_category")
     //public List<Good> findByCategory(Long id_good);
 }

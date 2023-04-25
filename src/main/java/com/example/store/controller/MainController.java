@@ -8,6 +8,8 @@ import com.example.store.entity.*;
 import com.example.store.repository.GoodRepo;
 import com.example.store.services.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
@@ -46,6 +48,7 @@ public class MainController {
         List<CatGroupDto> catGroupDtoList = catGroupService.getCategoryGroupAndProduct();
         List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
         List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
+
 
         model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
@@ -145,6 +148,9 @@ public class MainController {
         Good good = goodService.getGoodById(id_good);
 
         List<Review> review = reviewService.getAllReviewsByGoodId(id_good);
+
+        List<Good> relatedProducts = goodService.getProductsByCategoryId(good.getCategory().getId_category());
+        model.addAttribute("relatedProducts", relatedProducts);
 
         User users = mainService.getUserByPrincipal(principal);
         model.addAttribute("users", users);

@@ -132,7 +132,9 @@
             <ul style="list-style-type:none;">
              <li th:each="item : ${goods}"> <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
                  <div class="card text-white bg-dark my-3 product">
-                     <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; weight: 110px;">
+                     <div style="background-color:white;">
+                     <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
+                     </div>
                      <div class="card-body" style="min-height: 210px;">
                          <h5 class="card-title" th:text="${item.title}" />
                          <b th:text="${item.model.name_model}"></b>
@@ -164,33 +166,8 @@
         </div>
 </div>
 
-
 </div>
 
-
-
-
-<!--<div th:if="!${#lists.isEmpty(goods)}">
-    <table>
-        <tr th:each="item : ${goods}">
-            <td th:text="${item.title}" />
-            <td th:text="${item.price}" />
-           <td>грн. | <a th:href="@{/main/{idGood}(idGood=${item.id_good})}">Докладніше...</a></td>
-        </tr>
-    </table>
-</div>
-
-<div th:if="${#lists.isEmpty(goods)}">
-    Товарів немає
-</div>-->
-
-<!--
-<div th:if="${user.login}">
-<div th:if="${user.isAdmin()}">
-    <span th:if="${user.login}"><a th:href="@{/user}">User list</a></span>
-    <span th:if="${user.login}"><a th:href="@{/addGood}">Add good</a></span>
-</div>
-</div>-->
 
 <script type="text/javascript">
     function clearFilter(){

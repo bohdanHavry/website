@@ -103,6 +103,10 @@ public class GoodService {
         }
     }
 
+    public List<Good> getProductsByCategoryId(Integer category_id) {
+        return goodRepo.findByCategory(category_id);
+    }
+
     public List<Good> getGoodByProducer(Integer producer_id){
         return goodRepo.findByProducer(producer_id);
     }
