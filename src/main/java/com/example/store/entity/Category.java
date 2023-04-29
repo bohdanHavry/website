@@ -16,7 +16,7 @@ public class Category {
     @Column(name = "id_category")
     private Integer id_category;
 
-    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "category_group_id")
     private Category_group category_group;
 

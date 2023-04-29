@@ -29,7 +29,7 @@ public class Model {
     @Column(name = "year")
     private Integer year;
 
-    @ManyToOne (cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 

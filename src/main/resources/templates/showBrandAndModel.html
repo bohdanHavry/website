@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+          crossorigin="anonymous">
+
+    <title>AVTO SENAT</title>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/">
+            <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+        </a>
+        <div th:if="${user.login}">
+            <div class="dropdown text-end">
+                <a href="/cart" class="link1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="25" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                    </svg>
+                </a>
+                <a href="/profile">
+                    <img src="/static/images/1.png" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </div>
+        </div>
+        <span th:unless="${user.login}">
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Увійти
+        </button>
+        </span>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 style="text-align: center">Панель адміністратора: перегляд, редагування та видалення брендів та моделей</h1>
+    <hr>
+
+    <div th:if="${changeInfoBrandAndModel != null}">
+        <div class="alert alert-success" role="alert">
+            <p th:text="${changeInfoBrandAndModel}"></p>
+        </div>
+    </div>
+
+    <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+       data-toggle="collapse" href="#collapseExample" role="button"
+       aria-expanded="true" aria-controls="collapseExample">
+        Бренди
+    </a>
+    <div class="collapse show mb-3" id="collapseExample" style="">
+        <form th:action="@{/showBrandAndModel}">
+            <div class="form-row">
+                <div class="form-group col-md-10">
+                    <label for="search"><b>Пошук бренда:</b></label>
+                    <input type="text" name="name_brand" th:value="${name_brand}" class="form-control" placeholder="Пошук по назві бренду" id="search">
+                </div>
+                <div style="display: inline">
+                    <button style="width: 100%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark" id="search-btn">Пошук</button>
+                    <button style="width: 100%" class="btn btn-dark" onclick="clearFilter()">
+                        Очищення </button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <table class="table table-hover table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Назва бренда</th>
+                <th scope="col">&#9998;</th>
+                <th scope="col">&#10006;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${brand}">
+                <td th:text="${item.name_brand}" />
+                <td><a th:href="@{/brand/{brandId}(brandId=${item.id_brand})}" class="btn btn-primary" role="button">Редагувати</a></td>
+                <td><a th:href="@{/brand/delete/{brandId}(brandId=${item.id_brand})}" class="btn btn-danger" role="button" onclick="return confirmSpell();">Видалити</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+       data-toggle="collapse" href="#collapseExample2" role="button"
+       aria-expanded="true" aria-controls="collapseExample2">
+        Моделі
+    </a>
+    <div class="collapse show mb-3" id="collapseExample2" style="">
+        <form th:action="@{/showBrandAndModel}">
+            <div class="form-row">
+                <div class="form-group col-md-10">
+                    <label for="search2"><b>Пошук моделі:</b></label>
+                    <input type="text" name="name_model" th:value="${name_model}" class="form-control" placeholder="Пошук по назві моделі" id="search2">
+                </div>
+                <div style="display: inline">
+                    <button style="width: 100%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark">Пошук</button>
+                    <button style="width: 100%" class="btn btn-dark" onclick="clearFilter()">
+                        Очищення </button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <table class="table table-hover table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Назва моделі</th>
+                <th scope="col">Назва бренду</th>
+                <th scope="col">Рік виготовлення</th>
+                <th scope="col">&#9998;</th>
+                <th scope="col">&#10006;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${model}">
+                <td th:text="${item.name_model}" />
+                <td th:text="${item.brand.name_brand}" />
+                <td th:text="${item.year}" />
+                <td><a th:href="@{/model/{modelId}(modelId=${item.id_model})}" class="btn btn-primary" role="button">Редагувати</a></td>
+                <td><a th:href="@{/model/delete/{modelId}(modelId=${item.id_model})}" class="btn btn-danger" role="button" onclick="return confirmSpell();">Видалити</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<script>
+function confirmSpell() {
+    if (confirm("Ви підтверджуєте видалення?")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function clearFilter(){
+    window.location = '/';
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

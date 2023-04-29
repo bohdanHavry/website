@@ -3,7 +3,9 @@ package com.example.store.repository;
 import com.example.store.entity.Category;
 import com.example.store.entity.Good;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -24,6 +26,21 @@ public interface GoodRepo extends JpaRepository<Good,Long> {
 
     @Query("SELECT p FROM Good p INNER JOIN Brand c ON c.id_brand = p.model.brand.id_brand WHERE c.id_brand = ?1")
     public List<Good> findByBrand(Integer brand_id);
+
+    @Query("SELECT p FROM Good p INNER JOIN Model c ON c.id_model = p.model.id_model WHERE c.id_model = ?1")
+    public List<Good> findByModel(Integer model_id);
+
+    @Modifying
+    @Query("DELETE FROM Good g WHERE g.category.id_category = :categoryId")
+    void deleteAllByCategoryId(@Param("categoryId") Integer categoryId);
+
+    @Modifying
+    @Query("DELETE FROM Good g WHERE g.model.id_model = :modelId")
+    void deleteAllByModelId(@Param("modelId") Integer modelId);
+
+    @Modifying
+    @Query("DELETE FROM Good g WHERE g.producer.id_producer = :id_producer")
+    void deleteAllByProducerId(@Param("id_producer") Integer id_producer);
 
 
     //@Query("SELECT id_good FROM Good INNER JOIN Category ON Good.category_id = Category.id_category")

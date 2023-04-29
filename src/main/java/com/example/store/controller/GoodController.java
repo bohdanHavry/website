@@ -28,8 +28,9 @@ public class GoodController {
      private MainService mainService;
 
     @GetMapping("/addGood")
-    public String showAddGood(Model model, Principal principal)
+    public String showAddGood(Model model, Principal principal, @RequestParam(name = "title", required = false) String title)
     {
+        model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("category", goodService.getAllCategory());
         model.addAttribute("model", goodService.getAllModel());
         model.addAttribute("producer",goodService.getAllProducer());

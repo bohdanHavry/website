@@ -53,44 +53,44 @@
     <div class="left">
 
         <div th:if="${user.login}">
-    <div th:if="${user.isAdmin()}">
-        <div th:if="${changeInfoGood != null}">
-            <div class="alert alert-success" role="alert" th:if="${user.login}">
-                <p th:text="${changeInfoGood}" ></p>
+            <div th:if="${user.isAdmin()}">
+                <div th:if="${changeInfoGood != null}">
+                    <div class="alert alert-success" role="alert" th:if="${user.login}">
+                        <p th:text="${changeInfoGood}" ></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-        </div>
 
-    <p th:if="${user.login}">
-        <a class="btn btn-primary" role="button" th:href="@{/editGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Редагування товару</a>
-    </p>
+        <p th:if="${user.login}">
+            <a class="btn btn-primary" role="button" th:href="@{/editGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Редагування товару</a>
+        </p>
 
-    <p th:if="${user.login}">
-        <a class="btn btn-dark" role="button" th:href="@{/editImageGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Зміна зображення товару</a>
-    </p>
+        <p th:if="${user.login}">
+            <a class="btn btn-dark" role="button" th:href="@{/editImageGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Зміна зображення товару</a>
+        </p>
 
-    <p th:if="${user.login}">
-        <a class="btn btn-danger" role="button" th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення товару</a>
-    </p>
+        <p th:if="${user.login}">
+            <a class="btn btn-danger" role="button" th:href="@{/deleteGood/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}" onclick="return confirmSpell();">Видалення товару</a>
+        </p>
     </div>
 
     <div class="right">
-    <p th:if="${user.login}">
-        <a class="btn btn-success" role="button" th:href="@{/hotDeal/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Встановлення "Гарячої пропозиції"</a>
-    </p>
+        <p th:if="${user.login}">
+            <a class="btn btn-success" role="button" th:href="@{/hotDeal/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Встановлення "Гарячої пропозиції"</a>
+        </p>
 
-    <p th:if="${user.login}">
-        <a class="btn btn-danger" role="button" th:href="@{/deleteHotDeal/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення "Гарячої пропозиції"</a>
-    </p>
+        <p th:if="${user.login}">
+            <a class="btn btn-danger" role="button" th:href="@{/deleteHotDeal/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення "Гарячої пропозиції"</a>
+        </p>
 
-    <p th:if="${user.login}">
-        <a class="btn btn-success" role="button" th:href="@{/discount/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Встановлення "Знижки"</a>
-    </p>
+        <p th:if="${user.login}">
+            <a class="btn btn-success" role="button" th:href="@{/discount/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Встановлення "Знижки"</a>
+        </p>
 
-    <p th:if="${user.login}">
-        <a class="btn btn-danger" role="button" th:href="@{/deleteDiscount/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення "Знижки"</a>
-    </p>
+        <p th:if="${user.login}">
+            <a class="btn btn-danger" role="button" th:href="@{/deleteDiscount/{id}(id=${good.id_good})}" th:if="${user.isAdmin()}">Видалення "Знижки"</a>
+        </p>
     </div>
 </div>
 
@@ -104,87 +104,87 @@
 
 </style>
 <div class="container">
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <th:block th:each="image, i : ${images}">
-            <li data-target="#myCarousel" th:data-slide-to="${i.index}" th:class="${i.index == 0} ? 'active' : ''"></li>
-        </th:block>
-    </ol>
-    <div class="carousel-inner">
-        <th:block th:each="image : ${images}">
-            <div class="carousel-item" th:classappend="${image.isPreviewImage} ? 'active' : ''">
-                <svg class="bd-placeholder-img" width="100%" height="450px" xmlns="http://www.w3.org/2000/svg"
-                     role="img" aria-label=" :  " preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title></title>
-                    <rect width="100%" height="450px" fill="#fff"></rect>
-                    <text x="50%" y="50%" fill="#fff" dy=".3em"></text>
-                </svg>
-                <div class="container">
-                    <div class="carousel-caption">
-                        <a th:href="@{/images/{imageId}(imageId=${image.image_id})}">
-                            <img class="product" style="height: 350px; width: 350px;" th:src="@{/images/{imageId}(imageId=${image.image_id})}">
-                        </a>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <th:block th:each="image, i : ${images}">
+                <li data-target="#myCarousel" th:data-slide-to="${i.index}" th:class="${i.index == 0} ? 'active' : ''"></li>
+            </th:block>
+        </ol>
+        <div class="carousel-inner">
+            <th:block th:each="image : ${images}">
+                <div class="carousel-item" th:classappend="${image.isPreviewImage} ? 'active' : ''">
+                    <svg class="bd-placeholder-img" width="100%" height="450px" xmlns="http://www.w3.org/2000/svg"
+                         role="img" aria-label=" :  " preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title></title>
+                        <rect width="100%" height="450px" fill="#fff"></rect>
+                        <text x="50%" y="50%" fill="#fff" dy=".3em"></text>
+                    </svg>
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <a th:href="@{/images/{imageId}(imageId=${image.image_id})}">
+                                <img class="product" style="height: 350px; width: 350px;" th:src="@{/images/{imageId}(imageId=${image.image_id})}">
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </th:block>
+            </th:block>
 
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
     <div class="info">
         <span th:if="${good.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
         <span th:if="${good.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
-            <p style="font-size: 30px; font-style: bold; margin-bottom: 0px;" th:text="${good.title}" />
-            <i>Артикул: </i>
-            <b th:text="${good.number}" /> <br> <br>
-             <!--<i style="font-size: 24px; font-style: normal">Ціна: </i>-->
+        <p style="font-size: 30px; font-style: bold; margin-bottom: 0px;" th:text="${good.title}" />
+        <i>Артикул: </i>
+        <b th:text="${good.number}" /> <br> <br>
+        <!--<i style="font-size: 24px; font-style: normal">Ціна: </i>-->
         <div class="price" style="font-size: 30px; padding-bottom:25px;">
-        <div th:if="${good.discount}">
-            <s style=" color: #dc3545;"><i th:text="${good.price}"></i><i> грн.</i></s>
-            <b style="color: #28a745; padding-left: 10px;" th:text="${good.discount}"></b> <b style="color: #28a745;"> грн.</b>
+            <div th:if="${good.discount}">
+                <s style=" color: #dc3545;"><i th:text="${good.price}"></i><i> грн.</i></s>
+                <b style="color: #28a745; padding-left: 10px;" th:text="${good.discount}"></b> <b style="color: #28a745;"> грн.</b>
+            </div>
+
+            <div th:unless="${good.discount}">
+                <b th:text="${good.price}"></b> грн.
+            </div>
         </div>
+        <form th:action="@{/addToCart}" method="post">
+            <div class="input-group mb-3">
+                <input type="number" name="count" class="form-control" min="1" value="1" style="max-width: 70px;">
+                <div>
+                    <button style="margin-left: 10px;" type="submit" class="btn btn-primary" > Додати до корзини </button>
+                </div>
+            </div>
+            <input type="hidden"  name="id_good" th:value="${good.id_good}">
+        </form>
 
-        <div th:unless="${good.discount}">
-            <b th:text="${good.price}"></b> грн.
-        </div>
-        </div>
-             <form th:action="@{/addToCart}" method="post">
-                 <div class="input-group mb-3">
-                     <input type="number" name="count" class="form-control" min="1" value="1" style="max-width: 70px;">
-                     <div>
-                         <button style="margin-left: 10px;" type="submit" class="btn btn-primary" > Додати до корзини </button>
-                     </div>
-                 </div>
-                 <input type="hidden"  name="id_good" th:value="${good.id_good}">
-             </form>
+        <i>Назва моделі: </i>
+        <b th:text="${good.model.name_model}" /> <br>
+        <i>Рік моделі: </i>
+        <b th:text="${good.model.year}" /> <br>
 
-            <i>Назва моделі: </i>
-            <b th:text="${good.model.name_model}" /> <br>
-            <i>Рік моделі: </i>
-            <b th:text="${good.model.year}" /> <br>
+        <i>Назва категорії: </i>
+        <b th:text="${good.category.category_group.name_category_group}" /> <br>
+        <i>Назва підкатегорії: </i>
+        <b th:text="${good.category.name_category}" /> <br>
 
-            <i>Назва категорії: </i>
-            <b th:text="${good.category.category_group.name_category_group}" /> <br>
-            <i>Назва підкатегорії: </i>
-            <b th:text="${good.category.name_category}" /> <br>
-
-            <i>Назва виробника: </i>
-            <b th:text="${good.producer.name_producer}" /> <br>
-            <i>Назва країни виробника: </i>
-            <b th:text="${good.producer.country}" /> <br>
+        <i>Назва виробника: </i>
+        <b th:text="${good.producer.name_producer}" /> <br>
+        <i>Назва країни виробника: </i>
+        <b th:text="${good.producer.country}" /> <br>
 
 
-            <b>Опис: </b>
-            <p th:text="${good.description}" />
-        </div>
+        <b>Опис: </b>
+        <p th:text="${good.description}" />
+    </div>
 </div>
 
 
@@ -211,18 +211,18 @@
                     <small class="text-muted" th:text="${rev.reviewDate}"></small>
 
                     <div th:if="${user.login}">
-                    <th:block th:if="${user.isAdmin()}">
-                        <a th:href="@{/main/{id_good}/deleteReview/{id_review}(id_good=${good.id_good}, id_review=${rev.id_review})}" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>
-                    </th:block>
-                    <th:block th:if="${user.login}">
-                        <th:block th:if="${rev.user.user_id == user.user_id}">
+                        <th:block th:if="${user.isAdmin()}">
                             <a th:href="@{/main/{id_good}/deleteReview/{id_review}(id_good=${good.id_good}, id_review=${rev.id_review})}" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </th:block>
-                    </th:block>
+                        <th:block th:if="${user.login}">
+                            <th:block th:if="${rev.user.user_id == user.user_id}">
+                                <a th:href="@{/main/{id_good}/deleteReview/{id_review}(id_good=${good.id_good}, id_review=${rev.id_review})}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </th:block>
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -301,34 +301,34 @@ stars.forEach(function(star) {
 
 
 
-<h3 style="text-align: center">Схожі товари</h3>
-<div class="card-columns" th:if="${relatedProducts.size() > 0}">
-    <div th:each="relatedProduct : ${relatedProducts}" class="card my-3" style="max-width:260px;">
-        <a th:href="@{/main/{idGood}(idGood=${relatedProduct.id_good})}" class="product-link">
-            <img th:src="@{/images/{previewImageId}(previewImageId=${relatedProduct.previewImageId})}" class="card-img-top" style="height: 220px; width: 240px; margin: 10px; object-fit: contain;">
-        </a>
-        <div class="card-body">
-            <div class="badge badge-pill badge-danger" th:if="${relatedProduct.isHotDeal}"><i class="fas fa-fire"></i> Гаряча пропозиція</div>
-            <div class="badge badge-pill badge-success" th:if="${relatedProduct.discount}"><i class="fas fa-percent"></i> Знижка</div>
-            <h5 class="card-title" th:text="${relatedProduct.title}" />
-            <div class="d-flex justify-content-between align-items-center">
-                <b th:text="${relatedProduct.model.name_model}"></b>
+    <h3 style="text-align: center">Схожі товари</h3>
+    <div class="card-columns" th:if="${relatedProducts.size() > 0}">
+        <div th:each="relatedProduct : ${relatedProducts}" class="card my-3" style="max-width:260px;">
+            <a th:href="@{/main/{idGood}(idGood=${relatedProduct.id_good})}" class="product-link">
+                <img th:src="@{/images/{previewImageId}(previewImageId=${relatedProduct.previewImageId})}" class="card-img-top" style="height: 220px; width: 240px; margin: 10px; object-fit: contain;">
+            </a>
+            <div class="card-body">
+                <div class="badge badge-pill badge-danger" th:if="${relatedProduct.isHotDeal}"><i class="fas fa-fire"></i> Гаряча пропозиція</div>
+                <div class="badge badge-pill badge-success" th:if="${relatedProduct.discount}"><i class="fas fa-percent"></i> Знижка</div>
+                <h5 class="card-title" th:text="${relatedProduct.title}" />
+                <div class="d-flex justify-content-between align-items-center">
+                    <b th:text="${relatedProduct.model.name_model}"></b>
+                </div>
+                <p class="card-text" style="margin:0;">
+                    <b style="font-style: normal;">Категорія:</b> <span th:text="${relatedProduct.category.category_group.name_category_group}"></span>
+                    <br>
+                    <b style="font-style: normal;">Підкатегорія:</b> <span th:text="${relatedProduct.category.name_category}"></span>
+                <div th:if="${relatedProduct.discount}" style="margin-bottom:5px; font-size: 20px;">
+                    <s style=" color: #dc3545;"><i th:text="${relatedProduct.price}"></i><i> грн.</i></s>
+                    <b style="color: #28a745; padding-left: 10px;" th:text="${relatedProduct.discount}"></b> <b style="color: #28a745;"> грн.</b>
+                </div>
+                <div th:unless="${relatedProduct.discount}" style="margin-bottom:5px; font-size: 20px;">
+                    <b  th:text="${relatedProduct.price}"></b> грн.
+                </div>
+                <a th:href="@{/main/{idGood}(idGood=${relatedProduct.id_good})}" class="btn btn-outline-dark btn-sm stretched-link">Детальніше</a>
             </div>
-            <p class="card-text" style="margin:0;">
-                <b style="font-style: normal;">Категорія:</b> <span th:text="${relatedProduct.category.category_group.name_category_group}"></span>
-                <br>
-                <b style="font-style: normal;">Підкатегорія:</b> <span th:text="${relatedProduct.category.name_category}"></span>
-            <div th:if="${relatedProduct.discount}" style="margin-bottom:5px; font-size: 20px;">
-                <s style=" color: #dc3545;"><i th:text="${relatedProduct.price}"></i><i> грн.</i></s>
-                <b style="color: #28a745; padding-left: 10px;" th:text="${relatedProduct.discount}"></b> <b style="color: #28a745;"> грн.</b>
-            </div>
-            <div th:unless="${relatedProduct.discount}" style="margin-bottom:5px; font-size: 20px;">
-                <b  th:text="${relatedProduct.price}"></b> грн.
-            </div>
-            <a th:href="@{/main/{idGood}(idGood=${relatedProduct.id_good})}" class="btn btn-outline-dark btn-sm stretched-link">Детальніше</a>
         </div>
     </div>
-</div>
 
 </div>
 
@@ -358,6 +358,15 @@ stars.forEach(function(star) {
 }
 </style>
 
+<script>
+function confirmSpell() {
+    if (confirm("Ви підтверджуєте видалення?")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

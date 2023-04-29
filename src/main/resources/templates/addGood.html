@@ -133,11 +133,91 @@
                         </div>
 
                         <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-                        <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти товар</button>
+                        <button type="submit" style="width: 100%" class="btn btn-success">Зберегти товар</button>
                 </form>
         </div>
+        <br>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+           data-toggle="collapse" href="#collapseExample2" role="button"
+           aria-expanded="true" aria-controls="collapseExample2">
+                Перегляд інформації про додані товари
+        </a>
+        <div class="collapse mb-3" id="collapseExample2" style="">
+                <form th:action="@{/addGood}">
+                        <div class="form-row">
+                                <div class="form-group col-md-10">
+                                        <label for="search2"><b>Пошук товара:</b></label>
+                                        <input type="text" name="title" th:value="${title}" class="form-control" placeholder="Пошук по назві товара" id="search2">
+                                </div>
+                                <div style="display: inline">
+                                        <button style="width: 100%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark">Пошук</button>
+                                        <button style="width: 100%" class="btn btn-dark" onclick="clearFilter()">
+                                                Очищення </button>
+                                </div>
+                        </div>
+                </form>
+                <hr>
+                <table class="table table-hover table-dark">
+                        <thead>
+                        <tr>
+                                <th scope="col">Серійний номер</th>
+                                <th scope="col">Назва товару</th>
+                                <th scope="col">Ціна(грн.)</th>
+                                <th scope="col">Ціна зі знижкою(грн.)</th>
+                                <th scope="col">Категорія</th>
+                                <th scope="col">Підкатегорія</th>
+                                <th scope="col">Модель</th>
+                                <th scope="col">Рік моделі</th>
+                                <th scope="col">Виробник</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${goods}" th:if="${item.discount != null}">
+                                <td th:text="${item.number}" />
+                                <td th:text="${item.title}" />
+                                <td th:text="${item.price}" />
+                                <td th:text="${item.discount}" />
+                                <td th:text="${item.category.category_group.name_category_group}" />
+                                <td th:text="${item.category.name_category}" />
+                                <td th:text="${item.model.name_model}" />
+                                <td th:text="${item.model.year}" />
+                                <td th:text="${item.producer.name_producer}" />
+                        </tr>
+                        <tr th:each="item : ${goods}" th:if="${item.discount == null}">
+                                <td th:text="${item.number}" />
+                                <td th:text="${item.title}" />
+                                <td th:text="${item.price}" />
+                                <td th:text="${item.price}" />
+                                <td th:text="${item.category.category_group.name_category_group}" />
+                                <td th:text="${item.category.name_category}" />
+                                <td th:text="${item.model.name_model}" />
+                                <td th:text="${item.model.year}" />
+                                <td th:text="${item.producer.name_producer}" />
+                        </tr>
+                        </tbody>
+                </table>
+        </div>
+
+
+        <h2 style="text-align: center; margin-top: 30px;">Перегляд, редагування та видалення даних з таблиць довідників</h2>
+        <hr>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 25%" href="/showCategory">
+                Категорії та підкатегорії
+        </a>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 49%" href="/showBrandAndModel">
+                Бренди та моделі
+        </a>
+        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 25%" href="/showProducer">
+                Виробники
+        </a>
 
 </div>
+
+<script>
+function clearFilter(){
+    window.location = '/';
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
