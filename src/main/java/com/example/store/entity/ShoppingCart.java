@@ -54,7 +54,9 @@ public class ShoppingCart {
     public Double getTotalPrice() {
         Double sum = 0.0;
         for(CartItem item : this.items) {
-            sum = sum + item.getGood().getPrice()*item.getCount();
+            if(item.getGood().getDiscount() == null)
+                sum = sum + item.getGood().getPrice()*item.getCount();
+            else sum = sum + item.getGood().getDiscount()*item.getCount();
         }
         return sum;
     }

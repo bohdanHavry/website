@@ -72,8 +72,8 @@
                             <td class="p-4">
                                 <div class="media align-items-center">
                                     <table>
-                                        <tr th:each="img : ${item.good.images}">
-                                            <td><img th:src="@{/images/{imageId}(imageId=${img.image_id})}" class="d-block ui-w-40 ui-bordered mr-4 photo"></td>
+                                        <tr>
+                                            <img th:src="@{/images/{imageId}(imageId=${item.good.previewImageId})}" class="d-block ui-w-40 ui-bordered mr-4 photo" style="object-fit: fill;">
                                         </tr>
                                     </table>
                                     <div class="media-body" style="padding-left:10px;">
@@ -85,8 +85,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.price}"/>
-                            <td class="align-middle p-4">
+                            <th:block th:if="${item.good.discount}">
+                                <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.discount}"/>
+                            </th:block>
+                            <th:block th:unless="${item.good.discount}">
+                                <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.price}"/>
+                            </th:block>                            <td class="align-middle p-4">
                                 <form action="/updateShoppingCart" method="post">
                                     <input type="hidden" th:value="${item.id}" name="item_id">
                                     <div class="input-group">
@@ -97,7 +101,14 @@
                                     <input type="hidden" name="_csrf" th:value="${_csrf.token}">
                                 </form>
                             </td>
-                            <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.price}*${item.count}"/>
+
+                            <th:block th:if="${item.good.discount}">
+                                <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.discount}*${item.count}"/>
+                            </th:block>
+                            <th:block th:unless="${item.good.discount}">
+                                <td class="text-center font-weight-semibold align-middle p-4" th:text="${item.good.price}*${item.count}"/>
+                            </th:block>
+
                             <td class="text-center align-middle px-0"><a th:href="@{/removeItem/{id}(id=${item.id})}" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">×</a></td>
                         </tr>
 
@@ -115,7 +126,7 @@
 
                 <div class="float-right">
                     <a href="/"><button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">Назад до покупок</button></a>
-                    <button type="button" class="btn btn-lg btn-primary mt-2">Оформити замовлення</button>
+                    <button type="button" class="btn btn-lg btn-primary mt-2"><a href="/order" style="text-decoration: none; color: white;">Оформити замовлення</a></button>
                 </div>
 
             </div>
