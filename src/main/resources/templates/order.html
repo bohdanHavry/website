@@ -44,7 +44,7 @@
 
 <h1 style="text-align: center;">Оформлення замовлення</h1>
 
-<form action="#" method="post" th:action="@{/order}">
+<form method="post" th:action="@{/order}">
 <div style="display: flex; justify-content:space-evenly; align-items: flex-start; margin: 50px;
 			padding: 20px;" >
 
@@ -65,8 +65,8 @@
         <div style=" display:flex; flex-direction: column; padding-left: 50px; padding-top: 10px;">
         <label for="city">Місто:</label>
         <input style="max-width: 225px;" type="text" id="city" name="city" required>
-        <label for="state">Область:</label>
-        <input style="max-width: 225px;" type="text" id="state" name="state" required>
+        <label for="region">Область:</label>
+        <input style="max-width: 225px;" type="text" id="region" name="region" required>
         <label for="index">Індекс:</label>
         <input style="max-width: 225px;" type="text" id="index" name="index" required>
         <label for="address">Адреса:</label>
@@ -83,11 +83,11 @@
 
         <div id="card_info" style="display:none; flex-direction: column; padding-left: 25px; padding-top: 10px;">
         <label for="cardNumber">Номер карти:</label>
-        <input style="max-width: 225px;" type="text" id="cardNumber" name="cardNumber" required>
+        <input style="max-width: 225px;" type="text" id="cardNumber" name="cardNumber" >
         <label for="cardExpiration">Рік/дата дії карти:</label>
-        <input style="max-width: 225px;" type="text" id="cardExpiration" name="cardExpiration" required>
+        <input style="max-width: 225px;" type="text" id="cardExpiration" name="cardExpiration" >
         <label for="cardCVV">Код CVV:</label>
-        <input style="max-width: 225px;" type="text" id="cardCVV" name="cardCVV" required>
+        <input style="max-width: 225px;" type="text" id="cardCVV" name="cardCVV" >
         </div>
     </div>
 <div>
@@ -141,6 +141,7 @@
 </div>
 
 </div>
+
 </form>
 
 
