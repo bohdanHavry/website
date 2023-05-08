@@ -70,11 +70,13 @@
         <span><a th:href="@{/changeInfo}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити персональну інформацію</a></span>
         <span><a th:href="@{/changeMail}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити поштову скриньку</a></span>
         <span><a th:href="@{/changePassword}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити пароль</a></span>
+        <span><a th:href="@{/myOrders}" class="btn btn-primary mb-3" style="text-align: center; width: 100%">Мої замовлення</a></span>
 
         <div th:if="${user.login}">
             <div th:if="${user.isAdmin()}">
                 <span><a th:href="@{/user}" class="btn btn-dark mb-3" style="text-align: center; width: 100%">Перегляд і редагування користувачів</a></span>
                 <span><a th:href="@{/addGood}" class="btn btn-dark mb-3" style="text-align: center; width: 100%">Додавання товару</a></span>
+                <span><a th:href="@{/orderList}" class="btn btn-dark mb-3" style="text-align: center; width: 100%">Замовлення</a></span>
             </div>
         </div>
 

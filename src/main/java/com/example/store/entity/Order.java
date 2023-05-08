@@ -20,7 +20,7 @@ public class Order {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "order_date")
-    private Date orderDate;
+    private Date order_date;
 
     @Column(name = "city")
     private String city;
@@ -43,11 +43,14 @@ public class Order {
     @Column(name = "order_status")
     private String order_status;
 
+    @Column(name = "total_price")
+    private Double total_price;
+
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH }, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public List<OrderItem> getOrderItems() {
@@ -66,12 +69,12 @@ public class Order {
         this.id_order = id_order;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
+    public Date getOrder_date() {
+        return order_date;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setOrder_date(Date order_date) {
+        this.order_date = order_date;
     }
 
     public User getUser() {
@@ -136,5 +139,13 @@ public class Order {
 
     public void setOrder_status(String order_status) {
         this.order_status = order_status;
+    }
+
+    public Double getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(Double total_price) {
+        this.total_price = total_price;
     }
 }

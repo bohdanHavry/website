@@ -50,6 +50,7 @@
         <a th:href="@{/}"><h3 class="text-center">Перейти до магазину</h3></a>
     </div>
 
+    <div th:if="${shoppingCart.totalPrice != 0.0}">
     <div class="container px-3 my-5 clearfix">
         <!-- Shopping cart table -->
         <div class="card">
@@ -131,6 +132,7 @@
 
             </div>
         </div>
+    </div>
     </div>
 
 
