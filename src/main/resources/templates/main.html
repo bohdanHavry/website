@@ -43,20 +43,11 @@
     </div>
 </nav>
 
-    <!--<div th:if="${user.login}">
-       <p><b>Ім'я користувача: <i th:text="${user.login}" /></b><br>
-           <b>Рівень доступу: <i th:text="${user.roles}" /></b></p>
-        <form th:action="@{/logout}" method="post">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-            <input type="submit" value="Вийти"/>
-        </form>
-    </div>
-    <span th:unless="${user.login}">
-    <a href="/login">Увійти</a></span> <br>-->
+
 <div class="container mt-4">
     <h1 style="text-align: center">Пошук товарів</h1><hr>
-        <form th:action="@{/}">
-            <div class="form-row">
+    <form th:action="@{/}" method="get" th:attr="data-product-count=${#lists.size(goods)}">
+    <div class="form-row">
             <div class="form-group col-md-10">
                 <label for="search"><b>Пошук по назві товару:</b></label>
                 <input type="text" name="title" th:value="${title}" class="form-control" placeholder="Пошук по назві товару" id="search">
@@ -127,52 +118,91 @@
     </div>
 
 
-    <div class="card-columns">
+    <div class="card-deck" id="goods-container">
         <div th:if="!${#lists.isEmpty(goods)}">
-            <ul style="list-style-type:none;">
-             <li th:each="item : ${goods}"> <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
-                 <div class="card text-white bg-dark my-3 product">
-                     <div style="background-color:white;">
-                     <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
-                     </div>
-                     <div class="card-body" style="min-height: 210px;">
-                         <h5 class="card-title" th:text="${item.title}" />
-                         <b th:text="${item.model.name_model}"></b>
-                         <br>
-                         Категорія:
-                         <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
-                         <br>
-                         Підкатегорія:
-                         <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
-                         <div style="font-size: 25px;" th:if="${item.discount}">
-                             <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
-                             <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
-                         </div>
-                         <div style="font-size: 25px;" th:unless="${item.discount}">
-                             <b  th:text="${item.price}"></b> грн.
-                         </div>
-                     </div>
-                     <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
-                         <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
-                         <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
-                     </div>
-                 </div>
-             </a>
-             </li>
-            </ul>
+            <div class="row">
+                <div th:each="item : ${goods}" class="col-md-4">
+                    <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
+                        <div class="card text-white bg-dark my-3 product">
+                            <div style="background-color:white;">
+                                <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
+                            </div>
+                            <div class="card-body" style="min-height: 210px; text-decoration: none;">
+                                <h5 class="card-title" th:text="${item.title}" />
+                                <b th:text="${item.model.name_model}"></b>
+                                <br>
+                                Категорія:
+                                <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
+                                <br>
+                                Підкатегорія:
+                                <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
+                                <div style="font-size: 25px;" th:if="${item.discount}">
+                                    <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
+                                    <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
+                                </div>
+                                <div style="font-size: 25px;" th:unless="${item.discount}">
+                                    <b  th:text="${item.price}"></b> грн.
+                                </div>
+                            </div>
+                            <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
+                                <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
+                                <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-secondary load-more-button" style="margin-bottom: 30px;">Завантажити ще товари</button>
+            </div>
         </div>
-        <div th:if="${#lists.isEmpty(goods)}" style="text-align: center">
+    </div>
+
+
+    <div th:if="${#lists.isEmpty(goods)}" style="text-align: center">
             <h1>Товарів немає</h1>
         </div>
-</div>
 
 </div>
+
+
 
 
 <script type="text/javascript">
     function clearFilter(){
     window.location = '/';
     }
+</script>
+
+<script th:inline="javascript">
+const goodsContainer = document.getElementById("goods-container");
+const loadMoreButton = document.querySelector(".load-more-button");
+
+const MAX_GOODS = 6;
+let currentGoods = MAX_GOODS;
+
+const goods = goodsContainer.querySelectorAll(".product");
+goods.forEach((item, index) => {
+  if (index >= currentGoods) {
+    item.style.display = "none";
+  }
+});
+
+if (goods.length <= MAX_GOODS) {
+  loadMoreButton.style.display = "none";
+}
+
+loadMoreButton.addEventListener("click", () => {
+  currentGoods += MAX_GOODS;
+  goods.forEach((item, index) => {
+    if (index < currentGoods) {
+      item.style.display = "block";
+    }
+  });
+  if (currentGoods >= goods.length) {
+    loadMoreButton.style.display = "none";
+  }
+});
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

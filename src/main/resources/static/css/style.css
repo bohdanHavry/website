@@ -8,6 +8,11 @@
     text-decoration: none
 }
 
+.product-link:hover {
+    color: #000 !important;
+    text-decoration: none
+}
+
 .photo{
     width:100px;
     height:100px;
@@ -23,3 +28,5 @@
 .link1:hover {
 text-decoration: none;
 }
+
+
