@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
     private Integer id;
     private String name;
+    private Integer cat_id;
     private Long numberOfProduct;
 }

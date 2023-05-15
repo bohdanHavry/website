@@ -72,34 +72,30 @@
 
     <div class="filter-sidebar-left">
 
-        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
-           data-toggle="collapse" href="#collapseExample" role="button"
-           aria-expanded="true" aria-controls="collapseExample">
-            Категорії
-        </a>
+        <div>
+            <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;" data-toggle="collapse" href="#categoryCollapse" role="button" aria-expanded="false" aria-controls="categoryCollapse">
+                Категорії
+            </a>
 
-        <div class="collapse mb-3" id="collapseExample" style="">
-            <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men"
-                 data-children=".sub-men" th:each="category : ${category}">
-                <a th:href = "@{/good-in-category/{id}(id = ${category.id})}" class="list-group-item list-group-item-action">[[${category.name}]]
-                    <small class="text-muted">([[${category.numberOfProduct}]])</small></a>
+            <div class="collapse" id="categoryCollapse">
+                <div>
+                    <div th:each="categoryGroup : ${categoryGroup}"  style="margin:0 0 0 25px;">
+                        <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#categoryGroupCollapse-' + ${categoryGroup.id}" role="button" aria-expanded="false" aria-controls="'categoryGroupCollapse-' + ${categoryGroup.id}">
+                            [[${categoryGroup.name}]]
+                            <small class="text-muted">([[${categoryGroup.numberOfProduct}]])</small>
+                        </a>
+                        <div th:each="category : ${category}" class="sub-men collapse" th:id="'categoryGroupCollapse-' + ${categoryGroup.id}" th:if="${category.cat_id == categoryGroup.id}">
+                            <a th:href="@{/good-in-category/{id}(id=${category.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
+                                [[${category.name}]]
+                                <small class="text-muted">([[${category.numberOfProduct}]])</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
-           data-toggle="collapse" href="#collapseExample2" role="button"
-           aria-expanded="true" aria-controls="collapseExample2">
-            Підкатегорії
-        </a>
-        <div class="collapse mb-3" id="collapseExample2" style="">
-            <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men2"
-                 data-children=".sub-men" th:each="categoryGroup : ${categoryGroup}">
-                <a th:href = "@{/good-in-categoryGroup/{id}(id = ${categoryGroup.id})}" class="list-group-item list-group-item-action">[[${categoryGroup.name}]]
-                    <small class="text-muted">([[${categoryGroup.numberOfProduct}]])</small></a>
-            </div>
-        </div>
-
-        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+        <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 8px 0 8px 0;"
            data-toggle="collapse" href="#collapseExample3" role="button"
            aria-expanded="true" aria-controls="collapseExample3">
             Бренди
@@ -112,16 +108,16 @@
             </div>
         </div>
 
-        <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+        <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;"
            data-toggle="collapse" href="#collapseExample4" role="button"
-           aria-expanded="false" aria-controls="collapseExample4">
+           aria-expanded="true" aria-controls="collapseExample4">
             Виробники
         </a>
-        <div class="mb-3 collapse show" id="collapseExample4" style="">
-            <a th:href="@{/}" class="link1"><h6>Усі товари</h6></a>
-            <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men4"
+        <div class="collapse show mb-3" id="collapseExample4" style="">
+            <a th:href="@{/}" style="text-decoration: none;"><p style="font-size:20px; margin:0;">Усі товари</p></a>
+            <div style="margin:0 0 0 25px;" id="list-group-men4"
                  data-children=".sub-men" th:each="producer : ${producerDto}">
-                <a th:href = "@{/good-in-producer/{id}(id = ${producer.id})}" class="list-group-item list-group-item-action">[[${producer.country}]]
+                <a class="link2" th:href = "@{/good-in-producer/{id}(id = ${producer.id})}">[[${producer.name}]]
                     <small class="text-muted">([[${producer.numberOfProduct}]])</small></a>
             </div>
         </div>

@@ -29,4 +29,12 @@
 text-decoration: none;
 }
 
+.link2 {
+color: black;
+}
+
+.link2:hover {
+text-decoration: none;
+color: black;
+}
 
