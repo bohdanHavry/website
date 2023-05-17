@@ -1,6 +1,8 @@
 package com.example.store.services;
 
+import com.example.store.dto.BrandDto;
 import com.example.store.dto.CategoryDto;
+import com.example.store.dto.ModelDto;
 import com.example.store.entity.*;
 import com.example.store.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +104,10 @@ public class ModelService {
 
 
         modelRepo.deleteById(id_model);
+    }
+
+    public List<ModelDto> getModelAndProduct() {
+        return modelRepo.getModelAndProduct();
     }
 
 }

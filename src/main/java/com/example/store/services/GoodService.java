@@ -1,10 +1,7 @@
 package com.example.store.services;
 
 import com.example.store.entity.*;
-import com.example.store.repository.CategoryRepo;
-import com.example.store.repository.GoodRepo;
-import com.example.store.repository.ModelRepo;
-import com.example.store.repository.ProducerRepo;
+import com.example.store.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -13,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +21,11 @@ public class GoodService {
     @Autowired
     public ModelRepo modelRepo;
     @Autowired
+    public BrandRepo brandRepo;
+    @Autowired
     public CategoryRepo categoryRepo;
+    @Autowired
+    public CatGroupRepo catGroupRepo;
     @Autowired
     public ProducerRepo producerRepo;
 
@@ -111,8 +113,19 @@ public class GoodService {
         return goodRepo.findByProducer(producer_id);
     }
 
+    public List<Good> getGoodByModel(Integer model_id){
+        return goodRepo.findByModel(model_id);
+    }
+
     public List<Good> getGoodByBrand(Integer brand_id){
         return goodRepo.findByBrand(brand_id);
+    }
+    public List<Category_group> getAllCategoryGroup()
+    {
+        return catGroupRepo.findAll();
+    }
+    public List<Category> getSubcategoriesByCategory(Integer categoryId) {
+        return categoryRepo.findByCategoryGroupIn(Collections.singletonList(categoryId));
     }
 
     public List<Category> getAllCategory()
@@ -120,6 +133,13 @@ public class GoodService {
         return categoryRepo.findAll();
     }
 
+    public List<Brand> getAllBrand()
+    {
+        return brandRepo.findAll();
+    }
+    public List<Model> getModelsByBrand(Integer modelId) {
+        return modelRepo.findByBrandIn(Collections.singletonList(modelId));
+    }
     public List<Model> getAllModel()
     {
         return modelRepo.findAll();

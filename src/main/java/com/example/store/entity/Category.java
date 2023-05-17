@@ -1,6 +1,7 @@
 package com.example.store.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Category {
 
     @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "category_group_id")
+    @JsonIgnore
     private Category_group category_group;
 
 

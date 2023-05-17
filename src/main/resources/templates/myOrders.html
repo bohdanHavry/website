@@ -88,65 +88,67 @@
   </div>
   <hr>
 
-  <table class="table table-hover table-dark">
-    <thead>
-    <tr>
-      <th scope="col">ID замовлення</th>
-      <th scope="col">Адреса</th>
-      <th scope="col">Місто</th>
-      <th scope="col">Область</th>
-      <th scope="col">Поштовий індекс</th>
-      <th scope="col">Дата замовлення</th>
-      <th scope="col">Статус замовлення</th>
-      <th scope="col">Метод оплати</th>
-      <th scope="col">Статус оплати</th>
-      <th scope="col">Загальна ціна(грн.)</th>
+  <div class="table-responsive">
+      <table class="table table-hover table-dark">
+        <thead>
+        <tr>
+          <th scope="col">ID замовлення</th>
+          <th scope="col">Адреса</th>
+          <th scope="col">Місто</th>
+          <th scope="col">Область</th>
+          <th scope="col">Поштовий індекс</th>
+          <th scope="col">Дата замовлення</th>
+          <th scope="col">Статус замовлення</th>
+          <th scope="col">Метод оплати</th>
+          <th scope="col">Статус оплати</th>
+          <th scope="col">Загальна ціна(грн.)</th>
 
-      <th scope="col">Артикул товара</th>
-      <th scope="col">Кількість товара</th>
+          <th scope="col">Артикул товара</th>
+          <th scope="col">Кількість товара</th>
 
-      <th scope="col">Ім'я замовника</th>
-      <th scope="col">Призвіще</th>
-      <th scope="col">Номер телефону</th>
-      <th scope="col">Електронна пошта</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${orders}">
-      <td th:text="${item.id_order}" />
-      <td th:text="${item.address}"/>
-      <td th:text="${item.city}" />
-      <td th:text="${item.region}"/>
-      <td th:text="${item.index}" />
-      <td th:text="${item.order_date}"/>
-      <td th:text="${item.order_status}" />
-      <td th:text="${item.payment_method}"/>
-      <td>
-        <span th:if="${item.payment_status} == true">Оплачено</span>
-        <span th:if="${item.payment_status} == false">Не оплачено</span>
-      </td>
-      <td th:text="${item.total_price}"/>
-      <td>
-        <table>
-          <tr th:each="item2 : ${item.orderItems}">
-            <td th:text="${item2.good.number}" />
-          </tr>
-        </table>
-      </td>
-      <td>
-        <table>
-          <tr th:each="item2 : ${item.orderItems}">
-            <td th:text="${item2.quantity}" />
-          </tr>
-        </table>
-      </td>
-      <td th:text="${item.user.first_name}" />
-      <td th:text="${item.user.last_name}"/>
-      <td th:text="${item.user.phone}" />
-      <td th:text="${item.user.mail}"/>
-    </tr>
-    </tbody>
-  </table>
+          <th scope="col">Ім'я замовника</th>
+          <th scope="col">Призвіще</th>
+          <th scope="col">Номер телефону</th>
+          <th scope="col">Електронна пошта</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${orders}">
+          <td th:text="${item.id_order}" />
+          <td th:text="${item.address}"/>
+          <td th:text="${item.city}" />
+          <td th:text="${item.region}"/>
+          <td th:text="${item.index}" />
+          <td th:text="${item.order_date}"/>
+          <td th:text="${item.order_status}" />
+          <td th:text="${item.payment_method}"/>
+          <td>
+            <span th:if="${item.payment_status} == true">Оплачено</span>
+            <span th:if="${item.payment_status} == false">Не оплачено</span>
+          </td>
+          <td th:text="${item.total_price}"/>
+          <td>
+            <table>
+              <tr th:each="item2 : ${item.orderItems}">
+                <td th:text="${item2.good.number}" />
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table>
+              <tr th:each="item2 : ${item.orderItems}">
+                <td th:text="${item2.quantity}" />
+              </tr>
+            </table>
+          </td>
+          <td th:text="${item.user.first_name}" />
+          <td th:text="${item.user.last_name}"/>
+          <td th:text="${item.user.phone}" />
+          <td th:text="${item.user.mail}"/>
+        </tr>
+        </tbody>
+      </table>
+  </div>
 </div>
 
 <script>

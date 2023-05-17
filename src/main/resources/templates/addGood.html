@@ -64,20 +64,20 @@
                 <form th:action="@{/addG}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                                 <label for = "name">Назва товару</label>
-                                <input type="text" name="title" id="name">
+                                <input type="text" name="title" id="name" required>
                         </div>
                         <div class="form-group">
                                 <label for = "number">Серійний номер товару</label>
-                                <input type="number" name="number" id="number">
+                                <input type="number" name="number" id="number" required>
                         </div>
                         <div class="form-group">
                                 <label for = "description">Опис товару</label>
-                                <textarea class="form-control" id="description" name="description"></textarea>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
                         <div class="form-group">
                                 <label for="price">Ціна товару</label>
                                 <div class="input-group mb-3">
-                                        <input type="number" class="form-control" id="price" name="price">
+                                        <input type="number" class="form-control" id="price" name="price" required>
                                         <div class="input-group-append">
                                                 <span class="input-group-text">грн.</span>
                                         </div>
@@ -86,7 +86,7 @@
 
                         <div class="form-group">
                                 <div class="custom-file">
-                                        <input type="file" name="file" id="file">
+                                        <input type="file" name="file" id="file" required>
                                         <label class="custom-file-label" for="file">Виберіть основне фото для товару</label>
                                 </div>
                         </div>
@@ -105,29 +105,40 @@
                                 </div>
                         </div>
 
+
                         <div class="form-group">
                                 <label for="searchCat">Категорія</label>
-                                <select name="category" id="searchCat" class="form-control"
-                                        title="select category  .." multiple data-actions-box="true">
-
-                                        <option th:each="category : ${category}" th:value="${category.id_category}">[[${category.name_category}]]</option>
+                                <select name="categoryGroup" id="searchCat" class="form-control" title="Виберіть категорію" required>
+                                        <option value="">-- Оберіть категорію --</option>
+                                        <option th:each="categoryGroup : ${categoryGroup}" th:value="${categoryGroup.id_category_group}">
+                                                [[${categoryGroup.name_category_group}]]
+                                        </option>
                                 </select>
                         </div>
 
                         <div class="form-group">
-                                <label for="searchModel">Модель</label>
-                                <select name="model" id="searchModel" class="form-control"
-                                        title="select model  .." multiple data-actions-box="true">
+                                <label for="searchSubCat">Підкатегорія (для того щоб обрати, оберіть категорію)</label>
+                                <select name="category" id="searchSubCat" class="form-control" title="Виберіть підкатегорію" required>
+                                </select>
+                        </div>
 
-                                        <option th:each="model : ${model}" th:value="${model.id_model}">[[${model.name_model}]]</option>
+                        <div class="form-group">
+                                <label for="searchBrand">Бренд</label>
+                                <select name="brand" id="searchBrand" class="form-control" title="Виберіть бренд" required>
+                                        <option value="">-- Оберіть бренд --</option>
+                                        <option th:each="brand : ${brand}" th:value="${brand.id_brand}">[[${brand.name_brand}]]</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group">
+                                <label for="searchModel">Модель (для того щоб обрати, оберіть бренд)</label>
+                                <select name="model" id="searchModel" class="form-control" title="Виберіть модель" required>
                                 </select>
                         </div>
 
                         <div class="form-group">
                                 <label for="searchProducer">Виробник</label>
-                                <select name="producer" id="searchProducer" class="form-control"
-                                        title="select producer  .." multiple data-actions-box="true">
-
+                                <select name="producer" id="searchProducer" class="form-control" title="Виберіть виробника" required>
                                         <option th:each="producer : ${producer}" th:value="${producer.id_producer}">[[${producer.name_producer}]]</option>
                                 </select>
                         </div>
@@ -218,6 +229,67 @@ function clearFilter(){
     window.location = '/';
     }
 </script>
+
+<script>
+    var categorySelect = document.getElementById("searchCat");
+    var subcategorySelect = document.getElementById("searchSubCat");
+
+    categorySelect.addEventListener("change", function() {
+        // Очищення попередніх опцій у другого вибірника
+        subcategorySelect.innerHTML = "";
+
+        // Отримання вибраної категорії у першому вибірнику
+        var selectedCategory = categorySelect.value;
+
+        // Виклик AJAX-запиту для отримання підкатегорій
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getSubcategories?category=" + selectedCategory);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var subcategories = JSON.parse(xhr.responseText);
+
+                // Додавання нових опцій у другий вибірник
+                subcategories.forEach(function(subcategory) {
+                    var option = document.createElement("option");
+                    option.value = subcategory.id_category;
+                    option.textContent = subcategory.name_category;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+        };
+        xhr.send();
+    });
+</script>
+
+<script>
+    var brandSelect = document.getElementById("searchBrand");
+    var modelSelect = document.getElementById("searchModel");
+
+    brandSelect.addEventListener("change", function() {
+        modelSelect.innerHTML = "";
+
+        var selectedBrand = brandSelect.value;
+
+        // Виклик AJAX-запиту для отримання моделей
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getModels?model=" + selectedBrand);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var models = JSON.parse(xhr.responseText);
+
+                // Додавання нових опцій у другий вибірник
+                models.forEach(function(model) {
+                    var option = document.createElement("option");
+                    option.value = model.id_model;
+                    option.textContent = model.name_model;
+                    modelSelect.appendChild(option);
+                });
+            }
+        };
+        xhr.send();
+    });
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

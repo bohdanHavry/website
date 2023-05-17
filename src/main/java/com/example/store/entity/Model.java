@@ -2,6 +2,7 @@ package com.example.store.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -31,6 +32,7 @@ public class Model {
 
     @ManyToOne (cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
+    @JsonIgnore
     private Brand brand;
 
     public Model() {

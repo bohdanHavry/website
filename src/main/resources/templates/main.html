@@ -70,34 +70,50 @@
 
             <div class="collapse" id="categoryCollapse">
                 <div>
-                    <div th:each="categoryGroup : ${categoryGroup}"  style="margin:0 0 0 25px;">
+                    <div th:each="categoryGroup : ${categoryGroup}" style="margin:0 0 0 25px;">
                         <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#categoryGroupCollapse-' + ${categoryGroup.id}" role="button" aria-expanded="false" aria-controls="'categoryGroupCollapse-' + ${categoryGroup.id}">
                             [[${categoryGroup.name}]]
                             <small class="text-muted">([[${categoryGroup.numberOfProduct}]])</small>
                         </a>
-                        <div th:each="category : ${category}" class="sub-men collapse" th:id="'categoryGroupCollapse-' + ${categoryGroup.id}" th:if="${category.cat_id == categoryGroup.id}">
-                            <a th:href="@{/good-in-category/{id}(id=${category.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
-                                [[${category.name}]]
-                                <small class="text-muted">([[${category.numberOfProduct}]])</small>
-                            </a>
+                        <div class="sub-men collapse" th:id="'categoryGroupCollapse-' + ${categoryGroup.id}">
+                            <div th:each="category : ${categories}" th:if="${category.cat_id == categoryGroup.id}">
+                                <a th:href="@{/good-in-category/{id}(id=${category.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
+                                    [[${category.name}]]
+                                    <small class="text-muted">([[${category.numberOfProduct}]])</small>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;"
-           data-toggle="collapse" href="#collapseExample3" role="button"
-           aria-expanded="true" aria-controls="collapseExample3">
-            Бренди
-        </a>
-        <div class="collapse mb-3" id="collapseExample3" style="">
-            <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men3"
-                 data-children=".sub-men" th:each="brand : ${brand}">
-                <a th:href = "@{/good-in-brand/{id}(id = ${brand.id})}" class="list-group-item list-group-item-action">[[${brand.name}]]
-                    <small class="text-muted">([[${brand.numberOfProduct}]])</small></a>
+
+        <div>
+            <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;" data-toggle="collapse" href="#categoryCollapse2" role="button" aria-expanded="false" aria-controls="categoryCollapse2">
+                Бренди
+            </a>
+
+            <div class="collapse" id="categoryCollapse2">
+                <div>
+                    <div th:each="brand : ${brand}" style="margin:0 0 0 25px;">
+                        <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#brandCollapse-' + ${brand.id}" role="button" aria-expanded="false" aria-controls="'brandCollapse-' + ${brand.id}">
+                            [[${brand.name}]]
+                            <small class="text-muted">([[${brand.numberOfProduct}]])</small>
+                        </a>
+                        <div class="sub-men collapse" th:id="'brandCollapse-' + ${brand.id}">
+                            <div th:each="model : ${model}" th:if="${model.brand_id == brand.id}">
+                                <a th:href="@{/good-in-brand/{id}(id=${model.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
+                                    [[${model.name}]]
+                                    <small class="text-muted">([[${model.numberOfProduct}]])</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
 
         <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;"
            data-toggle="collapse" href="#collapseExample4" role="button"
@@ -114,42 +130,44 @@
     </div>
 
 
-    <div class="card-deck" id="goods-container">
-        <div th:if="!${#lists.isEmpty(goods)}">
-            <div class="row">
-                <div th:each="item : ${goods}" class="col-md-4">
-                    <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
-                        <div class="card text-white bg-dark my-3 product">
-                            <div style="background-color:white;">
-                                <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
-                            </div>
-                            <div class="card-body" style="min-height: 210px; text-decoration: none;">
-                                <h5 class="card-title" th:text="${item.title}" />
-                                <b th:text="${item.model.name_model}"></b>
-                                <br>
-                                Категорія:
-                                <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
-                                <br>
-                                Підкатегорія:
-                                <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
-                                <div style="font-size: 25px;" th:if="${item.discount}">
-                                    <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
-                                    <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
+    <div class="container">
+        <div class="card-deck" id="goods-container">
+            <div th:if="!${#lists.isEmpty(goods)}">
+                <div class="row">
+                    <div th:each="item : ${goods}" style="width: 380px; margin: 0 auto;">
+                        <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
+                            <div class="card text-white bg-dark my-3 product">
+                                <div style="background-color:white;">
+                                    <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
                                 </div>
-                                <div style="font-size: 25px;" th:unless="${item.discount}">
-                                    <b  th:text="${item.price}"></b> грн.
+                                <div class="card-body" style="min-height: 210px; text-decoration: none;">
+                                    <h5 class="card-title" th:text="${item.title}" />
+                                    <b th:text="${item.model.name_model}"></b>
+                                    <br>
+                                    Категорія:
+                                    <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
+                                    <br>
+                                    Підкатегорія:
+                                    <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
+                                    <div style="font-size: 25px;" th:if="${item.discount}">
+                                        <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
+                                        <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
+                                    </div>
+                                    <div style="font-size: 25px;" th:unless="${item.discount}">
+                                        <b  th:text="${item.price}"></b> грн.
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
+                                    <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
+                                    <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
                                 </div>
                             </div>
-                            <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
-                                <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
-                                <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="text-center mt-4">
-                <button type="button" class="btn btn-secondary load-more-button" style="margin-bottom: 30px;">Завантажити ще товари</button>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-secondary load-more-button" style="margin-bottom: 30px;">Завантажити ще товари</button>
+                </div>
             </div>
         </div>
     </div>

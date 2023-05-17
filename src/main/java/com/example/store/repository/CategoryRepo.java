@@ -17,6 +17,8 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
     //@Query("SELECT c FROM Category c WHERE c.id_category LIKE ?1")
    // public List<Category> findByCategory(Integer id_category);
+    @Query("SELECT c FROM Category c WHERE c.category_group.id_category_group IN :categoryIds")
+    List<Category> findByCategoryGroupIn(@Param("categoryIds") List<Integer> categoryIds);
 
     @Query("SELECT new com.example.store.dto.CategoryDto(c.id_category, c.name_category, c.category_group.id_category_group, count(p.category.id_category)) FROM Category c INNER JOIN Good p on p.category.id_category = c.id_category INNER JOIN Category_group cg on cg.id_category_group = c.category_group.id_category_group WHERE 1=1 GROUP BY c.id_category")
     List<CategoryDto> getCategoryAndProduct();

@@ -1,6 +1,7 @@
 package com.example.store.services;
 
 
+import com.example.store.dto.CatGroupDto;
 import com.example.store.dto.CategoryDto;
 import com.example.store.entity.*;
 import com.example.store.repository.*;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +26,7 @@ public class CategoryService {
     @Autowired
     public ImageRepo imageRepo;
 
-    public void saveCategoryGroupToDB(String name_category_group, Category_group category_group )  {
+    public void saveCategoryGroupToDB(String name_category_group, Category_group category_group) {
         category_group.setName_category_group(name_category_group);
         catGroupRepo.save(category_group);
     }
@@ -35,21 +37,20 @@ public class CategoryService {
         categoryRepo.save(category);
     }
 
-    public List<Category_group> getAllCategoryGroup()
-    {
+    public List<Category_group> getAllCategoryGroup() {
         return catGroupRepo.findAll();
     }
 
-    public Category_group getCategoryGroupById(Integer id_category_group){
+    public Category_group getCategoryGroupById(Integer id_category_group) {
         return catGroupRepo.findById(id_category_group).orElse(null);
     }
 
-    public List<Category_group> listAll(String name_category_group){
+    public List<Category_group> listAll(String name_category_group) {
         if (name_category_group != null) return catGroupRepo.findByNameCategoryGroup(name_category_group);
         return catGroupRepo.findAll();
     }
 
-    public List<Category> listAllCategory(String name_category){
+    public List<Category> listAllCategory(String name_category) {
         if (name_category != null) return categoryRepo.findByNameCategory(name_category);
         return categoryRepo.findAll();
     }
@@ -84,7 +85,7 @@ public class CategoryService {
         categoryRepo.deleteById(id_category);
     }
 
-    public Category getCategoryById(Integer id_category){
+    public Category getCategoryById(Integer id_category) {
         return categoryRepo.findById(id_category).orElse(null);
     }
 

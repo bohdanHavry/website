@@ -1,10 +1,8 @@
 package com.example.store.controller;
 
-import com.example.store.dto.BrandDto;
-import com.example.store.dto.CatGroupDto;
-import com.example.store.dto.CategoryDto;
-import com.example.store.dto.ProducerDto;
+import com.example.store.dto.*;
 import com.example.store.entity.*;
+import com.example.store.repository.CatGroupRepo;
 import com.example.store.repository.GoodRepo;
 import com.example.store.services.*;
 import lombok.RequiredArgsConstructor;
@@ -40,22 +38,25 @@ public class MainController {
     private final CatGroupService catGroupService;
     private final ProducerService producerService;
     private final BrandService brandService;
+    private final ModelService modelService;
+    private final CatGroupRepo catGroupRepo;
     private final HttpServletRequest request;
 
     @GetMapping("/")
     public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-        List<CatGroupDto> catGroupDtoList = catGroupService.getCategoryGroupAndProduct();
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
         List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
-
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
 
         model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
-        model.addAttribute("category", categoryDtoList);
-        model.addAttribute("categoryGroup", catGroupDtoList);
+        model.addAttribute("categories", categories);
+        model.addAttribute("categoryGroup", categoryGroups);
         model.addAttribute("producer", producerDtoList);
         model.addAttribute("brand", brandDtoList);
+        model.addAttribute("model", modelDtoList);
 
         return "main";
     }
@@ -63,82 +64,87 @@ public class MainController {
     @GetMapping("/good-in-category/{id}")
     public String getProductsInCategory(@PathVariable("id") Integer id_category, Model model, Principal principal){
         Category category = categoryService.getCategoryById(id_category);
-        List<CatGroupDto> catGroupDtoList = catGroupService.getCategoryGroupAndProduct();
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
         List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         List<Good> goodList = goodService.getGoodByCategory(id_category);
         List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
         List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
-
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
 
         model.addAttribute("category",category);
         model.addAttribute("categories", categories);
         model.addAttribute("good", goodList);
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("producer", producerDtoList);
-        model.addAttribute("categoryGroup", catGroupDtoList);
+        model.addAttribute("categoryGroup", categoryGroups);
         model.addAttribute("brand", brandDtoList);
+        model.addAttribute("model", modelDtoList);
 
         return "good-in-category";
     }
 
     @GetMapping("/good-in-categoryGroup/{id}")
     public String getProductsInCategoryGroup(@PathVariable("id") Integer id_category_group, Model model, Principal principal){
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
         List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
         Category_group categoryGroup = catGroupService.getCategoryGroupById(id_category_group);
-        List<CatGroupDto> catGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         List<Good> goodList = goodService.getGoodByCategoryGroup(id_category_group);
         List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
-
-
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
 
         model.addAttribute("categoryGroup", categoryGroup);
-        model.addAttribute("catGroups", catGroups);
         model.addAttribute("good", goodList);
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("producer",producerDtoList);
-        model.addAttribute("category", categoryDtoList);
+        model.addAttribute("categories", categories);
+        model.addAttribute("categoryGroup", categoryGroups);
         model.addAttribute("brand", brandDtoList);
+        model.addAttribute("model", modelDtoList);
 
         return "good-in-categoryGroup";
     }
 
     @GetMapping("/good-in-producer/{id}")
     public String getProductsInProducer(@PathVariable("id") Integer id_producer, Model model, Principal principal){
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-        List<CatGroupDto> catGroupDtoList = catGroupService.getCategoryGroupAndProduct();
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         Producer producer = producerService.getProducerById(id_producer);
         List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
         List<Good> goodList = goodService.getGoodByProducer(id_producer);
         List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
 
-
-        model.addAttribute("category", categoryDtoList);
-        model.addAttribute("categoryGroup", catGroupDtoList);
+        model.addAttribute("categories", categories);
+        model.addAttribute("categoryGroup", categoryGroups);
         model.addAttribute("producer",producer);
         model.addAttribute("producerDto", producerDtoList);
         model.addAttribute("good", goodList);
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("brand", brandDtoList);
+        model.addAttribute("model", modelDtoList);
 
         return "good-in-producer";
     }
 
     @GetMapping("/good-in-brand/{id}")
-    public String getProductsInBrand(@PathVariable("id") Integer id_brand, Model model, Principal principal){
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
+    public String getProductsInBrand(@PathVariable("id") Integer id_model, Model model, Principal principal){
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
-        Brand brand = brandService.getBrandById(id_brand);
-        List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
-        List<Good> goodList = goodService.getGoodByBrand(id_brand);
-        List<CatGroupDto> catGroupDtoList = catGroupService.getCategoryGroupAndProduct();
+        List<Good> goodList = goodService.getGoodByModel(id_model);
 
-        model.addAttribute("categoryGroup", catGroupDtoList);
+        com.example.store.entity.Model model1 = modelService.getModelById(id_model);
+        List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
+
         model.addAttribute("good", goodList);
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("producer",producerDtoList);
-        model.addAttribute("category", categoryDtoList);
+        model.addAttribute("categories", categories);
+        model.addAttribute("categoryGroup", categoryGroups);
         model.addAttribute("brand", brandDtoList);
+        model.addAttribute("model", modelDtoList);
 
         return "good-in-brand";
     }

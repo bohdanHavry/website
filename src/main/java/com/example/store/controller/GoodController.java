@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -31,8 +32,8 @@ public class GoodController {
     public String showAddGood(Model model, Principal principal, @RequestParam(name = "title", required = false) String title)
     {
         model.addAttribute("goods", goodService.listAll(title));
-        model.addAttribute("category", goodService.getAllCategory());
-        model.addAttribute("model", goodService.getAllModel());
+        model.addAttribute("categoryGroup", goodService.getAllCategoryGroup());
+        model.addAttribute("brand", goodService.getAllBrand());
         model.addAttribute("producer",goodService.getAllProducer());
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         return "addGood";
@@ -46,6 +47,21 @@ public class GoodController {
                             com.example.store.entity.Model model, Producer producer) throws IOException{
         goodService.saveGoodToDB(file, file2, file3, good, category, model, producer);
         return "redirect:/";
+    }
+
+    @GetMapping("/getSubcategories")
+    @ResponseBody
+    public List<Category> getSubcategories(@RequestParam("category") Integer category) {
+        // Логіка для отримання підкатегорій залежно від вибраної категорії
+        List<Category> subcategories = goodService.getSubcategoriesByCategory(category);
+        return subcategories;
+    }
+
+    @GetMapping("/getModels")
+    @ResponseBody
+    public List<com.example.store.entity.Model> getModels(@RequestParam("model") Integer model) {
+        List<com.example.store.entity.Model> models = goodService.getModelsByBrand(model);
+        return models;
     }
 
 
