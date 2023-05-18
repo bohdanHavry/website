@@ -43,8 +43,8 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public String processOrder(HttpServletRequest request, @RequestParam String city, @RequestParam String region,
-                               @RequestParam Integer index, @RequestParam String address, @RequestParam String payment_method, Principal principal,
+    public String processOrder(HttpServletRequest request, @RequestParam (required = false) String city, @RequestParam (required = false) String region,
+                               @RequestParam (required = false) Integer index, @RequestParam (required = false) String address, @RequestParam String payment_method, @RequestParam String order_method, Principal principal,
                                Model model) {
 
         User user = mainService.getUserByPrincipal(principal);
@@ -61,6 +61,7 @@ public class OrderController {
         order.setAddress(address);
         order.setPayment_method(payment_method);
         order.setPayment_status(false);
+        order.setOrder_method(order_method);
         order.setOrder_status("Очікується");
         order.setTotal_price(shoppingCart.getTotalPrice());
 

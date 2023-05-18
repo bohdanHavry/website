@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,7 +38,7 @@ public class ShopCartController {
 
     @PostMapping("/addToCart")
     public String addToCart(HttpServletRequest request, Model model, Principal principal,
-                            @RequestParam("id_good") Long id_good, @RequestParam("count") Integer count)
+                            @RequestParam("id_good") Long id_good, @RequestParam("count") Integer count, RedirectAttributes redirectAttributes)
     {
         String sessionToken = (String) request.getSession(true).getAttribute("sessionToken");
         if(sessionToken == null){
@@ -49,6 +50,7 @@ public class ShopCartController {
         else{
             shopCartService.addToExistingShoppingCart(id_good, sessionToken, count, principal);
         }
+        redirectAttributes.addFlashAttribute("addMessage", "Товар успішно доданий до корзини!");
         return "redirect:/";
     }
 

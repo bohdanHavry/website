@@ -44,7 +44,15 @@
 </nav>
 
 
+
 <div class="container mt-4">
+    <div th:if="${user.login}">
+        <div th:if="${addMessage!= null}">
+            <div class="alert alert-success" role="success">
+                <p th:text="${addMessage}" ></p>
+            </div>
+        </div>
+    </div>
     <h1 style="text-align: center">Пошук товарів</h1><hr>
     <form th:action="@{/}" method="get" th:attr="data-product-count=${#lists.size(goods)}">
     <div class="form-row">

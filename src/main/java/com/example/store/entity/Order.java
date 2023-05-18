@@ -22,6 +22,8 @@ public class Order {
     @Column(name = "order_date")
     private Date order_date;
 
+    @Column(name = "order_method")
+    private String order_method;
     @Column(name = "city")
     private String city;
 

@@ -62,16 +62,76 @@
         </div>
 
         <h2 style="padding-top: 25px;">Інформація про доставку</h2>
-        <div style=" display:flex; flex-direction: column; padding-left: 50px; padding-top: 10px;">
-        <label for="city">Місто:</label>
-        <input style="max-width: 225px;" type="text" id="city" name="city" required>
-        <label for="region">Область:</label>
-        <input style="max-width: 225px;" type="text" id="region" name="region" required>
-        <label for="index">Індекс:</label>
-        <input style="max-width: 225px;" type="text" id="index" name="index" required>
-        <label for="address">Адреса:</label>
-        <input style="max-width: 225px;" type="text" id="address" name="address" required>
+
+        <div style="padding-top: 10px; padding-left: 50px;">
+            <input type="radio" id="selfPickup" name="order_method" value="Самовивіз">
+            <label for="selfPickup">Самовивіз із магазину</label><br>
+            <input type="radio" id="delivery" name="order_method" value="Доставка">
+            <label for="delivery">Доставка Новою Поштою</label><br>
         </div>
+
+        <div id="delivery_info" style="display:none; flex-direction: column; padding-left: 25px; padding-top: 10px;">
+        <label for="city">Місто:</label>
+        <input style="max-width: 225px;" type="text" id="city" name="city" >
+        <label for="region">Область:</label>
+        <input style="max-width: 225px;" type="text" id="region" name="region" >
+        <label for="index">Індекс:</label>
+        <input style="max-width: 225px;" type="text" id="index" name="index" >
+        <label for="address">Адреса:</label>
+        <input style="max-width: 225px;" type="text" id="address" name="address" >
+        </div>
+
+        <script>
+    var cardRadio3 = document.getElementById("delivery");
+    var cardRadio4 = document.getElementById("selfPickup");
+    var cardInfoDiv2 = document.getElementById("delivery_info");
+    var city = document.getElementById("city");
+    var region = document.getElementById("region");
+    var index = document.getElementById("index");
+    var address = document.getElementById("address");
+
+    cardRadio3.addEventListener("change", function() {
+        if (cardRadio3.checked) {
+            cardInfoDiv2.style.display = "flex";
+            city.required = true;
+            region.required = true;
+            index.required = true;
+            address.required = true;
+        } else {
+            cardInfoDiv2.style.display = "none";
+            city.required = false;
+            region.required = false;
+            index.required = false;
+            address.required = false;
+        }
+    });
+
+    cardRadio4.addEventListener("change", function() {
+        if (cardRadio4.checked) {
+            cardInfoDiv2.style.display = "none";
+            city.required = false;
+            region.required = false;
+            index.required = false;
+            address.required = false;
+        } else {
+            cardInfoDiv2.style.display = "flex";
+            city.required = true;
+            region.required = true;
+            index.required = true;
+            address.required = true;
+        }
+    });
+
+    function validateForm() {
+        var radioChecked = cardRadio3.checked || cardRadio4.checked;
+        if (!radioChecked) {
+            alert("Будь ласка, виберіть метод замовлення.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
 
         <h2 style="padding-top: 25px;">Метод оплати</h2>
         <div style="padding-top: 10px; padding-left: 50px;">
@@ -106,8 +166,8 @@
                         <b><a th:href="@{/main/{idGood}(idGood=${item.good.id_good})}" class="d-block text-dark" th:text="${item.good.title}" style="font-size:18px;"/></b><br>
                         <small>
                             Серійний номер: <span class="text-muted" th:text="${item.good.number}"/> <br>
-                            Категорія: <span class="text-muted" th:text="${item.good.category.name_category}"/> <br>
                             Модель: <span class="text-muted" th:text="${item.good.model.name_model}"/> <br>
+                            Категорія: <span class="text-muted" th:text="${item.good.category.name_category}"/> <br>
                         </small>
                     </div>
                 </div>
@@ -150,23 +210,46 @@
     var cardRadio = document.getElementById("payment_card");
     var cardRadio2 = document.getElementById("payment_cash");
     var cardInfoDiv = document.getElementById("card_info");
+    var cardNumber = document.getElementById("cardNumber");
+    var cardExpiration = document.getElementById("cardExpiration");
+    var cardCVV = document.getElementById("cardCVV");
 
     cardRadio.addEventListener("change", function() {
         if (cardRadio.checked) {
             cardInfoDiv.style.display = "flex";
+            cardNumber.required = true;
+            cardExpiration.required = true;
+            cardCVV.required = true;
         } else {
             cardInfoDiv.style.display = "none";
+            cardNumber.required = false;
+            cardExpiration.required = false;
+            cardCVV.required = false;
         }
     });
 
     cardRadio2.addEventListener("change", function() {
         if (cardRadio2.checked) {
-        cardInfoDiv.style.display = "none";
+            cardInfoDiv.style.display = "none";
+            cardNumber.required = false;
+            cardExpiration.required = false;
+            cardCVV.required = false;
         } else {
             cardInfoDiv.style.display = "flex";
+            cardNumber.required = true;
+            cardExpiration.required = true;
+            cardCVV.required = true;
         }
+    });
+
+    function validateForm() {
+        var radioChecked = cardRadio.checked || cardRadio2.checked;
+        if (!radioChecked) {
+            alert("Будь ласка, виберіть метод оплати.");
+            return false;
+        }
+        return true;
     }
-    );
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
