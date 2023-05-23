@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>AVTO SENAT</title>
 </head>
 <body>
@@ -44,7 +45,7 @@
 
 <h1 style="text-align: center;">Оформлення замовлення</h1>
 
-<form method="post" th:action="@{/order}">
+<form method="post" th:action="@{/order}" onsubmit="return validateForm();">
 <div style="display: flex; justify-content:space-evenly; align-items: flex-start; margin: 50px;
 			padding: 20px;" >
 
@@ -62,7 +63,6 @@
         </div>
 
         <h2 style="padding-top: 25px;">Інформація про доставку</h2>
-
         <div style="padding-top: 10px; padding-left: 50px;">
             <input type="radio" id="selfPickup" name="order_method" value="Самовивіз">
             <label for="selfPickup">Самовивіз із магазину</label><br>
@@ -71,37 +71,93 @@
         </div>
 
         <div id="delivery_info" style="display:none; flex-direction: column; padding-left: 25px; padding-top: 10px;">
-        <label for="city">Місто:</label>
-        <input style="max-width: 225px;" type="text" id="city" name="city" >
-        <label for="region">Область:</label>
-        <input style="max-width: 225px;" type="text" id="region" name="region" >
-        <label for="index">Індекс:</label>
-        <input style="max-width: 225px;" type="text" id="index" name="index" >
-        <label for="address">Адреса:</label>
-        <input style="max-width: 225px;" type="text" id="address" name="address" >
+            <label for="cities">Місто:</label>
+            <select style="max-width: 225px;" id="cities" name="cities"></select>
+            <input type="hidden" name="city" value="">
+
+            <label for="warehouses">Відділення Нової пошти:</label>
+            <select style="max-width: 225px;" id="warehouses" name="warehouses"></select>
+            <input type="hidden" name="address" value="">
         </div>
+
+        <script>
+		$(document).ready(function() {
+			// Завантаження списку міст
+			$.ajax({
+				url: "https://api.novaposhta.ua/v2.0/json/Address/getCities",
+				type: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					"apiKey": "184df33498070cf9e047e87087a8424d",
+					"modelName": "Address",
+					"calledMethod": "getCities",
+					"methodProperties": {}
+				}),
+				success: function(data) {
+					// Заповнення випадаючого списку міст
+					var cities = data.data;
+					var citiesSelect = $("#cities");
+
+					$.each(cities, function(index, city) {
+						citiesSelect.append($('<option></option>').attr('value', city.Ref).text(city.Description));
+					});
+
+					// Обробник події зміни вибраного міста
+					citiesSelect.change(function() {
+						var selectedCityRef = $(this).val();
+
+						// Завантаження відділень для вибраного міста
+						$.ajax({
+							url: "https://api.novaposhta.ua/v2.0/json/Address/getWarehouses",
+							type: "POST",
+							dataType: "json",
+							data: JSON.stringify({
+								"apiKey": "184df33498070cf9e047e87087a8424d",
+								"modelName": "Address",
+								"calledMethod": "getWarehouses",
+								"methodProperties": {
+									"CityRef": selectedCityRef
+								}
+							}),
+							success: function(data) {
+								// Заповнення випадаючого списку відділень
+								var warehouses = data.data;
+								var warehousesSelect = $("#warehouses");
+
+								warehousesSelect.empty(); // Очистка випадаючого списку
+
+								$.each(warehouses, function(index, warehouse) {
+									warehousesSelect.append($('<option></option>').attr('value', warehouse.Ref).text(warehouse.Description));
+								});
+							},
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					});
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+</script>
 
         <script>
     var cardRadio3 = document.getElementById("delivery");
     var cardRadio4 = document.getElementById("selfPickup");
     var cardInfoDiv2 = document.getElementById("delivery_info");
-    var city = document.getElementById("city");
-    var region = document.getElementById("region");
-    var index = document.getElementById("index");
-    var address = document.getElementById("address");
+    var city = document.getElementById("cities");
+    var address = document.getElementById("warehouses");
 
     cardRadio3.addEventListener("change", function() {
         if (cardRadio3.checked) {
             cardInfoDiv2.style.display = "flex";
             city.required = true;
-            region.required = true;
-            index.required = true;
             address.required = true;
         } else {
             cardInfoDiv2.style.display = "none";
             city.required = false;
-            region.required = false;
-            index.required = false;
             address.required = false;
         }
     });
@@ -110,22 +166,26 @@
         if (cardRadio4.checked) {
             cardInfoDiv2.style.display = "none";
             city.required = false;
-            region.required = false;
-            index.required = false;
             address.required = false;
         } else {
             cardInfoDiv2.style.display = "flex";
             city.required = true;
-            region.required = true;
-            index.required = true;
             address.required = true;
         }
     });
 
-    function validateForm() {
+    function validateOrderForm() {
         var radioChecked = cardRadio3.checked || cardRadio4.checked;
         if (!radioChecked) {
             alert("Будь ласка, виберіть метод замовлення.");
+            return false;
+        }
+        return true;
+    }
+
+    function validateForm() {
+        var formValid = validatePaymentMethod() && validateOrderForm();
+        if (!formValid) {
             return false;
         }
         return true;
@@ -242,7 +302,7 @@
         }
     });
 
-    function validateForm() {
+    function validatePaymentMethod() {
         var radioChecked = cardRadio.checked || cardRadio2.checked;
         if (!radioChecked) {
             alert("Будь ласка, виберіть метод оплати.");
@@ -252,9 +312,19 @@
     }
 </script>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+<script>
+    // Обробник події відправки форми
+    $('form').submit(function(event) {
+        // Отримання значень полів
+        var selectedCity = $('#cities option:selected').text();
+        var selectedWarehouse = $('#warehouses option:selected').text();
+
+        // Встановлення значень полів у приховані поля форми
+        $('input[name="city"]').val(selectedCity);
+        $('input[name="address"]').val(selectedWarehouse);
+    });
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>

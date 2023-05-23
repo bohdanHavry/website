@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -44,8 +45,9 @@ public class GoodController {
     public String saveGood (@RequestParam("file") MultipartFile file, @RequestParam("file2") MultipartFile file2,
                             @RequestParam("file3") MultipartFile file3,
                             Good good, Category category,
-                            com.example.store.entity.Model model, Producer producer) throws IOException{
+                            com.example.store.entity.Model model, Producer producer, RedirectAttributes redirectAttributes) throws IOException{
         goodService.saveGoodToDB(file, file2, file3, good, category, model, producer);
+        redirectAttributes.addFlashAttribute("addMessage", "Товар успішно був створений!");
         return "redirect:/";
     }
 

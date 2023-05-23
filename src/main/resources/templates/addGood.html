@@ -139,6 +139,7 @@
                         <div class="form-group">
                                 <label for="searchProducer">Виробник</label>
                                 <select name="producer" id="searchProducer" class="form-control" title="Виберіть виробника" required>
+                                        <option value="">-- Оберіть виробника --</option>
                                         <option th:each="producer : ${producer}" th:value="${producer.id_producer}">[[${producer.name_producer}]]</option>
                                 </select>
                         </div>
@@ -183,22 +184,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="item : ${goods}" th:if="${item.discount != null}">
+                        <tr th:each="item, itemStat : ${goods}" th:if="${itemStat.index < 50}">
                                 <td th:text="${item.number}" />
                                 <td th:text="${item.title}" />
                                 <td th:text="${item.price}" />
-                                <td th:text="${item.discount}" />
-                                <td th:text="${item.category.category_group.name_category_group}" />
-                                <td th:text="${item.category.name_category}" />
-                                <td th:text="${item.model.name_model}" />
-                                <td th:text="${item.model.year}" />
-                                <td th:text="${item.producer.name_producer}" />
-                        </tr>
-                        <tr th:each="item : ${goods}" th:if="${item.discount == null}">
-                                <td th:text="${item.number}" />
-                                <td th:text="${item.title}" />
-                                <td th:text="${item.price}" />
-                                <td th:text="${item.price}" />
+                                <td>
+                                        <span th:if="${item.discount != null}" th:text="${item.discount}"></span>
+                                        <span th:unless="${item.discount != null}" th:text="${item.price}"></span>
+                                </td>
                                 <td th:text="${item.category.category_group.name_category_group}" />
                                 <td th:text="${item.category.name_category}" />
                                 <td th:text="${item.model.name_model}" />

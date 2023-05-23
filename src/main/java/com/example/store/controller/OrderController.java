@@ -43,8 +43,8 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public String processOrder(HttpServletRequest request, @RequestParam (required = false) String city, @RequestParam (required = false) String region,
-                               @RequestParam (required = false) Integer index, @RequestParam (required = false) String address, @RequestParam String payment_method, @RequestParam String order_method, Principal principal,
+    public String processOrder(HttpServletRequest request, @RequestParam (required = false) String city,
+                               @RequestParam (required = false) String address, @RequestParam String payment_method, @RequestParam String order_method, Principal principal,
                                Model model) {
 
         User user = mainService.getUserByPrincipal(principal);
@@ -56,8 +56,6 @@ public class OrderController {
         order.setUser(user);
         order.setOrder_date(new Date());
         order.setCity(city);
-        order.setRegion(region);
-        order.setIndex(index);
         order.setAddress(address);
         order.setPayment_method(payment_method);
         order.setPayment_status(false);
@@ -117,13 +115,14 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/changeInfoOrder/{id_order}")
     public String changeInfoOrder(@PathVariable("id_order") Long id_order, RedirectAttributes redirectAttributes,
-                                     @RequestParam String address, @RequestParam String city, @RequestParam String region,
-                                  @RequestParam Integer index, @RequestParam String order_status, @RequestParam Boolean payment_status){
+                                  @RequestParam String order_method, @RequestParam(required = false) String address,
+                                  @RequestParam(required = false) String city,
+                                  @RequestParam String order_status,
+                                  @RequestParam Boolean payment_status) {
         Order order = orderRepo.findById(id_order).orElse(null);
+        order.setOrder_method(order_method);
         order.setAddress(address);
         order.setCity(city);
-        order.setRegion(region);
-        order.setIndex(index);
         order.setOrder_status(order_status);
         order.setPayment_status(payment_status);
         orderRepo.save(order);

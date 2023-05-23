@@ -50,7 +50,7 @@
   <form th:action="@{/addCG}" method="post">
     <div class="form-group">
       <label for = "name">Категорія</label>
-      <input type="text" name="name_category_group" id="name">
+      <input type="text" name="name_category_group" id="name" required>
     </div>
     <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти категорію</button>
   </form>
@@ -58,14 +58,13 @@
   <form th:action="@{/addC}" method="post">
     <div class="form-group">
       <label for = "nameCategory">Підкатегорія</label>
-      <input type="text" name="name_category" id="nameCategory">
+      <input type="text" name="name_category" id="nameCategory" required>
     </div>
     <div class="form-group">
       <label for="searchCat">Категорія</label>
-      <select name="category_group" id="searchCat" class="form-control"
-              title="select categories group .." multiple data-actions-box="true">
-
-        <option th:each="category_group : ${category_group}" th:value="${category_group.id_category_group}">[[${category_group.name_category_group}]]</option>
+      <select name="category_group" id="searchCat" class="form-control" title="Оберіть категорію" required>
+          <option value="">-- Оберіть категорію --</option>
+          <option th:each="category_group : ${category_group}" th:value="${category_group.id_category_group}">[[${category_group.name_category_group}]]</option>
       </select>
     </div>
     <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти підкатегорію</button>

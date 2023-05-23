@@ -11,6 +11,7 @@
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <title>AVTO SENAT</title>
 </head>
@@ -54,17 +55,51 @@
         <h6 th:text="'Номер телефону: ' + ${order.user.phone}"></h6>
 
         <div class="form-group">
-            <label> Адреса: <input type="text" th:value="${order.address}" name="address" required/> </label>
+            <label> Метод замовлення:</label>
+            <select id="orderMethodSelect" name="order_method" required>
+                <option value="Самовивіз" th:selected="${order.order_method == 'Самовивіз'}">Самовивіз</option>
+                <option value="Доставка" th:selected="${order.order_method == 'Доставка'}">Доставка</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label> Місто: <input type="text" th:value="${order.city}" name="city" required/> </label>
+
+        <div id="deliveryFields" style="display: none;">
+            <div th:if="${order.city != null and order.city != ''}">
+                <div class="form-group">
+                    <label> Місто:
+                        <input type="text" th:value="${order.city}" name="orderCity" readonly/>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label> Відділення Нової пошти:
+                        <input type="text" th:value="${order.address}" name="orderAddress" readonly/>
+                    </label>
+                </div>
+            </div>
+            <div th:unless="${order.city == null and order.city == ''}">
+                <input type="hidden" th:value="${order.city}" name="orderCity" readonly/>
+                <input type="hidden" th:value="${order.address}" name="orderAddress" readonly/>
+            </div>
+
+            <i>Щоб змінити місто або відділення нової пошти для доставки оберіть дані зі списків, що нижче:</i>
+
+            <div class="form-group">
+                <label> Місто:
+                    <select style="max-width: 225px;" id="cities" name="cities">
+                        <option value=""></option>
+                    </select>
+                    <input type="hidden" name="city" th:value="${order.city}">
+                </label>
+            </div>
+            <div class="form-group">
+                <label> Відділення Нової пошти:
+                    <select style="max-width: 225px;" id="warehouses" name="warehouses">
+                        <option value=""></option>
+                    </select>
+                    <input type="hidden" name="address" th:value="${order.address}">
+                </label>
+            </div>
         </div>
-        <div class="form-group">
-            <label> Область: <input type="text" th:value="${order.region}" name="region" required/> </label>
-        </div>
-        <div class="form-group">
-            <label> Поштовий індекс: <input type="number" th:value="${order.index}" name="index" required/> </label>
-        </div>
+
         <div class="form-group">
             <label>Статус замовлення:</label>
             <select name="order_status" required>
@@ -83,15 +118,141 @@
             </select>
         </div>
 
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <input type="hidden" name="_method" value="put">
         <button type="submit" style="width: 100%; margin-bottom: 20px;" class="btn btn-dark">Змінити</button>
     </form>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var orderMethodSelect = document.getElementById('orderMethodSelect');
+        var deliveryFields = document.getElementById('deliveryFields');
+        var addressInput = document.querySelector('input[name="orderAddress"]');
+        var cityInput = document.querySelector('input[name="orderCity"]');
+        var savedCity = cityInput.value;
+        var savedAddress = addressInput.value;
+
+        var addressMain = document.querySelector('select[name="warehouses"]');
+        var cityMain = document.querySelector('select[name="cities"]');
+        var savedCityMain = cityMain.value;
+        var savedAddressMain = addressMain.value;
+
+        orderMethodSelect.addEventListener('change', function () {
+            if (orderMethodSelect.value === 'Доставка') {
+                deliveryFields.style.display = 'block';
+                addressInput.required = true;
+                cityInput.required = true;
+                addressInput.value = savedAddress;
+                cityInput.value = savedCity;
+
+                addressMain.required = true;
+                cityMain.required = true;
+                addressMain.value = savedAddressMain;
+                cityMain.value = savedCityMain;
+            } else {
+                deliveryFields.style.display = 'none';
+                addressInput.required = false;
+                cityInput.required = false;
+                addressInput.value = '';
+                cityInput.value = '';
+
+                addressMain.required = false;
+                cityMain.required = false;
+                addressMain.value = '';
+                cityMain.value = '';
+            }
+        });
+
+        if (orderMethodSelect.value === 'Доставка') {
+            deliveryFields.style.display = 'block';
+            addressInput.required = true;
+            cityInput.required = true;
+
+            addressMain.required = true;
+            cityMain.required = true;
+        }
+    });
+</script>
+
+
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+<script>
+		$(document).ready(function() {
+			// Завантаження списку міст
+			$.ajax({
+				url: "https://api.novaposhta.ua/v2.0/json/Address/getCities",
+				type: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					"apiKey": "184df33498070cf9e047e87087a8424d",
+					"modelName": "Address",
+					"calledMethod": "getCities",
+					"methodProperties": {}
+				}),
+				success: function(data) {
+					// Заповнення випадаючого списку міст
+					var cities = data.data;
+					var citiesSelect = $("#cities");
+
+					$.each(cities, function(index, city) {
+						citiesSelect.append($('<option></option>').attr('value', city.Ref).text(city.Description));
+					});
+
+					// Обробник події зміни вибраного міста
+					citiesSelect.change(function() {
+						var selectedCityRef = $(this).val();
+
+						// Завантаження відділень для вибраного міста
+						$.ajax({
+							url: "https://api.novaposhta.ua/v2.0/json/Address/getWarehouses",
+							type: "POST",
+							dataType: "json",
+							data: JSON.stringify({
+								"apiKey": "184df33498070cf9e047e87087a8424d",
+								"modelName": "Address",
+								"calledMethod": "getWarehouses",
+								"methodProperties": {
+									"CityRef": selectedCityRef
+								}
+							}),
+							success: function(data) {
+								// Заповнення випадаючого списку відділень
+								var warehouses = data.data;
+								var warehousesSelect = $("#warehouses");
+
+								warehousesSelect.empty(); // Очистка випадаючого списку
+
+								$.each(warehouses, function(index, warehouse) {
+									warehousesSelect.append($('<option></option>').attr('value', warehouse.Ref).text(warehouse.Description));
+								});
+							},
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					});
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+</script>
+
+<script>
+    // Обробник події відправки форми
+    $('form').submit(function(event) {
+        // Отримання значень полів
+        var selectedCity = $('#cities option:selected').text();
+        var selectedWarehouse = $('#warehouses option:selected').text();
+
+        // Встановлення значень полів у приховані поля форми
+        $('input[name="city"]').val(selectedCity);
+        $('input[name="address"]').val(selectedWarehouse);
+    });
+</script>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>

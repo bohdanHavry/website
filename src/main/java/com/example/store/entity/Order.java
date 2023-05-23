@@ -27,12 +27,6 @@ public class Order {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "region")
-    private String region;
-
-    @Column(name = "index")
-    private Integer index;
-
     @Column(name = "address")
     private String address;
 
@@ -93,22 +87,6 @@ public class Order {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public Integer getIndex() {
-        return index;
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
     }
 
     public String getAddress() {

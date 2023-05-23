@@ -123,7 +123,7 @@
                     <div class="container">
                         <div class="carousel-caption">
                             <a th:href="@{/images/{imageId}(imageId=${image.image_id})}">
-                                <img class="product" style="object-fit: contain;" th:src="@{/images/{imageId}(imageId=${image.image_id})}">
+                                <img class="product" style="height: 350px; width: 350px; object-fit: contain;"  th:src="@{/images/{imageId}(imageId=${image.image_id})}">
                             </a>
                         </div>
                     </div>
@@ -297,9 +297,10 @@ stars.forEach(function(star) {
     </div>
 
 </div>
+
 <h3 style="text-align: center; margin-bottom: 20px;">Схожі товари</h3>
 <div class="container">
-<div class="owl-carousel owl-theme">
+    <div class="owl-carousel owl-theme" th:if="${relatedProducts.size() > 3}">
     <div th:each="relatedProduct : ${relatedProducts}" class="card my-3" style="max-width: 260px;">
         <a th:href="@{/main/{idGood}(idGood=${relatedProduct.id_good})}" class="product-link">
             <img th:src="@{/images/{previewImageId}(previewImageId=${relatedProduct.previewImageId})}" class="card-img-top" style="height: 220px; width: 100%; object-fit: contain;">
@@ -326,9 +327,35 @@ stars.forEach(function(star) {
         </div>
     </div>
 </div>
+    <div class="row" th:if="${relatedProducts.size() <= 3}">
+        <div th:each="relatedProduct : ${relatedProducts}" class="card my-3" style="max-width: 260px; margin: 0 50px;">
+                <a th:href="@{/main/{idGood}(idGood=${relatedProduct.id_good})}" class="product-link">
+                    <img th:src="@{/images/{previewImageId}(previewImageId=${relatedProduct.previewImageId})}" class="card-img-top" style="height: 220px; width: 100%; object-fit: contain;">
+                </a>
+                <div class="card-body">
+                    <div class="badge badge-pill badge-danger" th:if="${relatedProduct.isHotDeal}"><i class="fas fa-fire"></i> Гаряча пропозиція</div>
+                    <div class="badge badge-pill badge-success" th:if="${relatedProduct.discount}"><i class="fas fa-percent"></i> Знижка</div>
+                    <h5 class="card-title" th:text="${relatedProduct.title}"></h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <b th:text="${relatedProduct.model.name_model}"></b>
+                    </div>
+                    <p class="card-text" style="margin: 0;">
+                        <b style="font-style: normal;">Категорія:</b> <span th:text="${relatedProduct.category.category_group.name_category_group}"></span><br>
+                        <b style="font-style: normal;">Підкатегорія:</b> <span th:text="${relatedProduct.category.name_category}"></span>
+                    </p>
+                    <div th:if="${relatedProduct.discount}" style="margin-bottom: 5px; font-size: 20px;">
+                        <s style="color: #dc3545;"><i th:text="${relatedProduct.price}"></i> грн.</s>
+                        <b style="color: #28a745; padding-left: 10px;" th:text="${relatedProduct.discount}"></b> <b style="color: #28a745;">грн.</b>
+                    </div>
+                    <div th:unless="${relatedProduct.discount}" style="margin-bottom: 5px; font-size: 20px;">
+                        <b th:text="${relatedProduct.price}"></b> грн.
+                    </div>
+                    <a th:href="@{/main/{idGood}(idGood=${relatedProduct.id_good})}" class="btn btn-outline-dark btn-sm stretched-link">Детальніше</a>
+                </div>
+        </div>
+    </div>
 </div>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

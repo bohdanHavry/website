@@ -58,11 +58,11 @@
         <h5>Пошук по діапазону дати замовлення:</h5>
         <div class="form-group">
           <label for="startDate">Початкова дата:</label>
-          <input type="date" class="form-control" id="startDate" name="startDate" />
+          <input type="date" class="form-control" id="startDate" name="startDate" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
         </div>
         <div class="form-group">
           <label for="endDate">Кінцева дата:</label>
-          <input type="date" class="form-control" id="endDate" name="endDate" />
+          <input type="date" class="form-control" id="endDate" name="endDate" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
         </div>
         <div style="display: flex; justify-content: center;">
           <button type="submit" class="btn btn-primary" style="width: 100px;">Пошук</button>
@@ -100,10 +100,9 @@
         <thead>
         <tr>
           <th scope="col">ID замовлення</th>
-          <th scope="col">Адреса</th>
+          <th scope="col">Метод замовлення</th>
           <th scope="col">Місто</th>
-          <th scope="col">Область</th>
-          <th scope="col">Поштовий індекс</th>
+          <th scope="col">Відділення Нової пошти</th>
           <th scope="col">Дата замовлення</th>
           <th scope="col">Статус замовлення</th>
           <th scope="col">Метод оплати</th>
@@ -125,10 +124,9 @@
         <tbody>
         <tr th:each="item : ${orders}">
           <td th:text="${item.id_order}" />
-          <td th:text="${item.address}"/>
+          <td th:text="${item.order_method}" />
           <td th:text="${item.city}" />
-          <td th:text="${item.region}"/>
-          <td th:text="${item.index}" />
+          <td th:text="${item.address}"/>
           <td th:text="${item.order_date}"/>
           <td th:text="${item.order_status}" />
           <td th:text="${item.payment_method}"/>
