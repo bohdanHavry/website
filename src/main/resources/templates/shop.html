@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
@@ -197,34 +199,31 @@
     </div>
     <hr>
     <div th:unless="${noReviews == false}" class="row" style="padding-bottom: 50px;">
-        <div style="display: flex; justify-content:center; flex-direction: row; align-items: center; gap: 25px;" >
-            <div th:each="rev : ${review}" class="card shadow-sm">
+
+        <div id="reviews" style="display: flex; justify-content:center; flex-direction: row; align-items: center; gap: 25px;">
+            <div th:each="rev, iter : ${review}" class="card shadow-sm" th:if="${iter.index} &lt; 3">
                 <div class="card-body">
                     <h5 class="card-title"><span th:text="${rev.user.first_name}"></span>
                         <span th:text="${rev.user.last_name}"></span></h5>
                     <p class="card-text" th:text="${rev.text}"></p>
                     <div class="rating">
-                <span th:each="i : ${#numbers.sequence(1, rev.rating)}">
-                    <i style="color: yellow" class="fas fa-star"></i>
-                </span>
+                    <span th:each="i : ${#numbers.sequence(1, rev.rating)}">
+                        <i style="color: yellow" class="fas fa-star"></i>
+                    </span>
                     </div>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted" th:text="${rev.reviewDate}"></small>
-
-
-                        <th:block th:if="${user.login}">
-                            <th:block th:if="${rev.user.user_id == user.user_id || user.isAdmin()}">
-                                <a th:href="@{/main/{id_good}/deleteReview/{id_review}(id_good=${good.id_good}, id_review=${rev.id_review})}" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                            </th:block>
+                    <th:block th:if="${user.login}">
+                        <th:block th:if="${rev.user.user_id == user.user_id || user.isAdmin()}">
+                            <a th:href="@{/main/{id_good}/deleteReview/{id_review}(id_good=${good.id_good}, id_review=${rev.id_review})}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
                         </th:block>
-
+                    </th:block>
                 </div>
             </div>
         </div>
-
     </div>
 
 
@@ -242,6 +241,17 @@
                     <i style="color: grey;" class=" rating-stars far fa-star" data-rating="4"></i>
                     <i style="color: grey;" class=" rating-stars far fa-star" data-rating="5"></i>
                 </div>
+
+                <script>
+        function validateForm() {
+            var rating = parseInt(document.getElementById("rating").value);
+            if (rating === 0) {
+                alert("Будь ласка, оберіть оцінку.");
+                return false; // Відміна відправки форми
+            }
+            return true; // Продовження відправки форми
+        }
+    </script>
 
                 <script>
  const stars = document.querySelectorAll('.rating-stars');
@@ -285,10 +295,29 @@ stars.forEach(function(star) {
 
                 <div class="form-group" style="padding-top: 25px;">
                     <label style="padding-left: 25px;" for="text">Відгук:</label>
-                    <textarea rows="5" cols="20" class="form-control" id="text" name="text"></textarea>
+                    <textarea rows="5" cols="20" class="form-control" id="text" name="text" oninput="updateCounter()" onkeydown="checkMaxLength(event)"></textarea>
+                    <div id="counter" style="padding-left: 25px;"></div>
                 </div>
-                <div th:if="${user.login}" style=" display: flex; justify-content:center;"><button type="submit" style=" font-size: large; width:100px; height:50px;" class="btn btn-success">Готово</button></div>
+                <div th:if="${user.login}" style=" display: flex; justify-content:center;"><button type="submit" onclick="return validateForm();" style=" font-size: large; width:100px; height:50px;" class="btn btn-success">Готово</button></div>
+                <script>
+    function updateCounter() {
+        var textarea = document.getElementById("text");
+        var counter = document.getElementById("counter");
+        var remainingChars = 255 - textarea.value.length;
+        counter.innerText = "Залишилось символів: " + remainingChars;
+    }
 
+    function checkMaxLength(event) {
+        var textarea = document.getElementById("text");
+        var currentLength = textarea.value.length;
+
+        if (currentLength >= 255) {
+            if (event.keyCode !== 8) {
+                event.preventDefault(); // Забороняємо введення символів, крім backspace
+            }
+        }
+    }
+</script>
                 <span th:unless="${user.login}">
                 <p>Для того щоб залишити відгук, <a href="/login">авторизуйтесь</a>! </p>
                 </span>
@@ -448,6 +477,8 @@ stars.forEach(function(star) {
         }
     }
 </script>
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
