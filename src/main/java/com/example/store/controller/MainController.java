@@ -184,6 +184,16 @@ public class MainController {
     return "redirect:/main/" + id_good;
     }
 
+    @GetMapping("/allReviews/{id_good}")
+    public String allReviews(@PathVariable Long id_good, Model model, Principal principal) {
+        List<Review> review = reviewService.getAllReviewsByGoodId(id_good);
+        Good good = goodService.getGoodById(id_good);
+        model.addAttribute("good", good);
+        model.addAttribute("review", review);
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "allReviews";
+    }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deleteGood/{id_good}")
     public String deleteGood(@PathVariable("id_good") Long id_good){

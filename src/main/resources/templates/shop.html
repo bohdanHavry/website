@@ -198,7 +198,7 @@
         <p>Відгуки відсутні, добавте перший відгук!</p>
     </div>
     <hr>
-    <div th:unless="${noReviews == false}" class="row" style="padding-bottom: 50px;">
+    <div th:unless="${noReviews}" class="row" style="padding-bottom: 50px;">
 
         <div id="reviews" style="display: flex; justify-content:center; flex-direction: row; align-items: center; gap: 25px;">
             <div th:each="rev, iter : ${review}" class="card shadow-sm" th:if="${iter.index} &lt; 3">
@@ -223,6 +223,7 @@
                     </th:block>
                 </div>
             </div>
+            <a class="btn btn-outline-primary" th:href="@{/allReviews/{id_good}(id_good=${good.id_good})}" role="button">Показати всі відгуки</a>
         </div>
     </div>
 
