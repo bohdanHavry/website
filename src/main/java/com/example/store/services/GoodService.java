@@ -9,6 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +44,11 @@ public class GoodService {
             image1 = toImageEntity(file);
             image1.setPreviewImage(true);
             good.addImageToGood(image1);
+        } else {
+            // Якщо файл не обрано, створюємо фотографію "заглушку" і встановлюємо її як прев'юшну фотографію
+            image1 = createPlaceholderImage();
+            image1.setPreviewImage(true);
+            good.addImageToGood(image1);
         }
 
         if(file2.getSize() != 0) {
@@ -68,6 +77,30 @@ public class GoodService {
         image.setSize(file.getSize());
         image.setBytes(file.getBytes());
         return image;
+    }
+
+    private Image createPlaceholderImage() {
+        Image placeholderImage = new Image();
+        // Заповнюємо дані фотографії "заглушки"
+        placeholderImage.setName_image("placeholder.jpg");
+        placeholderImage.setOriginalFileName("placeholder.jpg");
+        placeholderImage.setContentType("image/jpeg");
+        try {
+            // Отримуємо клас-завантажувач
+            ClassLoader classLoader = getClass().getClassLoader();
+            // Отримуємо URL файлу "заглушки" з ресурсів проекту
+            URL placeholderURL = classLoader.getResource("static/images/placeholder.jpg");
+            // Отримуємо шлях до файлу "заглушки"
+            String placeholderPath = Paths.get(placeholderURL.toURI()).toString();
+            // Читаємо байти з файлу "заглушки"
+            byte[] placeholderBytes = Files.readAllBytes(Paths.get(placeholderPath));
+            placeholderImage.setSize((long) placeholderBytes.length);
+            placeholderImage.setBytes(placeholderBytes);
+        } catch (IOException | URISyntaxException e) {
+            // Обробка виключення IOException та URISyntaxException
+            e.printStackTrace();
+        }
+        return placeholderImage;
     }
 
     public List<Good> listAll(String title){

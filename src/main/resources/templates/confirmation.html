@@ -43,6 +43,13 @@
 </nav>
 
 <div class="container mt-4">
+
+    <div th:if="${message != null}">
+        <div class="alert alert-success" role="alert">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
+
     <h1 style="text-align: center">Вітаю, оформлення замовлення пройшло успішно! Чекайте подальших інструкцій від менеджера.</h1>
 </div>
 

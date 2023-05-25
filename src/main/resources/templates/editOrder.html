@@ -84,7 +84,7 @@
 
             <div class="form-group">
                 <label> Місто:
-                    <select style="max-width: 225px;" id="cities" name="cities">
+                    <select style="width: 225px;" id="cities" name="cities">
                         <option value=""></option>
                     </select>
                     <input type="hidden" name="city" th:value="${order.city}">
@@ -92,7 +92,7 @@
             </div>
             <div class="form-group">
                 <label> Відділення Нової пошти:
-                    <select style="max-width: 225px;" id="warehouses" name="warehouses">
+                    <select style="width: 225px;" id="warehouses" name="warehouses">
                         <option value=""></option>
                     </select>
                     <input type="hidden" name="address" th:value="${order.address}">
@@ -166,9 +166,6 @@
             deliveryFields.style.display = 'block';
             addressInput.required = true;
             cityInput.required = true;
-
-            addressMain.required = true;
-            cityMain.required = true;
         }
     });
 </script>
@@ -246,9 +243,12 @@
         var selectedCity = $('#cities option:selected').text();
         var selectedWarehouse = $('#warehouses option:selected').text();
 
-        // Встановлення значень полів у приховані поля форми
-        $('input[name="city"]').val(selectedCity);
-        $('input[name="address"]').val(selectedWarehouse);
+        // Перевірка, чи значення $('#cities option:selected') не є пустим рядком
+        if (selectedCity.trim() !== '') {
+            // Встановлення значень полів у приховані поля форми
+            $('input[name="city"]').val(selectedCity);
+            $('input[name="address"]').val(selectedWarehouse);
+        }
     });
 </script>
 

@@ -5,6 +5,7 @@ import com.example.store.entity.*;
 import com.example.store.repository.OrderItemRepo;
 import com.example.store.repository.OrderRepo;
 import com.example.store.repository.UserRepo;
+import com.example.store.services.MailService;
 import com.example.store.services.MainService;
 import com.example.store.services.ShopCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -32,6 +34,8 @@ public class OrderController {
     private OrderRepo orderRepo;
     @Autowired
     private OrderItemRepo orderItemRepo;
+    @Autowired
+    private MailService mailService;
 
     @GetMapping("/order")
     public String showOrder(HttpServletRequest request, Model model, Principal principal) {
@@ -45,7 +49,7 @@ public class OrderController {
     @PostMapping("/order")
     public String processOrder(HttpServletRequest request, @RequestParam (required = false) String city,
                                @RequestParam (required = false) String address, @RequestParam String payment_method, @RequestParam String order_method, Principal principal,
-                               Model model) {
+                               RedirectAttributes redirectAttributes) {
 
         User user = mainService.getUserByPrincipal(principal);
         String sessionToken = (String) request.getSession(true).getAttribute("sessionToken");
@@ -73,6 +77,18 @@ public class OrderController {
 
         order.setOrderItems(orderItems);
         orderRepo.saveAndFlush(order);
+
+        if(!StringUtils.isEmpty(user.getMail())){
+            String message = String.format(
+                    "Привіт, %s! \n" +
+                            "Дякуємо за ваше замовлення на сайті AvtoSenat, очікуйте повідомлень від менеджера. Номер вашого замовлення: %s",
+                    user.getLogin(),
+                    order.getId_order()
+            );
+
+            mailService.send(user.getMail(),"Успішне оформлення замовлення!", message);
+            redirectAttributes.addFlashAttribute("message", "На вашу поштову скриньку було відправлено повідомлення про успішне оформлення замовлення.");
+        }
 
         return  "redirect:/confirmation";
     }

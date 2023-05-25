@@ -86,7 +86,7 @@
 
                         <div class="form-group">
                                 <div class="custom-file">
-                                        <input type="file" name="file" id="file" required>
+                                        <input type="file" name="file" id="file">
                                         <label class="custom-file-label" for="file">Виберіть основне фото для товару</label>
                                 </div>
                         </div>
@@ -221,6 +221,57 @@
 function clearFilter(){
     window.location = '/';
     }
+</script>
+
+<style>
+  .custom-file-label {
+    color: #212529; /* Колір тексту за замовчуванням */
+  }
+
+  .custom-file-label.selected {
+    color: green; /* Колір тексту для обраного файлу */
+  }
+</style>
+
+<script>
+  // Отримуємо посилання на елементи полів вибору файлу і етикеток
+  var fileInput1 = document.getElementById('file');
+  var fileInput2 = document.getElementById('file2');
+  var fileInput3 = document.getElementById('file3');
+  var label1 = document.querySelector('label[for="file"]');
+  var label2 = document.querySelector('label[for="file2"]');
+  var label3 = document.querySelector('label[for="file3"]');
+
+  // Додаємо обробник події "change" для оновлення відображення назв файлів
+  fileInput1.addEventListener('change', updateFileName);
+  fileInput2.addEventListener('change', updateFileName);
+  fileInput3.addEventListener('change', updateFileName);
+
+  // Функція для оновлення відображення назв файлів
+  function updateFileName() {
+    label1.textContent = fileInput1.files[0] ? 'Обрано основне фото для товару: ' + fileInput1.files[0].name : 'Виберіть основне фото для товару';
+    label2.textContent = fileInput2.files[0] ? 'Обрано фото для товару в галерею: ' + fileInput2.files[0].name : 'Виберіть фото для товару в галерею';
+    label3.textContent = fileInput3.files[0] ? 'Обрано фото для товару в галерею: ' + fileInput3.files[0].name : 'Виберіть фото для товару в галерею';
+
+    // Додаємо/видаляємо клас "selected" для етикеток, щоб змінити колір тексту
+    if (fileInput1.files[0]) {
+      label1.classList.add('selected');
+    } else {
+      label1.classList.remove('selected');
+    }
+
+    if (fileInput2.files[0]) {
+      label2.classList.add('selected');
+    } else {
+      label2.classList.remove('selected');
+    }
+
+    if (fileInput3.files[0]) {
+      label3.classList.add('selected');
+    } else {
+      label3.classList.remove('selected');
+    }
+  }
 </script>
 
 <script>
