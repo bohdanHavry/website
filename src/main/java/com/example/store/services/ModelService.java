@@ -44,6 +44,18 @@ public class ModelService {
         modelRepo.save(model);
     }
 
+    public Brand isBrandExists(String name_brand) {
+        return brandRepo.findByNameBrand2(name_brand);
+    }
+
+    public Model isModelExists(String name_model, Brand brand, Integer year) {
+        return modelRepo.findByNameModelAndBrandAndYear(name_model, brand, year);
+    }
+
+    public Producer isProducerExists(String name_producer, String country) {
+        return producerRepo.findByNameProducerAndCountry(name_producer, country);
+    }
+
     public List<Brand> getAllBrand()
     {
         return brandRepo.findAll();
@@ -108,6 +120,14 @@ public class ModelService {
 
     public List<ModelDto> getModelAndProduct() {
         return modelRepo.getModelAndProduct();
+    }
+
+    public Model getModelByNameAndBrand(String modelName, Brand brand) {
+        return modelRepo.findByNameModelAndBrand(modelName, brand);
+    }
+
+    public void saveModel(Model model) {
+        modelRepo.save(model);
     }
 
 }

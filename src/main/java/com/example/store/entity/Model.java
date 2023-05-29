@@ -35,6 +35,9 @@ public class Model {
     @JsonIgnore
     private Brand brand;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Car> cars;
+
     public Model() {
     }
 
@@ -76,5 +79,13 @@ public class Model {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public Set<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(Set<Car> cars) {
+        this.cars = cars;
     }
 }

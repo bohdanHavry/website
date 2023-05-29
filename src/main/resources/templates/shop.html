@@ -148,7 +148,6 @@
         <p style="font-size: 30px; font-style: bold; margin-bottom: 0px;" th:text="${good.title}" />
         <i>Артикул: </i>
         <b th:text="${good.number}" /> <br> <br>
-        <!--<i style="font-size: 24px; font-style: normal">Ціна: </i>-->
         <div class="price" style="font-size: 30px; padding-bottom:25px;">
             <div th:if="${good.discount}">
                 <s style=" color: #dc3545;"><i th:text="${good.price}"></i><i> грн.</i></s>
@@ -169,6 +168,8 @@
             <input type="hidden"  name="id_good" th:value="${good.id_good}">
         </form>
 
+        <i>Назва бренду: </i>
+        <b th:text="${good.model.brand.name_brand}" /> <br>
         <i>Назва моделі: </i>
         <b th:text="${good.model.name_model}" /> <br>
         <i>Рік моделі: </i>
@@ -339,7 +340,8 @@ stars.forEach(function(star) {
             <div class="badge badge-pill badge-danger" th:if="${relatedProduct.isHotDeal}"><i class="fas fa-fire"></i> Гаряча пропозиція</div>
             <div class="badge badge-pill badge-success" th:if="${relatedProduct.discount}"><i class="fas fa-percent"></i> Знижка</div>
             <h5 class="card-title" th:text="${relatedProduct.title}"></h5>
-            <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <b th:text="${relatedProduct.model.brand.name_brand}"></b>
                 <b th:text="${relatedProduct.model.name_model}"></b>
             </div>
             <p class="card-text" style="margin: 0;">
@@ -366,7 +368,8 @@ stars.forEach(function(star) {
                     <div class="badge badge-pill badge-danger" th:if="${relatedProduct.isHotDeal}"><i class="fas fa-fire"></i> Гаряча пропозиція</div>
                     <div class="badge badge-pill badge-success" th:if="${relatedProduct.discount}"><i class="fas fa-percent"></i> Знижка</div>
                     <h5 class="card-title" th:text="${relatedProduct.title}"></h5>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <b th:text="${relatedProduct.model.brand.name_brand}"></b>
                         <b th:text="${relatedProduct.model.name_model}"></b>
                     </div>
                     <p class="card-text" style="margin: 0;">

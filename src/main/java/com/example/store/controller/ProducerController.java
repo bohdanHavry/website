@@ -45,8 +45,13 @@ public class ProducerController {
     @PostMapping("/addPr")
     public String saveProducerGroup (@RequestParam("name_producer") String name_producer,
                                      @RequestParam("country") String country,
-                                     Producer producer) {
+                                     Producer producer, RedirectAttributes redirectAttributes) {
 
+        Producer isProducerExists = modelService.isProducerExists(name_producer, country);
+        if (isProducerExists != null) {
+            redirectAttributes.addFlashAttribute("isProducerExists", true);
+            return "redirect:/addProducer";
+        }
         modelService.saveProducerToDB(name_producer, country, producer);
         return "redirect:/addGood";
     }

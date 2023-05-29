@@ -50,15 +50,25 @@ public class CategoryController {
     }
 
     @PostMapping("/addCG")
-    public String saveCategoryGroup (@RequestParam ("name_category_group") String name_category_group, Category_group category_group) {
+    public String saveCategoryGroup (@RequestParam ("name_category_group") String name_category_group, Category_group category_group, RedirectAttributes redirectAttributes) {
 
+        Category_group isCategoryGroupExists = categoryService.isCategoryGroupExists(name_category_group);
+        if (isCategoryGroupExists != null) {
+            redirectAttributes.addFlashAttribute("categoryGroupExists", true);
+            return "redirect:/addCategory";
+        }
         categoryService.saveCategoryGroupToDB(name_category_group, category_group);
         return "redirect:/addCategory";
     }
 
     @PostMapping("/addC")
-    public String saveCategory (@RequestParam ("name_category") String name_category, Category_group category_group, Category category) {
+    public String saveCategory (@RequestParam ("name_category") String name_category, Category_group category_group, Category category, RedirectAttributes redirectAttributes) {
 
+        Category isCategoryExists = categoryService.isCategoryExists(name_category, category_group);
+        if (isCategoryExists != null) {
+            redirectAttributes.addFlashAttribute("categoryExists", true);
+            return "redirect:/addCategory";
+        }
         categoryService.saveCategoryToDB(name_category,category_group, category );
         return "redirect:/addGood";
     }

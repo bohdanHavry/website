@@ -45,11 +45,18 @@
 <div class="container mt-4">
   <h1 style="text-align: center">Панель адміністратора: додавання бренда і моделі</h1>
   <hr>
+  <div th:if="${isBrandExists}" class="alert alert-warning" role="alert">
+    Такий бренд вже існує.
+  </div>
+
+  <div th:if="${isModelExists}" class="alert alert-warning" role="alert">
+    Така модель вже існує.
+  </div>
   <a href="/addModel">Додавання нового бренда і моделі</a>
   <form th:action="@{/addBr}" method="post">
     <div class="form-group">
       <label for = "name">Бренд</label>
-      <input type="text" name="name_brand" id="name" required>
+      <input type="text" name="name_brand" id="name" style="text-transform: uppercase;" required>
     </div>
     <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти бренд</button>
   </form>
@@ -57,7 +64,7 @@
   <form th:action="@{/addMd}" method="post">
     <div class="form-group">
       <label for = "nameModel">Модель</label>
-      <input type="text" name="name_model" id="nameModel" required>
+      <input type="text" name="name_model" id="nameModel" style="text-transform: uppercase;" required>
     </div>
     <div class="form-group">
       <label for = "year">Рік випуску</label>

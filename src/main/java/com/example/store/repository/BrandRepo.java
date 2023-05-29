@@ -6,6 +6,7 @@ import com.example.store.entity.Brand;
 import com.example.store.entity.Category_group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface BrandRepo extends JpaRepository<Brand, Integer> {
 
     @Query("SELECT p FROM Brand p WHERE p.name_brand LIKE %?1%")
     public List<Brand> findByNameBrand(String name_brand);
+
+    @Query("SELECT b FROM Brand b WHERE b.name_brand = :nameBrand")
+    Brand findByNameBrand2(@Param("nameBrand") String nameBrand);
 }

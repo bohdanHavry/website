@@ -45,8 +45,13 @@ public class ModelController {
     }
 
     @PostMapping("/addBr")
-    public String saveBrand (@RequestParam("name_brand") String name_brand, Brand brand) {
+    public String saveBrand (@RequestParam("name_brand") String name_brand, Brand brand, RedirectAttributes redirectAttributes) {
 
+        Brand isBrandExists = modelService.isBrandExists(name_brand);
+        if (isBrandExists != null) {
+            redirectAttributes.addFlashAttribute("isBrandExists", true);
+            return "redirect:/addModel";
+        }
         modelService.saveBrandToDB(name_brand, brand);
         return "redirect:/addModel";
     }
@@ -54,8 +59,13 @@ public class ModelController {
     @PostMapping("/addMd")
     public String saveModel (@RequestParam ("name_model") String name_model,
                              @RequestParam ("year") Integer year,
-                             Brand brand, com.example.store.entity.Model model) {
+                             Brand brand, com.example.store.entity.Model model, RedirectAttributes redirectAttributes) {
 
+        com.example.store.entity.Model isModelExists = modelService.isModelExists(name_model, brand, year);
+        if (isModelExists != null) {
+            redirectAttributes.addFlashAttribute("isModelExists", true);
+            return "redirect:/addModel";
+        }
         modelService.saveModelToDB(name_model, year, brand, model);
         return "redirect:/addGood";
     }

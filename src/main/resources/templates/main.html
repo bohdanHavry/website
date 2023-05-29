@@ -113,6 +113,7 @@
                             <div th:each="model : ${model}" th:if="${model.brand_id == brand.id}">
                                 <a th:href="@{/good-in-brand/{id}(id=${model.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
                                     [[${model.name}]]
+                                    <span th:text="${model.year} + 'р.'"></span>
                                     <small class="text-muted">([[${model.numberOfProduct}]])</small>
                                 </a>
                             </div>
@@ -132,6 +133,7 @@
                 <div style="margin:0 0 0 25px;" id="list-group-men4"
                      data-children=".sub-men" th:each="producer : ${producer}">
                     <a class="link2" th:href = "@{/good-in-producer/{id}(id = ${producer.id})}">[[${producer.name}]]
+                        <span th:text="'(' + ${producer.country} + ')'"></span>
                         <small class="text-muted">([[${producer.numberOfProduct}]])</small></a>
                 </div>
             </div>
@@ -150,6 +152,7 @@
                                 </div>
                                 <div class="card-body" style="min-height: 210px; text-decoration: none;">
                                     <h5 class="card-title" th:text="${item.title}" />
+                                    <b th:text="${item.model.brand.name_brand}"></b>
                                     <b th:text="${item.model.name_model}"></b>
                                     <br>
                                     Категорія:

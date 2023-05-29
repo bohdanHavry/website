@@ -37,6 +37,15 @@ public class CategoryService {
         categoryRepo.save(category);
     }
 
+    public Category_group isCategoryGroupExists(String name_category_group) {
+        return catGroupRepo.findByNameCategoryGroup2(name_category_group);
+    }
+
+    public Category isCategoryExists(String name_category, Category_group category_group) {
+        return categoryRepo.findByNameCategoryAndCategoryGroup(name_category, category_group);
+    }
+
+
     public List<Category_group> getAllCategoryGroup() {
         return catGroupRepo.findAll();
     }

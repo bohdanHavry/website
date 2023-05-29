@@ -46,6 +46,13 @@
 <div class="container mt-4">
   <h1 style="text-align: center">Панель адміністратора: додавання категорії та підкатегорії</h1>
   <hr>
+  <div th:if="${categoryGroupExists}" class="alert alert-warning" role="alert">
+    Така категорія вже існує.
+  </div>
+
+  <div th:if="${categoryExists}" class="alert alert-warning" role="alert">
+    Така підкатегорія вже існує.
+  </div>
   <a href="/addCategory">Додавання нової категорії</a>
   <form th:action="@{/addCG}" method="post">
     <div class="form-group">

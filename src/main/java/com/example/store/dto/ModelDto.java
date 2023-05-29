@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ModelDto {
     private Integer id;
     private String name;
+    private Integer year;
     private Integer brand_id;
     private Long numberOfProduct;
 }

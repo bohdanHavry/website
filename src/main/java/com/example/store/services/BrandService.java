@@ -23,4 +23,12 @@ public class BrandService {
     public Brand getBrandById(Integer id_brand){
         return brandRepo.findById(id_brand).orElse(null);
     }
+
+    public Brand getBrandByName(String brandName) {
+        return brandRepo.findByNameBrand2(brandName);
+    }
+
+    public void saveBrand(Brand brand) {
+        brandRepo.save(brand);
+    }
 }

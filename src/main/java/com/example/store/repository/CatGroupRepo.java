@@ -7,6 +7,7 @@ import com.example.store.entity.Category_group;
 import com.example.store.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +23,7 @@ public interface CatGroupRepo extends JpaRepository<Category_group,Integer> {
 
     @Query("SELECT p FROM Category_group p WHERE p.name_category_group LIKE %?1%")
     public List<Category_group> findByNameCategoryGroup(String name_category_group);
+
+    @Query("SELECT cg FROM Category_group cg WHERE cg.name_category_group = :nameCategoryGroup")
+    Category_group findByNameCategoryGroup2(@Param("nameCategoryGroup") String nameCategoryGroup);
 }

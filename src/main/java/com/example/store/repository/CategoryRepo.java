@@ -33,4 +33,7 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
     @Query("SELECT p FROM Category p WHERE p.name_category LIKE %?1%")
     public List<Category> findByNameCategory(String name_category);
+
+    @Query("SELECT c FROM Category c WHERE c.name_category = :nameCategory AND c.category_group = :categoryGroup")
+    Category findByNameCategoryAndCategoryGroup(@Param("nameCategory") String nameCategory, @Param("categoryGroup") Category_group categoryGroup);
 }

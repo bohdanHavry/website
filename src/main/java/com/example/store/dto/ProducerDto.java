@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class ProducerDto {
     private Integer id;
     private String name;
+    private String country;
     private Long numberOfProduct;
 }

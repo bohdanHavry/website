@@ -45,6 +45,9 @@
 <div class="container mt-4">
   <h1 style="text-align: center">Панель адміністратора: додавання виробника</h1>
   <hr>
+  <div th:if="${isProducerExists}" class="alert alert-warning" role="alert">
+      Такий виробник і країна виробника вже існують.
+  </div>
   <a href="/addProducer">Додати нового виробника</a>
   <form th:action="@{/addPr}" method="post">
     <div class="form-group">

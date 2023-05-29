@@ -59,11 +59,13 @@
         <br>
         Рівень доступу: <b th:text="${user.roles}" /> <br>
         Ім'я користувача: <b th:text="${user.login}" /> <br>
-        Поштова скринька: <b th:text="${user.mail}" /> <br>
-        Номер телефону: <b th:text="${user.phone}" /> <br>
-        Ім'я: <b th:text="${user.first_name}" /> <br>
-        Прізвище: <b th:text="${user.last_name}" /> <br>
-        По батькові: <b th:text="${user.middle_name}" /> <br>
+        <div th:unless="${user.isAdmin()}">
+            Поштова скринька: <b th:text="${user.mail}" /> <br>
+            Номер телефону: <b th:text="${user.phone}" /> <br>
+            Ім'я: <b th:text="${user.first_name}" /> <br>
+            Прізвище: <b th:text="${user.last_name}" /> <br>
+            По батькові: <b th:text="${user.middle_name}" /> <br>
+        </div>
         <br>
         <br>
 
@@ -72,6 +74,7 @@
             <span><a th:href="@{/changeMail}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити поштову скриньку</a></span>
             <span><a th:href="@{/changePassword}" class="btn btn-success mb-3" style="text-align: center; width: 100%">Змінити пароль</a></span>
             <span><a th:href="@{/myOrders}" class="btn btn-primary mb-3" style="text-align: center; width: 100%">Мої замовлення</a></span>
+            <span><a th:href="@{/addCar}" class="btn btn-primary mb-3" style="text-align: center; width: 100%">Додати машину до гаражу</a></span>
         </div>
 
         <div th:if="${user.login}">

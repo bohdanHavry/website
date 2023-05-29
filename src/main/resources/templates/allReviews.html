@@ -44,7 +44,7 @@
 </nav>
 
 <div class="container mt-4">
-  <h1 style="text-align: center" th:text="'Всі відгуки про товар: ' + ${good.title}"></h1>
+  <h1 style="text-align: center" th:text="'Всі відгуки про товар: ' + ${good.title} + ' (Артикул: ' + ${good.number} + ')'"></h1>
   <hr>
   <div id="reviews" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px;">
     <div th:each="rev, iter : ${review}" class="card shadow-sm">
