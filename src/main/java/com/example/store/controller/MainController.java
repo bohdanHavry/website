@@ -2,6 +2,7 @@ package com.example.store.controller;
 
 import com.example.store.dto.*;
 import com.example.store.entity.*;
+import com.example.store.repository.CarRepo;
 import com.example.store.repository.CatGroupRepo;
 import com.example.store.repository.GoodRepo;
 import com.example.store.services.*;
@@ -34,6 +35,7 @@ public class MainController {
     private final ReviewService reviewService;
     private final UserService userService;
     private final GoodRepo goodRepo;
+    private final CarRepo carRepo;
     private final CategoryService categoryService;
     private final CatGroupService catGroupService;
     private final ProducerService producerService;
@@ -345,8 +347,12 @@ public class MainController {
 
     @GetMapping("/profile")
     public String profile(Principal principal, Model model) {
+
         User user = mainService.getUserByPrincipal(principal);
-        model.addAttribute("user", user);
+        List<Car> cars = carRepo.findByUserId(user.getUser_id());
+        model.addAttribute("cars", cars);
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+
         return "profile";
     }
 

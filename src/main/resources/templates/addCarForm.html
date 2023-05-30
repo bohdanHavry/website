@@ -47,7 +47,7 @@
     <form th:action="@{/addCar}" method="post">
         <div class="form-group">
             <label for="vin">VIN:</label>
-            <input type="text" class="form-control" id="vin" name="vin" required>
+            <input type="text" class="form-control" id="vin" name="vin" maxlength="17" minlength="17" style="text-transform: uppercase;" required>
         </div>
         <button type="submit" class="btn btn-primary">Додати</button>
     </form>
