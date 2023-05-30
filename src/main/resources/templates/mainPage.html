@@ -1,0 +1,250 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+          crossorigin="anonymous">
+
+    <title>AVTO SENAT</title>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/">
+            <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+        </a>
+        <a href="/">
+            <span class="navbar-brand mb-0 h1">Головна</span>
+        </a>
+        <a href="/shop">
+            <span class="navbar-brand mb-0 h1">Магазин</span>
+        </a>
+        <div th:if="${user.login}">
+            <div class="dropdown text-end">
+                <a href="/cart" class="link1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="25" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                    </svg>
+                </a>
+                <a href="/profile">
+                    <img src="/static/images/1.png" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </div>
+        </div>
+        <span th:unless="${user.login}">
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Увійти
+        </button>
+        </span>
+    </div>
+</nav>
+
+
+
+<div class="container mt-4">
+    <div th:if="${user.login}">
+        <div th:if="${addMessage!= null}">
+            <div class="alert alert-success" role="success">
+                <p th:text="${addMessage}" ></p>
+            </div>
+        </div>
+    </div>
+    <h1 style="text-align: center">Пошук товарів</h1><hr>
+    <form th:action="@{/}" method="get" th:attr="data-product-count=${#lists.size(goods)}">
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="search"><b>Пошук по назві товару:</b></label>
+                <input type="text" name="title" th:value="${title}" class="form-control" placeholder="Пошук по назві товару" id="search">
+            </div>
+            <div style="display: inline">
+                <button style="width: 100%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark">Пошук</button>
+                <button style="width: 100%" class="btn btn-dark" onclick="clearFilter()">
+                    Очищення </button>
+            </div>
+        </div>
+    </form><hr>
+
+
+    <div class="filter-sidebar-left">
+
+        <div>
+            <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;" data-toggle="collapse" href="#categoryCollapse" role="button" aria-expanded="false" aria-controls="categoryCollapse">
+                Категорії
+            </a>
+
+            <div class="collapse" id="categoryCollapse">
+                <div>
+                    <div th:each="categoryGroup : ${categoryGroup}" style="margin:0 0 0 25px;">
+                        <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#categoryGroupCollapse-' + ${categoryGroup.id}" role="button" aria-expanded="false" aria-controls="'categoryGroupCollapse-' + ${categoryGroup.id}">
+                            [[${categoryGroup.name}]]
+                            <small class="text-muted">([[${categoryGroup.numberOfProduct}]])</small>
+                        </a>
+                        <div class="sub-men collapse" th:id="'categoryGroupCollapse-' + ${categoryGroup.id}">
+                            <div th:each="category : ${categories}" th:if="${category.cat_id == categoryGroup.id}">
+                                <a th:href="@{/good-in-category/{id}(id=${category.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
+                                    [[${category.name}]]
+                                    <small class="text-muted">([[${category.numberOfProduct}]])</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div>
+            <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;" data-toggle="collapse" href="#categoryCollapse2" role="button" aria-expanded="false" aria-controls="categoryCollapse2">
+                Бренди
+            </a>
+
+            <div class="collapse" id="categoryCollapse2">
+                <div>
+                    <div th:each="brand : ${brand}" style="margin:0 0 0 25px;">
+                        <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#brandCollapse-' + ${brand.id}" role="button" aria-expanded="false" aria-controls="'brandCollapse-' + ${brand.id}">
+                            [[${brand.name}]]
+                            <small class="text-muted">([[${brand.numberOfProduct}]])</small>
+                        </a>
+                        <div class="sub-men collapse" th:id="'brandCollapse-' + ${brand.id}">
+                            <div th:each="model : ${model}" th:if="${model.brand_id == brand.id}">
+                                <a th:href="@{/good-in-brand/{id}(id=${model.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
+                                    [[${model.name}]]
+                                    <span th:text="${model.year} + 'р.'"></span>
+                                    <small class="text-muted">([[${model.numberOfProduct}]])</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;"
+           data-toggle="collapse" href="#collapseExample4" role="button"
+           aria-expanded="true" aria-controls="collapseExample4">
+            Виробники
+        </a>
+        <div class="collapse mb-3" id="collapseExample4" style="">
+            <div style="margin:0 0 0 25px;" id="list-group-men4"
+                 data-children=".sub-men" th:each="producer : ${producer}">
+                <a class="link2" th:href = "@{/good-in-producer/{id}(id = ${producer.id})}">[[${producer.name}]]
+                    <span th:text="'(' + ${producer.country} + ')'"></span>
+                    <small class="text-muted">([[${producer.numberOfProduct}]])</small></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="card-deck" id="goods-container">
+            <div th:if="!${#lists.isEmpty(goods)}">
+                <div class="row">
+                    <div th:each="item : ${goods}" style="width: 380px; margin: 0 auto;">
+                        <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
+                            <div class="card text-white bg-dark my-3 product">
+                                <div style="background-color:white;">
+                                    <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
+                                </div>
+                                <div class="card-body" style="min-height: 210px; text-decoration: none;">
+                                    <h5 class="card-title" th:text="${item.title}" />
+                                    <b th:text="${item.model.brand.name_brand}"></b>
+                                    <b th:text="${item.model.name_model}"></b>
+                                    <br>
+                                    Категорія:
+                                    <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
+                                    <br>
+                                    Підкатегорія:
+                                    <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
+                                    <div style="font-size: 25px;" th:if="${item.discount}">
+                                        <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
+                                        <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
+                                    </div>
+                                    <div style="font-size: 25px;" th:unless="${item.discount}">
+                                        <b  th:text="${item.price}"></b> грн.
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
+                                    <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
+                                    <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-secondary load-more-button" style="margin-bottom: 30px;">Завантажити ще товари</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:if="${#lists.isEmpty(goods)}" style="text-align: center">
+        <h1>Товарів немає</h1>
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    function clearFilter(){
+    window.location = '/';
+    }
+</script>
+
+<script th:inline="javascript">
+const goodsContainer = document.getElementById("goods-container");
+const loadMoreButton = document.querySelector(".load-more-button");
+
+const MAX_GOODS = 6;
+let currentGoods = MAX_GOODS;
+
+const goods = goodsContainer.querySelectorAll(".product");
+goods.forEach((item, index) => {
+  if (index >= currentGoods) {
+    item.style.display = "none";
+  }
+});
+
+if (goods.length <= MAX_GOODS) {
+  loadMoreButton.style.display = "none";
+}
+
+loadMoreButton.addEventListener("click", () => {
+  currentGoods += MAX_GOODS;
+  goods.forEach((item, index) => {
+    if (index < currentGoods) {
+      item.style.display = "block";
+    }
+  });
+  if (currentGoods >= goods.length) {
+    loadMoreButton.style.display = "none";
+  }
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -60,6 +60,26 @@ public class MainController {
         model.addAttribute("brand", brandDtoList);
         model.addAttribute("model", modelDtoList);
 
+        return "mainPage";
+    }
+
+
+    @GetMapping("/shop")
+    public String shop(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
+        List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
+        List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
+
+        model.addAttribute("goods", goodService.listAll(title));
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        model.addAttribute("categories", categories);
+        model.addAttribute("categoryGroup", categoryGroups);
+        model.addAttribute("producer", producerDtoList);
+        model.addAttribute("brand", brandDtoList);
+        model.addAttribute("model", modelDtoList);
+
         return "main";
     }
 
@@ -200,7 +220,7 @@ public class MainController {
     @GetMapping("/deleteGood/{id_good}")
     public String deleteGood(@PathVariable("id_good") Long id_good){
         goodRepo.deleteById(id_good);
-        return "redirect:/";
+        return "redirect:/shop";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -255,13 +275,13 @@ public class MainController {
     @GetMapping("/hotDeal/{id_good}")
     public String hotDeal(@PathVariable("id_good") Long id_good) {
         goodService.setHotDeal(id_good, true);
-        return "redirect:/";
+        return "redirect:/shop";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deleteHotDeal/{id_good}")
     public String deleteHotDeal(@PathVariable("id_good") Long id_good) {
         goodService.deleteHotDeal(id_good, false);
-        return "redirect:/";
+        return "redirect:/shop";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -291,7 +311,7 @@ public class MainController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Сталася помилка: " + e.getMessage());
         }
-        return "redirect:/";
+        return "redirect:/shop";
     }
 
 
@@ -301,7 +321,7 @@ public class MainController {
         Good good = goodService.getGoodById(id_good);
         good.setDiscount(null);
         goodRepo.save(good);
-        return "redirect:/";
+        return "redirect:/shop";
     }
 
 

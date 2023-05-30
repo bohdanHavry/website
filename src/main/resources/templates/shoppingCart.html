@@ -47,7 +47,7 @@
 
     <div th:if="${shoppingCart.totalPrice == 0.0}">
         <h2 class="text-center">Ви ще нічого не добавили до особистої корзини!</h2>
-        <a th:href="@{/}"><h3 class="text-center">Перейти до магазину</h3></a>
+        <a th:href="@{/shop}"><h3 class="text-center">Перейти до магазину</h3></a>
     </div>
 
     <div th:if="${shoppingCart.totalPrice != 0.0}">

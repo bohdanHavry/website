@@ -51,7 +51,7 @@ public class ShopCartController {
             shopCartService.addToExistingShoppingCart(id_good, sessionToken, count, principal);
         }
         redirectAttributes.addFlashAttribute("addMessage", "Товар успішно доданий до корзини!");
-        return "redirect:/";
+        return "redirect:/shop";
     }
 
     @GetMapping("/cart")
@@ -85,34 +85,4 @@ public class ShopCartController {
         shopCartService.removeCartIemFromShoppingCart(id,sessionToken);
         return "redirect:/cart";
     }
-
-    /*@GetMapping ("/cart")
-    public String showShoppingCart (Model model, Principal principal, Image image, Good good)
-    {
-        User user = mainService.getUserByPrincipal(principal);
-        List <ShoppingCart> shoppingCarts = shopCartService.listCartItem(user);
-        model.addAttribute("shopCart", shoppingCarts);
-        model.addAttribute("user", mainService.getUserByPrincipal(principal));
-        model.addAttribute("images", image);
-        model.addAttribute("goods", good);
-        return "shoppingCart";
-    }*/
-
-    /*@PostMapping("/add-to-cart")
-    public String addItemToCart(
-            @RequestParam("id_good") Long goodId,
-            @RequestParam(value = "count", required = false, defaultValue = "1") Integer count,
-            Principal principal, HttpServletRequest request){
-
-        if(principal == null){
-            return "redirect:/login";
-        }
-        Good good = goodService.getGoodById(goodId);
-        String username = principal.getName();
-        User user =  userRepo.findByLogin(username);
-
-        Integer cart = shopCartService.addGoodToCart(goodId, count, user);
-        return "redirect:" + request.getHeader("Referer");
-
-    }*/
 }

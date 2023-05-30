@@ -48,7 +48,7 @@ public class GoodController {
                             com.example.store.entity.Model model, Producer producer, RedirectAttributes redirectAttributes) throws IOException{
         goodService.saveGoodToDB(file, file2, file3, good, category, model, producer);
         redirectAttributes.addFlashAttribute("addMessage", "Товар успішно був створений!");
-        return "redirect:/";
+        return "redirect:/shop";
     }
 
     @GetMapping("/getSubcategories")
