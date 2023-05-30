@@ -54,7 +54,7 @@
         </div>
     </div>
     <h1 style="text-align: center">Пошук товарів</h1><hr>
-    <form th:action="@{/}" method="get" th:attr="data-product-count=${#lists.size(goods)}">
+    <form th:action="@{/shop}" method="get" th:attr="data-product-count=${#lists.size(goods)}">
     <div class="form-row">
             <div class="form-group col-md-10">
                 <label for="search"><b>Пошук по назві товару:</b></label>
@@ -195,7 +195,7 @@
 
 <script type="text/javascript">
     function clearFilter(){
-    window.location = '/';
+    window.location = '/shop';
     }
 </script>
 

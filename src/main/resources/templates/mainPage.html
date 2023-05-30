@@ -1,32 +1,66 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/static/css/style.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
 
     <title>AVTO SENAT</title>
+    <style>
+        .navbar-nav {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
-
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark navbar-expand-md" style="display: flex; justify-content:space-between;">
     <div class="container-fluid">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <a href="/">
             <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
         </a>
-        <a href="/">
-            <span class="navbar-brand mb-0 h1">Головна</span>
-        </a>
-        <a href="/shop">
-            <span class="navbar-brand mb-0 h1">Магазин</span>
-        </a>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="/">
+                        <span class="nav-link">Головна</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="#">
+                        <span class="nav-link">Про нас</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="/shop">
+                        <span class="nav-link">Магазин</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="#">
+                        <span class="nav-link">Доставка та оплата</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="#">
+                        <span class="nav-link">Контакти</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
         <div th:if="${user.login}">
             <div class="dropdown text-end">
                 <a href="/cart" class="link1">
@@ -41,163 +75,68 @@
             </div>
         </div>
         <span th:unless="${user.login}">
-        <button class="btn btn-light my-2 my-sm-0" type="button"
-                onclick="window.location.href = '/login'">
-            Увійти
-        </button>
+            <button class="btn btn-light my-2 my-sm-0" type="button"
+                    onclick="window.location.href = '/login'">
+                Увійти
+            </button>
         </span>
     </div>
 </nav>
 
-
-
 <div class="container mt-4">
-    <div th:if="${user.login}">
-        <div th:if="${addMessage!= null}">
-            <div class="alert alert-success" role="success">
-                <p th:text="${addMessage}" ></p>
-            </div>
-        </div>
-    </div>
-    <h1 style="text-align: center">Пошук товарів</h1><hr>
-    <form th:action="@{/}" method="get" th:attr="data-product-count=${#lists.size(goods)}">
-        <div class="form-row">
-            <div class="form-group col-md-10">
-                <label for="search"><b>Пошук по назві товару:</b></label>
+    <div>
+        <h4 style="text-align: center">Пошук товарів</h4>
+        <form th:action="@{/shop}" method="get" th:attr="data-product-count=${#lists.size(goods)}">
+            <div style="display: flex; gap: 25px;">
                 <input type="text" name="title" th:value="${title}" class="form-control" placeholder="Пошук по назві товару" id="search">
+                <button style="width: 15%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark">Пошук</button>
             </div>
-            <div style="display: inline">
-                <button style="width: 100%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark">Пошук</button>
-                <button style="width: 100%" class="btn btn-dark" onclick="clearFilter()">
-                    Очищення </button>
-            </div>
-        </div>
-    </form><hr>
+        </form><hr>
+    </div>
 
+    <div>
+        <form th:action="@{/filter}" method="post">
+    <div class="form-group">
+        <label for="searchBrand">Бренд</label>
+        <select name="brand" id="searchBrand" class="form-control" title="Виберіть бренд" required>
+            <option value="">-- Оберіть бренд --</option>
+            <option th:each="brand : ${brand}" th:value="${brand.id_brand}">[[${brand.name_brand}]]</option>
+        </select>
+    </div>
 
-    <div class="filter-sidebar-left">
+    <div class="form-group">
+        <label for="searchModel">Модель (для того щоб обрати, оберіть бренд)</label>
+        <select name="model" id="searchModel" class="form-control" title="Виберіть модель" required>
+            <option value="">-- Оберіть модель --</option>
+        </select>
+    </div>
 
-        <div>
-            <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;" data-toggle="collapse" href="#categoryCollapse" role="button" aria-expanded="false" aria-controls="categoryCollapse">
-                Категорії
-            </a>
+    <div class="form-group">
+        <label for="searchCat">Категорія</label>
+        <select name="categoryGroup" id="searchCat" class="form-control" title="Виберіть категорію" >
+            <option value="">-- Оберіть категорію --</option>
+            <option th:each="categoryGroup : ${categoryGroup}" th:value="${categoryGroup.id_category_group}">
+                [[${categoryGroup.name_category_group}]]
+            </option>
+        </select>
+    </div>
 
-            <div class="collapse" id="categoryCollapse">
-                <div>
-                    <div th:each="categoryGroup : ${categoryGroup}" style="margin:0 0 0 25px;">
-                        <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#categoryGroupCollapse-' + ${categoryGroup.id}" role="button" aria-expanded="false" aria-controls="'categoryGroupCollapse-' + ${categoryGroup.id}">
-                            [[${categoryGroup.name}]]
-                            <small class="text-muted">([[${categoryGroup.numberOfProduct}]])</small>
-                        </a>
-                        <div class="sub-men collapse" th:id="'categoryGroupCollapse-' + ${categoryGroup.id}">
-                            <div th:each="category : ${categories}" th:if="${category.cat_id == categoryGroup.id}">
-                                <a th:href="@{/good-in-category/{id}(id=${category.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
-                                    [[${category.name}]]
-                                    <small class="text-muted">([[${category.numberOfProduct}]])</small>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div>
-            <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;" data-toggle="collapse" href="#categoryCollapse2" role="button" aria-expanded="false" aria-controls="categoryCollapse2">
-                Бренди
-            </a>
-
-            <div class="collapse" id="categoryCollapse2">
-                <div>
-                    <div th:each="brand : ${brand}" style="margin:0 0 0 25px;">
-                        <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#brandCollapse-' + ${brand.id}" role="button" aria-expanded="false" aria-controls="'brandCollapse-' + ${brand.id}">
-                            [[${brand.name}]]
-                            <small class="text-muted">([[${brand.numberOfProduct}]])</small>
-                        </a>
-                        <div class="sub-men collapse" th:id="'brandCollapse-' + ${brand.id}">
-                            <div th:each="model : ${model}" th:if="${model.brand_id == brand.id}">
-                                <a th:href="@{/good-in-brand/{id}(id=${model.id})}" class="list-group-item-action" style="margin: 5px 0 0 25px;">
-                                    [[${model.name}]]
-                                    <span th:text="${model.year} + 'р.'"></span>
-                                    <small class="text-muted">([[${model.numberOfProduct}]])</small>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <a class="btn btn-dark mt-3" style="text-align: center; width: 100%; margin: 16px 0 8px 0;"
-           data-toggle="collapse" href="#collapseExample4" role="button"
-           aria-expanded="true" aria-controls="collapseExample4">
-            Виробники
-        </a>
-        <div class="collapse mb-3" id="collapseExample4" style="">
-            <div style="margin:0 0 0 25px;" id="list-group-men4"
-                 data-children=".sub-men" th:each="producer : ${producer}">
-                <a class="link2" th:href = "@{/good-in-producer/{id}(id = ${producer.id})}">[[${producer.name}]]
-                    <span th:text="'(' + ${producer.country} + ')'"></span>
-                    <small class="text-muted">([[${producer.numberOfProduct}]])</small></a>
-            </div>
-        </div>
+    <div class="form-group">
+        <label for="searchSubCat">Підкатегорія (для того щоб обрати, оберіть категорію)</label>
+        <select name="category" id="searchSubCat" class="form-control" title="Виберіть підкатегорію" >
+            <option value="">-- Оберіть підкатегорію --</option>
+        </select>
     </div>
 
 
-    <div class="container">
-        <div class="card-deck" id="goods-container">
-            <div th:if="!${#lists.isEmpty(goods)}">
-                <div class="row">
-                    <div th:each="item : ${goods}" style="width: 380px; margin: 0 auto;">
-                        <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
-                            <div class="card text-white bg-dark my-3 product">
-                                <div style="background-color:white;">
-                                    <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
-                                </div>
-                                <div class="card-body" style="min-height: 210px; text-decoration: none;">
-                                    <h5 class="card-title" th:text="${item.title}" />
-                                    <b th:text="${item.model.brand.name_brand}"></b>
-                                    <b th:text="${item.model.name_model}"></b>
-                                    <br>
-                                    Категорія:
-                                    <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
-                                    <br>
-                                    Підкатегорія:
-                                    <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
-                                    <div style="font-size: 25px;" th:if="${item.discount}">
-                                        <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
-                                        <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
-                                    </div>
-                                    <div style="font-size: 25px;" th:unless="${item.discount}">
-                                        <b  th:text="${item.price}"></b> грн.
-                                    </div>
-                                </div>
-                                <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
-                                    <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
-                                    <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-secondary load-more-button" style="margin-bottom: 30px;">Завантажити ще товари</button>
-                </div>
-            </div>
-        </div>
+    <div>
+        <button style="width: 15%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark">Пошук по фільтру</button>
     </div>
-
-
-    <div th:if="${#lists.isEmpty(goods)}" style="text-align: center">
-        <h1>Товарів немає</h1>
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+    </form>
+    <button style="width: 15%; margin: 0px 0px 5px 0px" onclick="clearFilter()" class="btn btn-dark">Очистити фільтр</button>
     </div>
-
 </div>
-
-
-
 
 <script type="text/javascript">
     function clearFilter(){
@@ -205,36 +144,77 @@
     }
 </script>
 
-<script th:inline="javascript">
-const goodsContainer = document.getElementById("goods-container");
-const loadMoreButton = document.querySelector(".load-more-button");
+<script>
+    var brandSelect = document.getElementById("searchBrand");
+    var modelSelect = document.getElementById("searchModel");
 
-const MAX_GOODS = 6;
-let currentGoods = MAX_GOODS;
+    brandSelect.addEventListener("change", function() {
+        modelSelect.innerHTML = "";
 
-const goods = goodsContainer.querySelectorAll(".product");
-goods.forEach((item, index) => {
-  if (index >= currentGoods) {
-    item.style.display = "none";
-  }
-});
+        var selectedBrand = brandSelect.value;
 
-if (goods.length <= MAX_GOODS) {
-  loadMoreButton.style.display = "none";
-}
+        // Виклик AJAX-запиту для отримання моделей
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getModel?model=" + selectedBrand);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var models = JSON.parse(xhr.responseText);
 
-loadMoreButton.addEventListener("click", () => {
-  currentGoods += MAX_GOODS;
-  goods.forEach((item, index) => {
-    if (index < currentGoods) {
-      item.style.display = "block";
-    }
-  });
-  if (currentGoods >= goods.length) {
-    loadMoreButton.style.display = "none";
-  }
-});
+                // Додавання нових опцій у другий вибірник
+                models.forEach(function(model) {
+                    var option = document.createElement("option");
+                    option.value = model.id_model;
+                    option.textContent = model.name_model + ' (' + model.year + ' р.)';
+                    modelSelect.appendChild(option);
+                });
+            }
+        };
+        xhr.send();
+    });
 </script>
+
+
+<script>
+    var categorySelect = document.getElementById("searchCat");
+    var subcategorySelect = document.getElementById("searchSubCat");
+
+    categorySelect.addEventListener("change", function() {
+        // Очищення попередніх опцій у другого вибірника
+        subcategorySelect.innerHTML = "";
+
+        // Отримання вибраної категорії у першому вибірнику
+        var selectedCategory = categorySelect.value;
+
+        // Виклик AJAX-запиту для отримання підкатегорій
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getSubcategory?category=" + selectedCategory);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var subcategories = JSON.parse(xhr.responseText);
+
+                // Додавання нових опцій у другий вибірник
+                subcategories.forEach(function(subcategory) {
+                    var option = document.createElement("option");
+                    option.value = subcategory.id_category;
+                    option.textContent = subcategory.name_category;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+        };
+        xhr.send();
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('.navbar-toggler').on('click', function () {
+            $('.navbar-collapse').toggleClass('show');
+        });
+    });
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -245,6 +225,7 @@ loadMoreButton.addEventListener("click", () => {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
+
 
 </body>
 </html>

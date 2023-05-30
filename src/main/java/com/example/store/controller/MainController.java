@@ -46,23 +46,50 @@ public class MainController {
 
     @GetMapping("/")
     public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
-        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
-        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
-        List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
-        List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
-        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
-
         model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
-        model.addAttribute("categories", categories);
-        model.addAttribute("categoryGroup", categoryGroups);
-        model.addAttribute("producer", producerDtoList);
-        model.addAttribute("brand", brandDtoList);
-        model.addAttribute("model", modelDtoList);
-
+        model.addAttribute("categoryGroup", goodService.getAllCategoryGroup());
+        model.addAttribute("brand", goodService.getAllBrand());
+        model.addAttribute("producer",goodService.getAllProducer());
         return "mainPage";
     }
 
+    @GetMapping("/getSubcategory")
+    @ResponseBody
+    public List<Category> getSubcategory(@RequestParam("category") Integer category) {
+        // Логіка для отримання підкатегорій залежно від вибраної категорії
+        List<Category> subcategories = goodService.getSubcategoriesByCategory(category);
+        return subcategories;
+    }
+
+    @GetMapping("/getModel")
+    @ResponseBody
+    public List<com.example.store.entity.Model> getModel(@RequestParam("model") Integer model) {
+        List<com.example.store.entity.Model> models = goodService.getModelsByBrand(model);
+        return models;
+    }
+
+    @GetMapping("/filter/{carId}/{}")
+    public String searchParts(@PathVariable("carId") Long carId, Model model, Principal principal){
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
+        List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
+        Car car = carRepo.findById(carId).orElse(null);
+        List<Good> goodList = goodService.getGoodByModel(car.getModel().getId_model());
+        com.example.store.entity.Model model1 = modelService.getModelById(car.getModel().getId_model());
+        List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
+
+        model.addAttribute("good", goodList);
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        model.addAttribute("producer",producerDtoList);
+        model.addAttribute("categories", categories);
+        model.addAttribute("categoryGroup", categoryGroups);
+        model.addAttribute("brand", brandDtoList);
+        model.addAttribute("model", modelDtoList);
+
+        return "searchParts";
+    }
 
     @GetMapping("/shop")
     public String shop(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
