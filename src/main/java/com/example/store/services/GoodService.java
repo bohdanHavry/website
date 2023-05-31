@@ -112,6 +112,14 @@ public class GoodService {
         return goodRepo.findById(id_good).orElse(null);
     }
 
+    public List<Good> getGoodByCategoryAndModel(Integer category_id, Integer model_id) {
+        return goodRepo.getGoodByCategoryAndModel(category_id, model_id);
+    }
+
+    public List<Good> getGoodByBrandAndCategoryGroup(Integer brand_id, Integer category_group_id) {
+        return goodRepo.findByBrandAndCategoryGroup(brand_id, category_group_id);
+    }
+
     public List<Good> getGoodByCategory(Integer category_id){
         return goodRepo.findByCategory(category_id);
     }

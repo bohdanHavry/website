@@ -95,10 +95,10 @@
     </div>
 
     <div>
-        <form th:action="@{/filter}" method="post">
+        <form th:action="@{/filter}" method="get" onsubmit="return validateForm()">
     <div class="form-group">
         <label for="searchBrand">Бренд</label>
-        <select name="brand" id="searchBrand" class="form-control" title="Виберіть бренд" required>
+        <select name="brand" id="searchBrand" class="form-control" title="Виберіть бренд">
             <option value="">-- Оберіть бренд --</option>
             <option th:each="brand : ${brand}" th:value="${brand.id_brand}">[[${brand.name_brand}]]</option>
         </select>
@@ -106,7 +106,7 @@
 
     <div class="form-group">
         <label for="searchModel">Модель (для того щоб обрати, оберіть бренд)</label>
-        <select name="model" id="searchModel" class="form-control" title="Виберіть модель" required>
+        <select name="model" id="searchModel" class="form-control" title="Виберіть модель">
             <option value="">-- Оберіть модель --</option>
         </select>
     </div>
@@ -148,29 +148,35 @@
     var brandSelect = document.getElementById("searchBrand");
     var modelSelect = document.getElementById("searchModel");
 
-    brandSelect.addEventListener("change", function() {
-        modelSelect.innerHTML = "";
+brandSelect.addEventListener("change", function() {
+    modelSelect.innerHTML = "";
 
-        var selectedBrand = brandSelect.value;
+    var selectedBrand = brandSelect.value;
 
-        // Виклик AJAX-запиту для отримання моделей
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/getModel?model=" + selectedBrand);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                var models = JSON.parse(xhr.responseText);
+    // Створення початкового варіанту
+    var initialOption = document.createElement("option");
+    initialOption.value = "";
+    initialOption.textContent = "-- Оберіть модель --";
+    modelSelect.appendChild(initialOption);
 
-                // Додавання нових опцій у другий вибірник
-                models.forEach(function(model) {
-                    var option = document.createElement("option");
-                    option.value = model.id_model;
-                    option.textContent = model.name_model + ' (' + model.year + ' р.)';
-                    modelSelect.appendChild(option);
-                });
-            }
-        };
-        xhr.send();
-    });
+    // Виклик AJAX-запиту для отримання моделей
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/getModel?model=" + selectedBrand);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var models = JSON.parse(xhr.responseText);
+
+            // Додавання нових опцій у другий вибірник
+            models.forEach(function(model) {
+                var option = document.createElement("option");
+                option.value = model.id_model;
+                option.textContent = model.name_model + ' (' + model.year + ' р.)';
+                modelSelect.appendChild(option);
+            });
+        }
+    };
+    xhr.send();
+});
 </script>
 
 
@@ -178,33 +184,51 @@
     var categorySelect = document.getElementById("searchCat");
     var subcategorySelect = document.getElementById("searchSubCat");
 
-    categorySelect.addEventListener("change", function() {
-        // Очищення попередніх опцій у другого вибірника
-        subcategorySelect.innerHTML = "";
+categorySelect.addEventListener("change", function() {
+    subcategorySelect.innerHTML = "";
 
-        // Отримання вибраної категорії у першому вибірнику
-        var selectedCategory = categorySelect.value;
+    var selectedCategory = categorySelect.value;
 
-        // Виклик AJAX-запиту для отримання підкатегорій
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/getSubcategory?category=" + selectedCategory);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                var subcategories = JSON.parse(xhr.responseText);
+    // Створення початкового варіанту
+    var initialOption = document.createElement("option");
+    initialOption.value = "";
+    initialOption.textContent = "-- Оберіть підкатегорію --";
+    subcategorySelect.appendChild(initialOption);
 
-                // Додавання нових опцій у другий вибірник
-                subcategories.forEach(function(subcategory) {
-                    var option = document.createElement("option");
-                    option.value = subcategory.id_category;
-                    option.textContent = subcategory.name_category;
-                    subcategorySelect.appendChild(option);
-                });
-            }
-        };
-        xhr.send();
-    });
+    // Виклик AJAX-запиту для отримання підкатегорій
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/getSubcategory?category=" + selectedCategory);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var subcategories = JSON.parse(xhr.responseText);
+
+            // Додавання нових опцій у другий вибірник
+            subcategories.forEach(function(subcategory) {
+                var option = document.createElement("option");
+                option.value = subcategory.id_category;
+                option.textContent = subcategory.name_category;
+                subcategorySelect.appendChild(option);
+            });
+        }
+    };
+    xhr.send();
+});
 </script>
 
+<script>
+    function validateForm() {
+        var brandSelect = document.getElementById("searchBrand");
+        var modelSelect = document.getElementById("searchModel");
+        var categorySelect = document.getElementById("searchCat");
+        var subcategorySelect = document.getElementById("searchSubCat");
+
+        if (!brandSelect.value && !modelSelect.value && !categorySelect.value && !subcategorySelect.value) {
+            alert("Треба обрати хоча б один пункт із списка!");
+            return false; // Перешкоджає відправці форми
+        }
+        return true; // Дозволяє відправку форми
+    }
+</script>
 
 
 <script>

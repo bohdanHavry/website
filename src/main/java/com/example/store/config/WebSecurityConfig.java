@@ -31,7 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/registration", "/good-in-category/**", "/good-in-categoryGroup/**",
                                 "/good-in-brand/**", "/good-in-producer/**", "/main/**", "/images/**", "/static/**",
-                                "/activate/*", "/forgotPassword", "/resetPassword", "/allReviews/*", "/shop","/getSubcategory" , "/getModel").permitAll()
+                                "/activate/*", "/forgotPassword", "/resetPassword", "/allReviews/*", "/shop","/getSubcategory" , "/getModel",
+                                "/filter").permitAll()
 
                         .anyRequest().authenticated()
                 )

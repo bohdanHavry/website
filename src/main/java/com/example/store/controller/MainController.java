@@ -69,18 +69,43 @@ public class MainController {
         return models;
     }
 
-    @GetMapping("/filter/{carId}/{}")
-    public String searchParts(@PathVariable("carId") Long carId, Model model, Principal principal){
+    @GetMapping("/filter")
+    public String filter(@RequestParam(name = "brand", required = false) Integer id_brand,
+                            @RequestParam(name = "model", required = false) Integer id_model,
+                         @RequestParam(name = "categoryGroup", required = false) Integer id_category_group,
+                              @RequestParam(name = "category", required = false) Integer id_category, Model model, Principal principal){
+
+        if (id_category != null && id_model != null){
+            List<Good> goodList = goodService.getGoodByCategoryAndModel(id_category, id_model);
+            model.addAttribute("good", goodList);
+
+        }
+        else if (id_brand != null && id_category_group != null && id_model == null && id_category == null) {
+            List<Good> goodList = goodService.getGoodByBrandAndCategoryGroup(id_brand, id_category_group);
+            model.addAttribute("good", goodList);
+        }
+        else if (id_brand != null && id_model == null) {
+            List<Good> goodList = goodService.getGoodByBrand(id_brand);
+            model.addAttribute("good", goodList);
+        }
+        else if (id_category_group != null && id_category == null) {
+            List<Good> goodList = goodService.getGoodByCategoryGroup(id_category_group);
+            model.addAttribute("good", goodList);
+        }
+        else if(id_category != null){
+            List<Good> goodList = goodService.getGoodByCategory(id_category);
+            model.addAttribute("good", goodList);
+        }
+        else if (id_model != null){
+            List<Good> goodList = goodService.getGoodByModel(id_model);
+            model.addAttribute("good", goodList);
+        }
         List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
         List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
-        Car car = carRepo.findById(carId).orElse(null);
-        List<Good> goodList = goodService.getGoodByModel(car.getModel().getId_model());
-        com.example.store.entity.Model model1 = modelService.getModelById(car.getModel().getId_model());
         List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
         List<ModelDto> modelDtoList = modelService.getModelAndProduct();
 
-        model.addAttribute("good", goodList);
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("producer",producerDtoList);
         model.addAttribute("categories", categories);
@@ -88,7 +113,7 @@ public class MainController {
         model.addAttribute("brand", brandDtoList);
         model.addAttribute("model", modelDtoList);
 
-        return "searchParts";
+        return "filter";
     }
 
     @GetMapping("/shop")

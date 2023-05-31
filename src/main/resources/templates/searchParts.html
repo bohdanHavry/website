@@ -43,19 +43,9 @@
   </div>
 </nav>
 
-<!--<div th:if="${user.login}">
-   <p><b>Ім'я користувача: <i th:text="${user.login}" /></b><br>
-       <b>Рівень доступу: <i th:text="${user.roles}" /></b></p>
-    <form th:action="@{/logout}" method="post">
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-        <input type="submit" value="Вийти"/>
-    </form>
-</div>
-<span th:unless="${user.login}">
-<a href="/login">Увійти</a></span> <br>-->
 <div class="container mt-4">
   <h1 style="text-align: center">Пошук товарів</h1><hr>
-  <form th:action="@{/}">
+  <form th:action="@{/shop}">
     <div class="form-row">
       <div class="form-group col-md-10">
         <label for="search"><b>Пошук по назві товару:</b></label>

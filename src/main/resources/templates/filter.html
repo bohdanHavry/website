@@ -43,16 +43,6 @@
     </div>
 </nav>
 
-<!--<div th:if="${user.login}">
-   <p><b>Ім'я користувача: <i th:text="${user.login}" /></b><br>
-       <b>Рівень доступу: <i th:text="${user.roles}" /></b></p>
-    <form th:action="@{/logout}" method="post">
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-        <input type="submit" value="Вийти"/>
-    </form>
-</div>
-<span th:unless="${user.login}">
-<a href="/login">Увійти</a></span> <br>-->
 <div class="container mt-4">
     <h1 style="text-align: center">Пошук товарів</h1><hr>
     <form th:action="@{/shop}">
@@ -102,9 +92,8 @@
                 Бренди
             </a>
 
-            <div class="collapse show" id="categoryCollapse2">
+            <div class="collapse" id="categoryCollapse2">
                 <div>
-                    <a th:href="@{/}" style="text-decoration: none;"><p style="font-size:20px; margin:0;">Усі товари</p></a>
                     <div th:each="brand : ${brand}" style="margin:0 0 0 25px;">
                         <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#brandCollapse-' + ${brand.id}" role="button" aria-expanded="false" aria-controls="'brandCollapse-' + ${brand.id}">
                             [[${brand.name}]]
@@ -137,6 +126,8 @@
                     <small class="text-muted">([[${producer.numberOfProduct}]])</small></a>
             </div>
         </div>
+
+        <a th:href="@{/}" style="text-decoration: none;"><p style="font-size:20px; margin:0;">Усі товари</p></a>
 
     </div>
 
