@@ -136,9 +136,160 @@
     </form>
     <button style="width: 15%; margin: 0px 0px 5px 0px" onclick="clearFilter()" class="btn btn-dark">Очистити фільтр</button>
     </div>
-</div>
 
-<script type="text/javascript">
+    <div>
+        <h4 style="text-align: center">Товари з гарячою пропозицією</h4>
+        <div class="card-deck" id="goods-container">
+            <div th:if="!${#lists.isEmpty(goods)}">
+                <div class="row">
+                    <div th:each="item : ${goods}" th:if="${item.isHotDeal == true}" style="width: 380px; margin: 0 auto;">
+                        <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
+                            <div class="card text-white bg-dark my-3 product">
+                                <div style="background-color:white;">
+                                    <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
+                                </div>
+                                <div class="card-body" style="min-height: 210px; text-decoration: none;">
+                                    <h5 class="card-title" th:text="${item.title}" />
+                                    <b th:text="${item.model.brand.name_brand}"></b>
+                                    <b th:text="${item.model.name_model}"></b>
+                                    <br>
+                                    Категорія:
+                                    <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
+                                    <br>
+                                    Підкатегорія:
+                                    <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
+                                    <div style="font-size: 25px;" th:if="${item.discount}">
+                                        <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
+                                        <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
+                                    </div>
+                                    <div style="font-size: 25px;" th:unless="${item.discount}">
+                                        <b th:text="${item.price}"></b> грн.
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
+                                    <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
+                                    <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-secondary load-more-button" style="margin-bottom: 30px;">Завантажити ще</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h4 style="text-align: center">Товари зі скидкою</h4>
+        <div class="card-deck" id="goods-container2">
+            <div th:if="!${#lists.isEmpty(goods)}">
+                <div class="row">
+                    <div th:each="item : ${goods}" th:if="${item.discount > 0}" style="width: 380px; margin: 0 auto;">
+                        <a th:href="@{/main/{idGood}(idGood=${item.id_good})}" class="product-link">
+                            <div class="card text-white bg-dark my-3 product">
+                                <div style="background-color:white;">
+                                    <img th:src="@{/images/{previewImageId}(previewImageId=${item.previewImageId})}" class="card-img-top" style="height: 200px; object-fit: contain;">
+                                </div>
+                                <div class="card-body" style="min-height: 210px; text-decoration: none;">
+                                    <h5 class="card-title" th:text="${item.title}" />
+                                    <b th:text="${item.model.brand.name_brand}"></b>
+                                    <b th:text="${item.model.name_model}"></b>
+                                    <br>
+                                    Категорія:
+                                    <b style="font-style: normal;" th:text="${item.category.category_group.name_category_group}"></b>
+                                    <br>
+                                    Підкатегорія:
+                                    <b style="font-style: normal;" th:text="${item.category.name_category}"></b>
+                                    <div style="font-size: 25px;" th:if="${item.discount}">
+                                        <s style=" color: #dc3545;"><i th:text="${item.price}"></i><i> грн.</i></s>
+                                        <b style="color: #28a745; padding-left: 10px;" th:text="${item.discount}"></b> <b style="color: #28a745;"> грн.</b>
+                                    </div>
+                                    <div style="font-size: 25px;" th:unless="${item.discount}">
+                                        <b th:text="${item.price}"></b> грн.
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="display: flex; flex-direction: row; gap: 25px; min-height: 45px;">
+                                    <span th:if="${item.isHotDeal}" class="badge badge-pill badge-danger"> <i class="fas fa-fire"></i> Гаряча пропозиція</span>
+                                    <span th:if="${item.discount}" class="badge badge-pill badge-success"> <i class="fas fa-percent"></i> Знижка</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="button" id="loadMoreButton" class="btn btn-secondary load-more-button" style="margin-bottom: 30px;">Завантажити ще</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <script th:inline="javascript">
+    const goodsContainer = document.getElementById("goods-container");
+    const loadMoreButton = document.querySelector(".load-more-button");
+
+    const MAX_GOODS = 3;
+    let currentGoods = MAX_GOODS;
+
+    const goods = goodsContainer.querySelectorAll(".product");
+    goods.forEach((item, index) => {
+        if (index >= currentGoods) {
+            item.style.display = "none";
+        }
+    });
+
+    if (goods.length <= MAX_GOODS) {
+        loadMoreButton.style.display = "none";
+    }
+
+    loadMoreButton.addEventListener("click", () => {
+        currentGoods += MAX_GOODS;
+        goods.forEach((item, index) => {
+            if (index < currentGoods) {
+                item.style.display = "block";
+            }
+        });
+        if (currentGoods >= goods.length) {
+            loadMoreButton.style.display = "none";
+        }
+    });
+</script>
+
+    <script th:inline="javascript">
+    const goodsContainer2 = document.getElementById("goods-container2");
+    const loadMoreButton2 = document.getElementById("loadMoreButton");
+
+    const MAX_GOODS2 = 3;
+    let currentGoods2 = MAX_GOODS2;
+
+    const goods2 = goodsContainer2.querySelectorAll(".product");
+    goods2.forEach((item, index) => {
+        if (index >= currentGoods2) {
+            item.style.display = "none";
+        }
+    });
+
+    if (goods2.length <= MAX_GOODS2) {
+        loadMoreButton2.style.display = "none";
+    }
+
+    loadMoreButton2.addEventListener("click", () => {
+        currentGoods2 += MAX_GOODS2;
+        goods2.forEach((item, index) => {
+            if (index < currentGoods2) {
+                item.style.display = "block";
+            }
+        });
+        if (currentGoods2 >= goods2.length) {
+            loadMoreButton2.style.display = "none";
+        }
+    });
+</script>
+
+    <script type="text/javascript">
     function clearFilter(){
     window.location = '/';
     }

@@ -152,10 +152,10 @@
             </table>
           </td>
 
-          <td th:text="${item.user.first_name}" />
-          <td th:text="${item.user.last_name}"/>
-          <td th:text="${item.user.phone}" />
-          <td th:text="${item.user.mail}"/>
+          <td th:text="${item.first_name}" />
+          <td th:text="${item.last_name}"/>
+          <td th:text="${item.phone}" />
+          <td th:text="${item.mail}"/>
 
           <td><a th:href="@{/order/{orderId}(orderId=${item.id_order})}" class="btn btn-primary" role="button">Редагувати</a></td>
           <td><a th:href="@{/order/delete/{orderId}(orderId=${item.id_order})}" class="btn btn-danger" role="button" onclick="return confirmSpell();">Видалити</a></td>

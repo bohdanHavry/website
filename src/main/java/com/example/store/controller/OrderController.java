@@ -48,7 +48,9 @@ public class OrderController {
 
     @PostMapping("/order")
     public String processOrder(HttpServletRequest request, @RequestParam (required = false) String city,
-                               @RequestParam (required = false) String address, @RequestParam String payment_method, @RequestParam String order_method, Principal principal,
+                               @RequestParam (required = false) String address, @RequestParam String payment_method,
+                               @RequestParam String first_name, @RequestParam String last_name, @RequestParam String mail,
+                               @RequestParam String phone, @RequestParam String order_method, Principal principal,
                                RedirectAttributes redirectAttributes) {
 
         User user = mainService.getUserByPrincipal(principal);
@@ -60,6 +62,10 @@ public class OrderController {
         order.setUser(user);
         order.setOrder_date(new Date());
         order.setCity(city);
+        order.setFirst_name(first_name);
+        order.setLast_name(last_name);
+        order.setPhone(phone);
+        order.setMail(mail);
         order.setAddress(address);
         order.setPayment_method(payment_method);
         order.setPayment_status(false);

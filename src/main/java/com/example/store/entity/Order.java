@@ -46,6 +46,20 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "first_name")
+    private String first_name;
+
+    @Column(name = "last_name")
+    private String last_name;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "mail")
+    private String mail;
+
+
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -127,5 +141,45 @@ public class Order {
 
     public void setTotal_price(Double total_price) {
         this.total_price = total_price;
+    }
+
+    public String getOrder_method() {
+        return order_method;
+    }
+
+    public void setOrder_method(String order_method) {
+        this.order_method = order_method;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }

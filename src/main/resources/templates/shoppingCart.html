@@ -80,8 +80,10 @@
                                     <div class="media-body" style="padding-left:10px;">
                                         <b><a th:href="@{/main/{idGood}(idGood=${item.good.id_good})}" class="d-block text-dark" th:text="${item.good.title}" style="font-size:18px;"/></b><br>
                                         <small>
+                                            <span th:text="${item.good.model.brand.name_brand}"/>
+                                            <span th:text="${item.good.model.name_model}"/>
+                                            <span th:text="${item.good.model.year} + ' р.'"/> <br>
                                             Серійний номер: <span class="text-muted" th:text="${item.good.number}"/> <br>
-                                            Модель: <span class="text-muted" th:text="${item.good.model.name_model}"/> <br>
                                             Категорія: <span class="text-muted" th:text="${item.good.category.name_category}"/>
                                         </small>
                                     </div>

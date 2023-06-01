@@ -50,9 +50,9 @@
 
     <form th:action="@{/changeInfoOrder/{id_order}(id_order=${order.id_order})}" method="post">
         <h4 th:text="'ID замовлення: ' + ${order.id_order}"></h4>
-        <h6 th:text="'Ім\'я замовника: ' + ${order.user.first_name}"></h6>
-        <h6 th:text="'Призвіще: ' + ${order.user.last_name}"></h6>
-        <h6 th:text="'Номер телефону: ' + ${order.user.phone}"></h6>
+        <h6 th:text="'Ім\'я замовника: ' + ${order.first_name}"></h6>
+        <h6 th:text="'Призвіще: ' + ${order.last_name}"></h6>
+        <h6 th:text="'Номер телефону: ' + ${order.phone}"></h6>
 
         <div class="form-group">
             <label> Метод замовлення:</label>

@@ -46,6 +46,12 @@ public class MainController {
 
     @GetMapping("/")
     public String main(Principal principal , Model model, @RequestParam(name = "title", required = false) String title){
+        List<CatGroupDto> categoryGroups = catGroupService.getCategoryGroupAndProduct();
+        List<CategoryDto> categories = categoryService.getCategoryAndProduct();
+        List<ProducerDto> producerDtoList = producerService.getProducerAndProduct();
+        List<BrandDto> brandDtoList = brandService.getBrandAndProduct();
+        List<ModelDto> modelDtoList = modelService.getModelAndProduct();
+
         model.addAttribute("goods", goodService.listAll(title));
         model.addAttribute("user", mainService.getUserByPrincipal(principal));
         model.addAttribute("categoryGroup", goodService.getAllCategoryGroup());
