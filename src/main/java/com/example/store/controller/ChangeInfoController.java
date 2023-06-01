@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.UUID;
@@ -110,7 +111,7 @@ public class ChangeInfoController {
     @PostMapping("/changeMail")
     public String changeMailPost(User user, Model model, RedirectAttributes redirectAttributes, @RequestParam String first_name, @RequestParam String last_name,
                                      @RequestParam String middle_name, @RequestParam String phone, @RequestParam String password_user,
-                                     @RequestParam String confirm_password_user, @RequestParam String login, @RequestParam String mail) {
+                                     @RequestParam String confirm_password_user, @RequestParam String login, @RequestParam String mail, HttpServletRequest request) {
         User userFromDB = userRepo.findByLogin(user.getLogin());
 
         if (!passwordEncoder.matches(password_user, userFromDB.getPassword_user()))
@@ -135,8 +136,11 @@ public class ChangeInfoController {
         if(!org.thymeleaf.util.StringUtils.isEmpty(userFromDB.getMail())){
             String message = String.format(
                     "Привіт, %s! \n" +
-                            "Поштова скринька була успішно змінена. Будь-ласка перейдіть по посиланню: http://localhost:8090/activate/%s",
+                            "Поштова скринька була успішно змінена. Будь-ласка перейдіть по посиланню: %s://%s:%d/activate/%s",
                     userFromDB.getLogin(),
+                    request.getScheme(),
+                    request.getServerName(),
+                    request.getServerPort(),
                     userFromDB.getActivationCode()
             );
 

@@ -43,7 +43,9 @@
         <p th:text="${errorMessage}"></p>
     </div>
     <div th:unless="${errorMessage}">
-        <p th:if="${loginError}" class="error" style="color: red" >Неправильний логін або пароль</p>
+        <div th:if="${loginError}" class="alert alert-danger" role="alert">
+            <p>Неправильний логін або пароль</p>
+        </div>
     </div>
     <div th:if="${successMessage}" class="alert alert-success" role="alert">
         <p th:text="${successMessage}"></p>

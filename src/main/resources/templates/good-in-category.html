@@ -79,7 +79,7 @@
 
             <div class="collapse show" id="categoryCollapse">
                 <div>
-                    <a th:href="@{/}" style="text-decoration: none;"><p style="font-size:20px; margin:0;">Усі товари</p></a>
+                    <a th:href="@{/shop}" style="text-decoration: none;"><p style="font-size:20px; margin:0;">Усі товари</p></a>
                     <div th:each="categoryGroup : ${categoryGroup}" style="margin:0 0 0 25px;">
                         <a class="link2" style="margin: 8px 0 0 0;" data-toggle="collapse" th:data-target="'#categoryGroupCollapse-' + ${categoryGroup.id}" role="button" aria-expanded="false" aria-controls="'categoryGroupCollapse-' + ${categoryGroup.id}">
                             [[${categoryGroup.name}]]

@@ -129,7 +129,7 @@
             Виробники
         </a>
         <div class="collapse show mb-3" id="collapseExample4" style="">
-            <a th:href="@{/}" style="text-decoration: none;"><p style="font-size:20px; margin:0;">Усі товари</p></a>
+            <a th:href="@{/shop}" style="text-decoration: none;"><p style="font-size:20px; margin:0;">Усі товари</p></a>
             <div style="margin:0 0 0 25px;" id="list-group-men4"
                  data-children=".sub-men" th:each="producer : ${producerDto}">
                 <a class="link2" th:href = "@{/good-in-producer/{id}(id = ${producer.id})}">[[${producer.name}]]

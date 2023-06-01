@@ -61,7 +61,7 @@ public class PasswordResetController {
         }
 
         userService.changeUserPassword(user, newPassword, confirmPassword);
-        modelAndView.addObject("message", "Пароль змінено успішно");
+        modelAndView.addObject("successMessage", "Пароль змінено успішно");
         modelAndView.addObject("user", mainService.getUserByPrincipal(principal));
         modelAndView.setViewName("login");
 

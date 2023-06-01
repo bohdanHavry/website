@@ -24,6 +24,8 @@ public class ModelService {
     public GoodRepo goodRepo;
     @Autowired
     public ImageRepo imageRepo;
+    @Autowired
+    public CarRepo carRepo;
 
 
     public void saveBrandToDB(String name_brand, Brand brand )  {
@@ -99,6 +101,8 @@ public class ModelService {
                 imageRepo.deleteAllByGoodId(good.getId_good());
             }
             goodRepo.deleteAllByModelId(model.getId_model());
+
+            carRepo.deleteAllByModelId(model.getId_model());
         }
 
         modelRepo.deleteByBrandId(id_brand);
@@ -114,6 +118,7 @@ public class ModelService {
         }
         goodRepo.deleteAllByModelId(id_model);
 
+        carRepo.deleteAllByModelId(id_model);
 
         modelRepo.deleteById(id_model);
     }

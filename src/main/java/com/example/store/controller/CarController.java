@@ -58,7 +58,7 @@ public class CarController {
         User user = mainService.getUserByPrincipal(principal);
         // Отримання даних про машину з VIN Decoder API
         String vin = car.getVin();
-        String apiUrl = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevinextended/" + vin + "?format=json";
+        String apiUrl = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/" + vin + "?format=json";
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
@@ -81,19 +81,25 @@ public class CarController {
 
                     if (variable.equals("Make")) {
                         brandName = value;
+                        if (brandName.equals("NULL")) {
+                            redirectAttributes.addFlashAttribute("messageError", "Автомобіль за вказаним VIN-кодом не було знайдено");
+                            return "redirect:/profile";
+                        }
                     } else if (variable.equals("Model")) {
                         modelName = value;
+                        if (modelName.equals("NULL")) {
+                            redirectAttributes.addFlashAttribute("messageError", "Автомобіль за вказаним VIN-кодом не було знайдено");
+                            return "redirect:/profile";
+                        }
                     } else if (variable.equals("Model Year")) {
                         year = Integer.parseInt(value);
-                    }
-
-                    if (brandName == null || modelName == null || year == 0) {
-                        redirectAttributes.addFlashAttribute("messageError", "Недійсний VIN-код");
-                        return "redirect:/profile";
+                        if (year == 0) {
+                            redirectAttributes.addFlashAttribute("messageError", "Автомобіль за вказаним VIN-кодом не було знайдено");
+                            return "redirect:/profile";
+                        }
                     }
 
                 }
-
 
             }
         } catch (Exception e) {
@@ -130,14 +136,10 @@ public class CarController {
     }
 
     @GetMapping("/deleteCar/{carId}")
-    public String deleteGood(@PathVariable("carId") Long carId, Model model, Principal principal){
+    public String deleteCar(@PathVariable("carId") Long carId, RedirectAttributes redirectAttributes){
         carRepo.deleteById(carId);
-        User user = mainService.getUserByPrincipal(principal);
-        List<Car> cars = carRepo.findByUserId(user.getUser_id());
-        model.addAttribute("cars", cars);
-        model.addAttribute("message", "Автомобіль було видалено із гаражу!");
-        model.addAttribute("user", user);
-        return "profile";
+        redirectAttributes.addFlashAttribute("message", "Автомобіль було видалено із гаражу!");
+        return "redirect:/profile";
     }
 
     @GetMapping("/searchParts/{carId}")

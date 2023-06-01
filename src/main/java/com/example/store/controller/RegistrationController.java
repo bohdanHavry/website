@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+    public String addUser(@Valid User user, BindingResult bindingResult, Model model, HttpServletRequest request) {
         if(user.getPassword_user() != null && !user.getPassword_user().equals(user.getConfirm_password_user())){
             model.addAttribute("passwordError", "Паролі різні!");
             return "registration";
@@ -77,8 +78,11 @@ public class RegistrationController {
         if(!StringUtils.isEmpty(user.getMail())){
             String message = String.format(
                     "Привіт, %s! \n" +
-                            "Вітаємо за приєднання до AvtoSenat. Будь-ласка перейдіть по посиланню: http://localhost:8090/activate/%s",
+                            "Вітаємо за приєднання до AvtoSenat. Будь-ласка перейдіть по посиланню: %s://%s:%d/activate/%s",
                     user.getLogin(),
+                    request.getScheme(),
+                    request.getServerName(),
+                    request.getServerPort(),
                     user.getActivationCode()
             );
 
