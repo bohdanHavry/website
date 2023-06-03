@@ -36,9 +36,19 @@
     </div>
 </nav>
 
-<div class="container mt-4">
-    <h1 style="text-align: center">Авторизація</h1>
-    <hr>
+<style>
+    .center-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+</style>
+
+<div class="container mt-4 center-content">
+    <h1>Авторизація</h1>
+    <br>
     <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
         <p th:text="${errorMessage}"></p>
     </div>
@@ -50,19 +60,21 @@
     <div th:if="${successMessage}" class="alert alert-success" role="alert">
         <p th:text="${successMessage}"></p>
     </div>
-    <p th:text= "${message}" style="color: red"/>
+    <p th:text="${message}" style="color: red"></p>
 
     <div th:if="${changeInfoMessage != null}">
         <p th:text="${changeInfoMessage}" style="color: green;"></p>
     </div>
 
     <form th:action="@{/login}" method="post">
-        <div class="form-group">
-            <label> Логін: <input type="text" name="username" required/> </label>
-        </div>
-        <div class="form-group">
-            <label> Пароль: <input type="password" name="password" id="password" required/> </label>
-            <button type="button" id="showPasswordBtn" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
+        <div style="display: flex; flex-direction: column; align-items: flex-start;">
+            <div class="form-group">
+                <label> Логін: <input type="text" name="username" style="margin-left: 14px;" required/> </label>
+            </div>
+            <div class="form-group">
+                <label> Пароль: <input type="password" name="password" id="password" required/> </label>
+                <button type="button" id="showPasswordBtn" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
+            </div>
         </div>
         <label for="rememberMe">Запам'ятати мене?</label>
         <input type="checkbox" id="rememberMe" name="rememberMe">
@@ -70,8 +82,8 @@
         <button type="submit" style="width: 100%" class="btn btn-dark">Увійти</button>
     </form>
     <hr>
-    <h2><a href="/forgotPassword">Забули пароль?</a></h2>
-    <h2>Немає акаунту AVTO SENAT? <a href="/registration">Зареєструйся!</a></h2>
+    <h3><a href="/forgotPassword" style="text-decoration: none;">Забули пароль?</a></h3>
+    <h3>Немає акаунту AVTO SENAT? <a href="/registration" style="text-decoration: none;">Зареєструйся!</a></h3>
 </div>
 
 <script>

@@ -276,8 +276,9 @@ public class MainController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deleteGood/{id_good}")
-    public String deleteGood(@PathVariable("id_good") Long id_good){
+    public String deleteGood(@PathVariable("id_good") Long id_good, RedirectAttributes redirectAttributes){
         goodRepo.deleteById(id_good);
+        redirectAttributes.addFlashAttribute("addMessage", "Товар було успішно видалено!");
         return "redirect:/shop";
     }
 
@@ -286,6 +287,9 @@ public class MainController {
     public String editGood(@PathVariable("id_good") Long id_good, Principal principal , Model model){
         Good good = goodService.getGoodById(id_good);
         model.addAttribute("good", good);
+        model.addAttribute("categoryGroup", goodService.getAllCategoryGroup());
+        model.addAttribute("brand", goodService.getAllBrand());
+
         model.addAttribute("category", goodService.getAllCategory());
         model.addAttribute("model", goodService.getAllModel());
         model.addAttribute("producer",goodService.getAllProducer());

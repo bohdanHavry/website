@@ -39,50 +39,116 @@
 </nav>
 
 <div class="container mt-4">
-    <h1 style="text-align: center">Реєстрація</h1>
-    <hr>
-    <p th:text= "${passwordError}" style="color: red"/>
-    <form th:action="@{/registration}" method="post">
-        <div class="form-group">
-            <p th:text= "${loginError}" style="color: red"/>
-            <label> Логін: <input type="text" name="login"/> </label>
-        </div>
-        <div class="form-group">
-            <p th:text= "${mailError}" style="color: red"/>
-            <label> Поштова скринька: <input type="email" name="mail"/> </label>
-        </div>
-        <div class="form-group">
-            <p th:text= "${password_userError}" style="color: red"/>
-            <label> Пароль: <input type="password" name="password_user" minlength="8" maxlength="20" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Пароль повинен містити принаймні одну цифру, одну малу літеру, одну велику літеру та бути не менше ніж 8 символів"/> </label>
-            <button type="button" id="showPasswordBtn" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
-        </div>
-        <div class="form-group">
-            <p th:text= "${confirm_password_userError}" style="color: red"/>
-            <label> Підтвердження паролю: <input type="password" name="confirm_password_user" minlength="8" maxlength="20" id="password2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Пароль повинен містити принаймні одну цифру, одну малу літеру, одну велику літеру та бути не менше ніж 8 символів"/> </label>
-            <button type="button" id="showPasswordBtn2" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
-        </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="text-center">Реєстрація</h1>
+            <hr>
 
-        <div class="form-group">
-            <p th:text= "${first_nameError}" style="color: red"/>
-            <label> Ім'я: <input type="text" name="first_name"/> </label>
+            <p th:text="${passwordError}" style="color: red;"></p>
+
+            <form th:action="@{/registration}" method="post">
+                <div class="row row-margin" style="margin-left: 30px;">
+                    <div class="col">
+                        <div class="form-group text-center" style="width: 200px;">
+                            <p th:text="${loginError}" style="color: red;"></p>
+                            <label class="d-block">Логін:
+                                <input type="text" name="login" class="form-control input-sm" required>
+                            </label>
+                        </div>
+
+                        <div class="form-group text-center"  style="width: 200px;">
+                            <p th:text="${mailError}" style="color: red;"></p>
+                            <label class="d-block">Поштова скринька:
+                                <input type="email" name="mail" class="form-control input-sm" required>
+                            </label>
+                        </div>
+
+                        <div class="form-group text-center"  style="width: 230px;">
+                            <p th:text="${password_userError}" style="color: red;"></p>
+                            <label class="d-block" style="margin-left: -25px; margin-bottom: 0px;">Пароль: </label>
+                                <div class="input-group" style="width: 230px;">
+                                    <input type="password" name="password_user" minlength="8" maxlength="20" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Пароль повинен містити принаймні одну цифру, одну малу літеру, одну велику літеру та бути не менше ніж 8 символів" class="form-control input-sm" required>
+                                    <button type="button" id="showPasswordBtn" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
+                                </div>
+                        </div>
+
+                        <div class="form-group text-center"  style="width: 230px;">
+                            <p th:text="${confirm_password_userError}" style="color: red;"></p>
+                            <label class="d-block" style="margin-left: -30px; margin-bottom: 0px;">Підтвердження паролю: </label>
+                                <div class="input-group" style="width: 230px;">
+                                    <input type="password" name="confirm_password_user" minlength="8" maxlength="20" id="password2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Пароль повинен містити принаймні одну цифру, одну малу літеру, одну велику літеру та бути не менше ніж 8 символів" class="form-control input-sm" required>
+                                    <button type="button" id="showPasswordBtn2" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group text-center" style="width: 200px;">
+                            <p th:text="${first_nameError}" style="color: red;"></p>
+                            <label class="d-block">Ім'я:
+                                <input type="text" name="first_name" class="form-control input-sm" required>
+                            </label>
+                        </div>
+
+                        <div class="form-group text-center" style="width: 200px;">
+                            <p th:text="${last_nameError}" style="color: red;"></p>
+                            <label class="d-block">Прізвище:
+                                <input type="text" name="last_name" class="form-control input-sm" required>
+                            </label>
+                        </div>
+
+                        <div class="form-group text-center" style="width: 200px;">
+                            <p th:text="${middle_nameError}" style="color: red;"></p>
+                            <label class="d-block">По батькові:
+                                <input type="text" name="middle_name" class="form-control input-sm" required>
+                            </label>
+                        </div>
+
+                        <div class="form-group text-center" style="width: 200px;">
+                            <p th:text="${phoneError}" style="color: red;"></p>
+                            <label class="d-block">Номер телефону:
+                                <input type="tel" pattern="[+]380[0-9]{9}" title="Формат телефона +380ХХХХХХХХХ" name="phone" class="form-control input-sm" required>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error"></div>
+
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+                <div style="display: flex; justify-content: center; align-items: center;" class="myBtn">
+                    <button type="submit" style="width: 35%; margin-bottom: 50px;" class="btn btn-dark">Зареєструватися</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <p th:text= "${last_nameError}" style="color: red"/>
-            <label> Прізвище: <input type="text" name="last_name"/> </label>
-        </div>
-        <div class="form-group">
-            <p th:text= "${middle_nameError}" style="color: red"/>
-            <label> По батькові: <input type="text" name="middle_name"/> </label>
-        </div>
-        <div class="form-group">
-            <p th:text= "${phoneError}" style="color: red"/>
-            <label> Номер телефону: <input type="tel" pattern="[+]380[0-9]{9}" title="Формат телефона +380ХХХХХХХХХ" name="phone"/> </label>
-        </div>
-        <div class="error"></div>
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-        <button type="submit" style="width: 100%" class="btn btn-dark">Зареєструватися</button>
-    </form>
+    </div>
 </div>
+
+<style>
+    @media(max-width: 425px){
+    .row-margin{
+    margin-left: 20%!important;
+    }
+    .myBtn button{
+    width: 75%!important;
+    }
+    }
+
+    @media(max-width: 375px){
+    .row-margin{
+    margin-left: 17.5%!important;
+    }
+    }
+
+    @media(max-width: 320px){
+    .row-margin{
+    margin-left: 10.5%!important;
+    }
+    }
+</style>
+
+
 
 
 <script>

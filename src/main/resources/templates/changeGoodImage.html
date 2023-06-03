@@ -49,7 +49,7 @@
 
   <form th:action="@{/editImageGood/{id_good}(id_good=${good.id_good})}" method="post" enctype="multipart/form-data" style="width: 100%; max-width: 450px;">
     <div class="form-group">
-        <h4><b th:text="${good.title}"></b></h4>
+        <h4><b th:text="${good.title} + ' (Артикул: ' + ${good.number} + ')'"></b></h4>
     </div>
 
     <div class="form-group">
@@ -78,7 +78,7 @@
 
     <input type="hidden" name="_csrf" th:value="${_csrf.token}">
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button type="submit" style="width: 200px; margin-bottom: 20px;" class="btn btn-dark">Змінити</button>
+      <button type="submit" style="width: 150px; margin: 10px 0px;" class="btn btn-success">Змінити</button>
     </div>
   </form>
 </div>
