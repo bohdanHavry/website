@@ -46,7 +46,20 @@
   <h1 style="text-align: center">Мої замовлення</h1>
   <hr>
 
-  <div style="display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto;">
+  <style>
+    @media(max-width: 991px){
+    .divFlex{
+    justify-content: center;
+    flex-direction: column;
+    }
+
+    .mybbtn{
+     margin-top: 15px;
+    }
+    }
+  </style>
+
+  <div class="divFlex" style="display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto;">
     <form th:action="@{/myOrders}" method="get" style="flex-basis: 45%;">
       <div class="search" style="max-width: 380px;">
         <h5>Пошук по діапазону дати замовлення:</h5>
@@ -83,7 +96,7 @@
     </form>
 
     <div style="flex-basis: 10%;">
-      <button class="btn btn-dark" onclick="clearFilter()">Очищення </button>
+      <button class="btn btn-dark mybbtn" onclick="clearFilter()">Очищення </button>
     </div>
   </div>
   <hr>

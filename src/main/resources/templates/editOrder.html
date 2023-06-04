@@ -44,6 +44,65 @@
     </div>
 </nav>
 
+<style>
+    .custom-select {
+        display: inline-block;
+        position: relative;
+        width: 300px;
+        padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+        line-height: 1.5;
+        color: #495057;
+        vertical-align: middle;
+        background: #fff url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"%3E%3Cpath fill="%23333" d="M2 0L0 2h4zm0 5L0 3h4z"/%3E%3C/svg%3E') no-repeat right 0.75rem center;
+        background-size: 8px 10px;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        appearance: none;
+    }
+    .custom-select:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    .custom-select:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    .custom-select::-ms-expand {
+        display: none;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    .form-group input[type="text"] {
+        display: block;
+        width: 70%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .form-group input[type="text"]:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    .form-group input[type="text"]:read-only {
+        background-color: #e9ecef;
+    }
+</style>
+
 <div class="container mt-4" style="max-width: 900px; max-height: 850px;">
     <h1 style="text-align: center">Редагування замовлення</h1>
     <hr>
@@ -56,7 +115,7 @@
 
         <div class="form-group">
             <label> Метод замовлення:</label>
-            <select id="orderMethodSelect" name="order_method" required>
+            <select id="orderMethodSelect" name="order_method" required class="custom-select">
                 <option value="Самовивіз" th:selected="${order.order_method == 'Самовивіз'}">Самовивіз</option>
                 <option value="Доставка" th:selected="${order.order_method == 'Доставка'}">Доставка</option>
             </select>
@@ -83,16 +142,16 @@
             <i>Щоб змінити місто або відділення нової пошти для доставки оберіть дані зі списків, що нижче:</i>
 
             <div class="form-group">
-                <label> Місто:
-                    <select style="width: 225px;" id="cities" name="cities">
+                <label> Місто: <br>
+                    <select style="width: 300px;" id="cities" name="cities" class="custom-select">
                         <option value=""></option>
                     </select>
                     <input type="hidden" name="city" th:value="${order.city}">
                 </label>
             </div>
             <div class="form-group">
-                <label> Відділення Нової пошти:
-                    <select style="width: 225px;" id="warehouses" name="warehouses">
+                <label> Відділення Нової пошти: <br>
+                    <select style="width: 300px;" id="warehouses" name="warehouses" class="custom-select">
                         <option value=""></option>
                     </select>
                     <input type="hidden" name="address" th:value="${order.address}">
@@ -102,7 +161,7 @@
 
         <div class="form-group">
             <label>Статус замовлення:</label>
-            <select name="order_status" required>
+            <select name="order_status" required class="custom-select">
                 <option th:each="status : ${orderStatusList}"
                         th:value="${status}"
                         th:selected="${status == order.order_status}">
@@ -112,7 +171,7 @@
         </div>
         <div class="form-group">
             <label>Статус оплати:</label>
-            <select name="payment_status">
+            <select name="payment_status" class="custom-select">
                 <option value="false" th:selected="${!order.payment_status}">Не оплачено</option>
                 <option value="true" th:selected="${order.payment_status}">Оплачено</option>
             </select>

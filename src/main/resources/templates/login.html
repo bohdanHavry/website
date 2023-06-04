@@ -48,7 +48,7 @@
 
 <div class="container mt-4 center-content">
     <h1>Авторизація</h1>
-    <br>
+    <hr style="width: 60%;">
     <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
         <p th:text="${errorMessage}"></p>
     </div>
@@ -62,8 +62,8 @@
     </div>
     <p th:text="${message}" style="color: red"></p>
 
-    <div th:if="${changeInfoMessage != null}">
-        <p th:text="${changeInfoMessage}" style="color: green;"></p>
+    <div th:if="${changeInfoMessage != null}" class="alert alert-success" role="alert">
+        <p th:text="${changeInfoMessage}"></p>
     </div>
 
     <form th:action="@{/login}" method="post">

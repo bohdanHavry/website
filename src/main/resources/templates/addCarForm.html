@@ -44,14 +44,25 @@
 
 <div class="container mt-4">
     <h1 class="text-center">Додати автомобіль до гаражу</h1>
+    <hr>
     <form th:action="@{/addCar}" method="post">
-        <div class="form-group">
+        <div class="form-group" style="display: flex; justify-content: center; align-items: center; margin-top: 30px;">
             <label for="vin">VIN:</label>
-            <input type="text" class="form-control" id="vin" name="vin" maxlength="17" minlength="17" style="text-transform: uppercase;" required>
+            <input type="text" class="form-control" id="vin" name="vin" maxlength="17" minlength="17" style="text-transform: uppercase; width: 50%; margin-left: 20px;" required>
         </div>
-        <button type="submit" class="btn btn-primary">Додати</button>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button type="submit" class="btn btn-primary mybtnn" style="width: 20%;">Додати</button>
+        </div>
     </form>
 </div>
+
+<style>
+    @media(max-width: 425px){
+    .mybtnn{
+    width: 50%!important;
+    }
+    }
+</style>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

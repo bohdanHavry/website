@@ -48,14 +48,14 @@
   <div th:if="${isProducerExists}" class="alert alert-warning" role="alert">
       Такий виробник і країна виробника вже існують.
   </div>
-  <a href="/addProducer">Додати нового виробника</a>
+
   <form th:action="@{/addPr}" method="post">
     <div class="form-group">
-      <label for = "name">Виробник</label>
+      <label for = "name">Виробник: </label>
       <input type="text" name="name_producer" id="name" required>
     </div>
     <div class="form-group">
-      <label for = "country">Країна виробника</label>
+      <label for = "country">Країна виробника: </label>
       <input type="text" name="country" id="country" required>
     </div>
     <button type="submit" style="width: 100%" class="btn btn-dark">Зберегти виробника</button>

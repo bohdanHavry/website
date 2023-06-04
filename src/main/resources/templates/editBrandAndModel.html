@@ -75,8 +75,7 @@
       </div>
       <div class="form-group">
         <label for="searchCat">Бренд: </label>
-        <select name="brand" id="searchCat" class="form-control"
-                title="select brand .." multiple data-actions-box="true">
+        <select name="brand" id="searchCat" class="form-control" title="Бренд">
 
           <option th:each="brand : ${brand}" th:value="${brand.id_brand}"
                   th:selected="${brand.id_brand == model.brand.id_brand}">[[${brand.name_brand}]]</option>
