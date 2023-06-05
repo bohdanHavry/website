@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/", "/registration", "/good-in-category/**", "/good-in-categoryGroup/**",
                                 "/good-in-brand/**", "/good-in-producer/**", "/main/**", "/images/**", "/static/**",
                                 "/activate/*", "/forgotPassword", "/resetPassword", "/allReviews/*", "/shop","/getSubcategory" , "/getModel",
-                                "/filter").permitAll()
+                                "/filter", "/about","/paymentAndDelivery","/contacts").permitAll()
 
                         .anyRequest().authenticated()
                 )

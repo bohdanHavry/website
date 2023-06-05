@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <!-- Required meta tags -->
@@ -141,64 +141,107 @@
   </div>
 </nav>
 
+<style>
+        #map {
+            height: 600px;
+            width: 100%;
+            margin-bottom:50px;
+        }
+    </style>
+
+
+
 <div class="container mt-4">
-  <h1 style="text-align: center">Панель адміністратора: перегляд, редагування та видалення виробників</h1>
+<h3 style="text-align:center"> Оплата та доставка</h3>
   <hr>
+  <h4>Оплата</h4>
+  <p>У нашому магазині Вам пропонуємо наступні види розрахунку за придбані Вами запчастини:</p>
+  <p>1. Готівкою безпосередньо при купівлі запчастин у магазині.</p>
+  <p>2. Банківською карткою через термінал при купівлі запчастин у магазині.</p>
+  <p>3. Через Privat24 при покупці запчастин у магазині або відправкою поштою.</p>
+  <p>4. Оплата на розрахунковий рахунок без ПДВ при покупці запчастин у магазині або відправкою поштою.</p>
+  <p>5. Під час відправлення поштою необхідна 100% оплата товару у зв'язку з нестабільністю курсу.</p>
+<hr>
+  <h4>Доставка</h4>
+  <p> Отримати оплачений товар Ви можете такими способами:</p>
+  <p> 1. Безпосередньо у магазині після оплати.</p>
+  <p>2. Товар може бути доставлений за адресою, яку Ви вказали.</p>
+  <p>Вартість доставки та час отримання товару необхідно погодити з менеджером за телефонами, зазначеними вище.</p>
+  <hr>
+  <h4>Відправка</h4>
+  <p>Ми працюємо з наступними перевізниками:</p>
+  <p>- Нова пошта: замовлення та оплата до 17.00 (відправка в день замовлення)</p>
+  <hr>
+  <h4 style="text-align:center">Карта відділень Нової Пошти</h4>
+  <div id="map"></div>
 
-  <div th:if="${changeInfoProducer != null}">
-    <div class="alert alert-success" role="alert">
-      <p th:text="${changeInfoProducer}"></p>
-    </div>
-  </div>
+  <script>
+    // Ініціалізація карти
+    function initMap() {
+      // Координати центру карти (наприклад, Київ)
+      var center = { lat: 50.4501, lng: 30.5234 };
 
-    <form th:action="@{/showProducer}">
-      <div class="form-row">
-        <div class="form-group col-md-10">
-          <label for="search"><b>Пошук виробника:</b></label>
-          <input type="text" name="name_producer" th:value="${name_producer}" class="form-control" placeholder="Пошук по назві виробника" id="search">
-        </div>
-        <div style="display: inline">
-          <button style="width: 100%; margin: 0px 0px 5px 0px" type="submit" class="btn btn-dark" id="search-btn">Пошук</button>
-          <button style="width: 100%" class="btn btn-dark" onclick="clearFilter()">
-            Очищення </button>
-        </div>
-      </div>
-    </form>
-    <hr>
-    <table class="table table-hover table-dark">
-      <thead>
-      <tr>
-        <th scope="col">Назва виробника</th>
-        <th scope="col">Країна походження виробника</th>
-        <th scope="col">&#9998;</th>
-        <th scope="col">&#10006;</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="item : ${producer}">
-        <td th:text="${item.name_producer}" />
-        <td th:text="${item.country}" />
-        <td><a th:href="@{/producer/{producerId}(producerId=${item.id_producer})}" class="btn btn-primary" role="button">Редагувати</a></td>
-        <td><a th:href="@{/producer/delete/{producerId}(producerId=${item.id_producer})}" class="btn btn-danger" role="button" onclick="return confirmSpell();">Видалити</a></td>
-      </tr>
-      </tbody>
-    </table>
+      // Створення об'єкту карти
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10, // Масштаб карти
+        center: center // Координати центру карти
+      });
+
+      // Запит до API Нової Пошти для отримання відділень
+      // Замість `YOUR_API_KEY` вкажіть свій ключ API Нової Пошти
+      var apiKey = '184df33498070cf9e047e87087a8424d';
+      var apiUrl = 'https://api.novaposhta.ua/v2.0/json/';
+      var request = {
+        "apiKey": apiKey,
+        "modelName": "AddressGeneral",
+        "calledMethod": "getWarehouses",
+        "methodProperties": {}
+      };
+
+      // Виконання запиту до API Нової Пошти
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(request)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Отримання списку відділень
+        var warehouses = data.data;
+
+        // Проходження по кожному відділенню
+        warehouses.forEach(function(warehouse) {
+          // Отримання координат відділення
+          var latitude = parseFloat(warehouse.Latitude);
+          var longitude = parseFloat(warehouse.Longitude);
+
+          // Створення маркера на карті
+          var marker = new google.maps.Marker({
+            position: { lat: latitude, lng: longitude },
+            map: map,
+            title: warehouse.Description
+          });
+
+          // Додавання обробника події кліку на маркер
+          marker.addListener('click', function() {
+            // Виведення назви відділення у спливаючому вікні
+            var infowindow = new google.maps.InfoWindow({
+              content: warehouse.Description
+            });
+            infowindow.open(map, marker);
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfJIHAlZ6Pnm0i0WawaNAf8fJEg5gOhK8&callback=initMap" async defer></script>
 
 </div>
-
-<script>
-function confirmSpell() {
-    if (confirm("Ви підтверджуєте видалення?")) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function clearFilter(){
-    window.location = '/';
-    }
-</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -5,39 +5,138 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/static/css/style.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
 
-    <title>AVTO SENAT</title>
+    <title>AVTOSENAT</title>
+    <style>
+
+        .navbar-nav {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .nav-link{
+        font-size:20px;
+        color:white !important;
+        }
+
+
+        @media(max-width: 1199px){
+        .carousel-item img{
+        height:500px!important;
+        }
+
+
+        @media(max-width: 946px){
+        .carousel-item img{
+        height:400px!important;
+        }
+        .form-group{
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+        }
+        .buttons button{
+        width:100%!important;
+        }
+
+        .nav-link{
+        font-size:15px;
+        }
+
+        .navbar-nav{
+        gap:10px!important;
+        }
+
+        }
+
+        @media(max-width: 768px){
+        .search{
+        display: flex!important;
+        flex-direction:column;
+        justify-content: center!important;
+        align-items: center;
+        }
+        .search button{
+        width:50%!important;
+        }
+        .logo{
+        height:50px!important;
+        width:100px!important;
+        }
+
+        }
+
+        @media(max-width: 425px){
+        .carousel-item img{
+        height:250px!important;
+        }
+
+
+    </style>
 </head>
 <body>
-
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark navbar-expand-md" style="display: flex; justify-content:space-between;">
     <div class="container-fluid">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <a href="/">
-            <span class="navbar-brand mb-0 h1">AVTO SENAT</span>
+            <img class="logo" style="height:100px; width:200px" src="/static/images/logo.png">
         </a>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav" style="gap: 25px">
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="/">
+                        <span class="nav-link">Головна</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="/about">
+                        <span class="nav-link">Про нас</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="/shop">
+                        <span class="nav-link">Магазин</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="/paymentAndDelivery">
+                        <span class="nav-link">Доставка та оплата</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="text-decoration:none;" href="/contacts">
+                        <span class="nav-link">Контакти</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
         <div th:if="${user.login}">
             <div class="dropdown text-end">
                 <a href="/cart" class="link1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="25" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
                     </svg>
                 </a>
                 <a href="/profile">
                     <img src="/static/images/1.png" alt="mdo"
-                         width="32" height="32" class="rounded-circle">
+                         width="42" height="42" class="rounded-circle">
                 </a>
             </div>
         </div>
         <span th:unless="${user.login}">
-        <button class="btn btn-light my-2 my-sm-0" type="button"
-                onclick="window.location.href = '/login'">
-            Увійти
-        </button>
+            <button class="btn btn-light my-2 my-sm-0" type="button"
+                    onclick="window.location.href = '/login'">
+                Увійти
+            </button>
         </span>
     </div>
 </nav>
@@ -62,6 +161,99 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
+<footer class="text-center text-lg-start bg-dark text-white">
 
+    <!-- Section: Links  -->
+    <section class="" >
+        <div  class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4" style="margin-top:25px">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        AVTOSENAT
+                    </h6>
+                    <p>
+                        Інтернет-магазин автозапчастин, в наявності представлений асортимент як оригінальних так і ліцензійних запчастин.
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4" style="margin-top:25px">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        Корисні посилання
+                    </h6>
+                    <p>
+                        <a class="text-reset" href="/about">
+                            Про нас
+                        </a>
+                    </p>
+                    <p>
+                        <a class="text-reset" href="/shop">
+                            Магазин
+                        </a>
+                    </p>
+                    <p>
+                        <a class="text-reset" href="/paymentAndDelivery">
+                            Доставка та оплата
+                        </a>
+                    </p>
+                    <p>
+                        <a class="text-reset" href="/contacts">
+                            Контакти
+                        </a>
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4" style="margin-top:25px">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        Графік роботи
+                    </h6>
+                    <p>
+                        Пн-Сб: 9.00 - 18.30
+                    </p>
+                    <p>
+                        Нд: 10.00 - 16.00
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4" style="margin-top:25px">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">Контакти</h6>
+                    <p><i class="fas fa-home me-3"></i> м. Київ, авторинок "Жуляни" сектор А, 2 ряд, №47</p>
+                    <p>
+                        <i class="fas fa-envelope me-3"></i>
+                        info@avtosenat.com
+                    </p>
+                    <p>
+                        <i class="fas fa-envelope me-3"></i>
+                        avtosenat@ukr.net
+                    </p>
+                    <p><i class="fas fa-phone me-3"></i> (099)121-56-39</p>
+                    <p><i class="fas fa-phone me-3"></i> (068)850-51-60</p>
+                    <p><i class="fas fa-phone me-3"></i> (044)353-99-60</p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2023  Всі права захищені.
+        <a class="text-reset fw-bold" href="/">AVTOSENAT</a>
+    </div>
+    <!-- Copyright -->
+</footer>
 </body>
 </html>

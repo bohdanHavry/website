@@ -438,4 +438,24 @@ public class MainController {
         return "profile";
     }
 
+    @GetMapping("/about")
+    public String about(Principal principal, Model model) {
+
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "about";
+    }
+
+    @GetMapping("/paymentAndDelivery")
+    public String paymentAndDelivery(Principal principal, Model model) {
+
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "paymentAndDelivery";
+    }
+
+    @GetMapping("/contacts")
+    public String contacts(Principal principal, Model model) {
+
+        model.addAttribute("user", mainService.getUserByPrincipal(principal));
+        return "contacts";
+    }
 }
