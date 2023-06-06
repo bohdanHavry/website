@@ -142,15 +142,13 @@
     </div>
 </nav>
 
-<div class="container mt-4" style="display: flex; flex-direction: column; align-items: center;">
+<div class="container mt-4" style="margin-bottom: 80px!important;">
     <h1 style="text-align: center">Зміна поштової скриньки користувача</h1>
-    <hr style="width: 80%;">
+    <hr>
     <p th:text="${message}" style="color: red;"></p>
 
-    <form th:action="@{/changeMail}" method="post" style="width: 500px;">
-        <div class="form-group" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 0;">
-            <label style="text-align: center;"><b>Логін:</b> <h5 th:text="${user.login}" style="color: green;"></h5></label>
-        </div>
+    <form th:action="@{/changeMail}" method="post" style="margin-left: 100px; margin-right: auto;" class="myformm">
+        <p th:text="'Логін: ' + ${user.login}" style="font-size: 24px;"></p>
 
         <input type="hidden" th:value="${user.login}" name="login" />
         <input type="hidden" th:value="${user.first_name}" name="first_name" />
@@ -159,27 +157,40 @@
         <input type="hidden" th:value="${user.middle_name}" name="middle_name" />
         <input type="hidden" th:value="${user.phone}" name="phone" />
 
-        <div class="form-group" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="form-group">
             <p th:text="${password_userError}" style="color: red;"></p>
-            <label style="text-align: center;"><b>Поточний пароль:</b> <br>
-                <input type="password" name="password_user" minlength="8" maxlength="20" id="password" style="width: 200px; margin-top:10px; margin-left: 30px;" required/>
+            <label>Поточний пароль: <br>
+                <input type="password" name="password_user" minlength="8" maxlength="20" id="password" style="width: 200px; margin-top:10px;" required/>
                 <button type="button" id="showPasswordBtn" style="border: none; background-color: white;"><i class="fa fa-eye"></i></button>
             </label>
         </div>
 
-        <div class="form-group" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="form-group">
             <p th:text="${mailError}" style="color: red;"></p>
-            <label style="text-align: center;"><b>Нова поштова скринька:</b> <br> <input type="email" name="mail" style="width: 200px; margin-top:10px;" required/></label>
+            <label>Нова поштова скринька: <br> <input type="email" name="mail" style="width: 200px; margin-top:10px;" required/></label>
         </div>
 
         <div class="error"></div>
         <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <button type="submit" style="width: 60%" class="btn btn-success">Змінити</button>
+        <div style="margin-top: 30px;">
+            <button type="submit" style="width: 20%" class="btn btn-success mybttn">Змінити</button>
         </div>
     </form>
 </div>
 
+<style>
+    @media(max-width: 768px){
+  .mybttn {
+  width: 50%!important;
+  }
+}
+
+@media(max-width: 360px){
+  .myformm {
+  margin-left: 50px!important;
+  }
+}
+</style>
 
 <script>
   const passwordField = document.getElementById("password");

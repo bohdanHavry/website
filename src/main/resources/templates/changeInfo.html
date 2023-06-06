@@ -142,45 +142,58 @@
   </div>
 </nav>
 
-<div class="container mt-4" style="display: flex; flex-direction: column; align-items: center;">
+<div class="container mt-4">
   <h1 style="text-align: center">Змінення персональної інформації</h1>
-  <hr style="width: 70%;">
+  <hr>
 
-  <form th:action="@{/changeInfo}" method="post" style="width: 500px;">
-    <p style="text-align: center; margin-bottom: 5px;"><b>Логін:</b> <br> <h5 th:text="${user.login}" style="color: green; text-align: center; margin-bottom:0;"></h5></p>
+  <form th:action="@{/changeInfo}" method="post" style="margin-left: 100px; margin-right: auto;" class="myformm">
+    <p th:text="'Логін: ' + ${user.login}" style="font-size: 24px;"></p>
 
     <input type="hidden" th:value="${user.login}" name="login" />
     <input type="hidden" th:value="${user.confirm_password_user}" name="confirm_password_user" />
     <input type="hidden" th:value="${user.password_user}" name="password_user" />
     <input type="hidden" th:value="${user.mail}" name="mail" />
 
-    <div class="form-group" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="form-group">
       <p th:text="${first_nameError}" style="color: red;"></p>
-      <label style="text-align: center;"><b>Ім'я:</b> <br> <input type="text" th:value="${user.first_name}" name="first_name" style="margin-top: 5px;" required/></label>
+      <label>Ім'я: <br> <input type="text" th:value="${user.first_name}" name="first_name" style="margin-top: 5px;" required/></label>
     </div>
-    <div class="form-group" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="form-group">
       <p th:text="${last_nameError}" style="color: red;"></p>
-      <label style="text-align: center;"><b>Прізвище:</b> <br> <input type="text" th:value="${user.last_name}" name="last_name" style="margin-top: 5px;" required/></label>
+      <label>Прізвище: <br> <input type="text" th:value="${user.last_name}" name="last_name" style="margin-top: 5px;" required/></label>
     </div>
-    <div class="form-group" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="form-group">
       <p th:text="${middle_nameError}" style="color: red;"></p>
-      <label style="text-align: center;"> <b>По батькові:</b> <br> <input type="text" th:value="${user.middle_name}" name="middle_name" style="margin-top: 5px;" required/></label>
+      <label>По батькові: <br> <input type="text" th:value="${user.middle_name}" name="middle_name" style="margin-top: 5px;" required/></label>
     </div>
-    <div class="form-group" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="form-group">
       <p th:text="${phoneError}" style="color: red;"></p>
-      <label style="text-align: center;"><b>Номер телефону:</b> <br> <input type="tel" pattern="[+]380[0-9]{9}" title="Формат телефона +380ХХХХХХХХХ" th:value="${user.phone}" name="phone" style="margin-top: 5px;" required/></label>
+      <label>Номер телефону: <br> <input type="tel" pattern="[+]380[0-9]{9}" title="Формат телефона +380ХХХХХХХХХ" th:value="${user.phone}" name="phone" style="margin-top: 5px;" required/></label>
     </div>
     <div class="error"></div>
     <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <button type="submit" style="width: 60%; margin-top: 20px;" class="btn btn-success">Змінити</button>
+    <div style="margin-top: 30px;">
+      <button type="submit" style="width: 19%; font-size: 18px;" class="btn btn-success mybttn">Змінити</button>
     </div>
   </form>
 </div>
 
+
 <style>
   .form-group {
     margin-bottom: 0;
+}
+
+@media(max-width: 768px){
+  .mybttn {
+  width: 50%!important;
+  }
+}
+
+@media(max-width: 360px){
+  .myformm {
+  margin-left: 50px!important;
+  }
 }
 </style>
 
