@@ -84,6 +84,11 @@ public class OrderController {
         order.setOrderItems(orderItems);
         orderRepo.saveAndFlush(order);
 
+        // Очистка товарів з корзини після збереження замовлення
+        shoppingCart.getItems().clear();
+        shopCartService.saveShoppingCart(shoppingCart);
+
+
         if(!StringUtils.isEmpty(user.getMail())){
             String message = String.format(
                     "Привіт, %s! \n" +

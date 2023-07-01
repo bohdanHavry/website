@@ -101,6 +101,10 @@ public class ShopCartService {
         return shopCartRepo.save(shoppingCart);
     }
 
+    public ShoppingCart saveShoppingCart(ShoppingCart shoppingCart) {
+        return shopCartRepo.save(shoppingCart);
+    }
+
     /*public List<ShoppingCart> listCartItem (User user){
         return shopCartRepo.findByUser(user);
     }*/
